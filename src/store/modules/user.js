@@ -44,7 +44,7 @@ const actions = {
           commit('setInfo', res.data)
           let resRouter = []
           const mapRouter = new Map([
-            [0, ['xmba', 'lcgk', 'xmgk', 'ldlr']],
+            [0, ['xmba', 'lcgk', 'xmgk', 'ldlr', 'xgbg']],
             [1, ['xmtj', 'lbtj']],
             [2, ['aqjc']],
             [3, ['jcrylr', 'fwslr']],

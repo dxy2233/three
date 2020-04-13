@@ -57,6 +57,12 @@ export const asyncRouterMap = {
     name: 'Hole',
     meta: { title: '漏洞录入', icon: 'loophole' }
   },
+  xgbg: {
+    path: 'report',
+    component: () => import(/* webpackChunkName: 'report' */ '../views/report'),
+    name: 'Report',
+    meta: { title: '相关报告', icon: 'loophole' }
+  },
   1: {
     path: '/count',
     component: Layout,
