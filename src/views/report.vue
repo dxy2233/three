@@ -45,7 +45,11 @@
         <template #button="props">
           <div class="report-col">
             <div>
-              <span v-if="props.row.reportChilds[0][0].name">
+              <span
+                v-if="props.row.reportChilds[0][0].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[0][0].path)"
+              >
                 {{ props.row.reportChilds[0][0].name }}
               </span>
               <span v-if="props.row.reportChilds[0][0].name">
@@ -66,7 +70,11 @@
               >初查</span
             >
             <div>
-              <span v-if="props.row.reportChilds[0][1].name">
+              <span
+                v-if="props.row.reportChilds[0][1].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[0][1].path)"
+              >
                 {{ props.row.reportChilds[0][1].name }}
               </span>
               <span v-if="props.row.reportChilds[0][1].name">
@@ -94,7 +102,11 @@
         <template #button="props">
           <div class="report-col">
             <div>
-              <span v-if="props.row.reportChilds[1][0].name">
+              <span
+                v-if="props.row.reportChilds[1][0].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[1][0].path)"
+              >
                 {{ props.row.reportChilds[1][0].name }}
               </span>
               <span v-if="props.row.reportChilds[1][0].name">
@@ -115,7 +127,11 @@
               >初查</span
             >
             <div>
-              <span v-if="props.row.reportChilds[1][1].name">
+              <span
+                v-if="props.row.reportChilds[1][1].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[1][1].path)"
+              >
                 {{ props.row.reportChilds[1][1].name }}
               </span>
               <span v-if="props.row.reportChilds[1][1].name">
@@ -143,7 +159,11 @@
         <template #button="props">
           <div class="report-col">
             <div>
-              <span v-if="props.row.reportChilds[2][0].name">
+              <span
+                v-if="props.row.reportChilds[2][0].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[2][0].path)"
+              >
                 {{ props.row.reportChilds[2][0].name }}
               </span>
               <span v-if="props.row.reportChilds[2][0].name">
@@ -159,7 +179,11 @@
               >初查</span
             >
             <div>
-              <span v-if="props.row.reportChilds[2][1].name">
+              <span
+                v-if="props.row.reportChilds[2][1].name"
+                class="link"
+                @click="downloadFile(props.row.reportChilds[2][1].path)"
+              >
                 {{ props.row.reportChilds[2][1].name }}
               </span>
               <span v-if="props.row.reportChilds[2][1].name">
@@ -370,6 +394,7 @@ import {
   savePenetration,
   reformPenetration
 } from '@/api/reportCommon'
+import { download } from '@/api/sftp'
 
 export default {
   name: 'Report',
@@ -497,6 +522,9 @@ export default {
       })
       this.$refs.reportFile.value = null
     },
+    downloadFile(path) {
+      download(path)
+    },
     // closedDialog() {
     //   Object.assign(this.$data.baseInfo, this.$options.data().baseInfo)
     //   // this.$refs.reportForm.clearErr()
@@ -602,6 +630,11 @@ export default {
     flex-flow: column;
     justify-content: space-around;
     height: 60px;
+    span {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
   > span {
     position: absolute;
