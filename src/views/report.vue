@@ -43,45 +43,143 @@
       <baseCol prop="processNodeName" label="当前所处节点" />
       <baseCol prop="reportTime" label="基线检查报告">
         <template #button="props">
-          <div v-if="props.row.reportChild[0].name" class="report-col">
-            <span class="link">{{ props.row.reportChild[0].name }}</span>
-            <span>上传人：{{ props.row.reportChild[0].uploadName }}</span>
-            <span>上传时间：{{ props.row.reportChild[0].uploadTime }}</span>
-            <span @click="remove(props.row.reportChild[0])"
-              ><svg-icon icon-class="delete"
-            /></span>
+          <div class="report-col">
+            <div>
+              <span v-if="props.row.reportChilds[0][0].name">
+                {{ props.row.reportChilds[0][0].name }}
+              </span>
+              <span v-if="props.row.reportChilds[0][0].name">
+                初查填写人：{{ props.row.reportChilds[0][0].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[0][0].name">
+                初查填写时间：{{ props.row.reportChilds[0][0].uploadTime }}
+              </span>
+            </div>
+            <span
+              v-if="props.row.reportChilds[0][0].statusVisble"
+              @click="
+                openBaseDialog(
+                  props.row.reportChilds[0][0],
+                  props.row.projectId
+                )
+              "
+              >初查</span
+            >
+            <div>
+              <span v-if="props.row.reportChilds[0][1].name">
+                {{ props.row.reportChilds[0][1].name }}
+              </span>
+              <span v-if="props.row.reportChilds[0][1].name">
+                初查填写人：{{ props.row.reportChilds[0][1].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[0][1].name">
+                初查填写时间：{{ props.row.reportChilds[0][1].uploadTime }}
+              </span>
+            </div>
+            <span
+              style="top:61px;"
+              v-if="props.row.reportChilds[0][1].statusVisble"
+              @click="
+                openBaseDialog(
+                  props.row.reportChilds[0][1],
+                  props.row.projectId
+                )
+              "
+              >复查</span
+            >
           </div>
         </template>
       </baseCol>
       <baseCol prop="dutyDepartmentName" label="渗透测试报告">
         <template #button="props">
-          <div v-if="props.row.reportChild[1].name" class="report-col">
-            <span class="link">{{ props.row.reportChild[1].name }}</span>
-            <span>上传人：{{ props.row.reportChild[1].uploadName }}</span>
-            <span>上传时间：{{ props.row.reportChild[1].uploadTime }}</span>
-            <span @click="remove(props.row.reportChild[1])"
-              ><svg-icon icon-class="delete"
-            /></span>
+          <div class="report-col">
+            <div>
+              <span v-if="props.row.reportChilds[1][0].name">
+                {{ props.row.reportChilds[1][0].name }}
+              </span>
+              <span v-if="props.row.reportChilds[1][0].name">
+                初查填写人：{{ props.row.reportChilds[1][0].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[1][0].name">
+                初查填写时间：{{ props.row.reportChilds[1][0].uploadTime }}
+              </span>
+            </div>
+            <span
+              v-if="props.row.reportChilds[1][0].statusVisble"
+              @click="
+                openSeepDialog(
+                  props.row.reportChilds[1][0],
+                  props.row.projectId
+                )
+              "
+              >初查</span
+            >
+            <div>
+              <span v-if="props.row.reportChilds[1][1].name">
+                {{ props.row.reportChilds[1][1].name }}
+              </span>
+              <span v-if="props.row.reportChilds[1][1].name">
+                初查填写人：{{ props.row.reportChilds[1][1].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[1][1].name">
+                初查填写时间：{{ props.row.reportChilds[1][1].uploadTime }}
+              </span>
+            </div>
+            <span
+              style="top:61px;"
+              v-if="props.row.reportChilds[1][1].statusVisble"
+              @click="
+                openSeepDialog(
+                  props.row.reportChilds[1][1],
+                  props.row.projectId
+                )
+              "
+              >复查</span
+            >
           </div>
         </template>
       </baseCol>
       <baseCol prop="fundsSource" label="漏洞扫描报告">
         <template #button="props">
-          <div v-if="props.row.reportChild[2].name" class="report-col">
-            <span class="link">{{ props.row.reportChild[2].name }}</span>
-            <span>上传人：{{ props.row.reportChild[2].uploadName }}</span>
-            <span>上传时间：{{ props.row.reportChild[2].uploadTime }}</span>
-            <span @click="remove(props.row.reportChild[2])"
-              ><svg-icon icon-class="delete"
-            /></span>
+          <div class="report-col">
+            <div>
+              <span v-if="props.row.reportChilds[2][0].name">
+                {{ props.row.reportChilds[2][0].name }}
+              </span>
+              <span v-if="props.row.reportChilds[2][0].name">
+                上传人：{{ props.row.reportChilds[2][0].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[2][0].name">
+                上传时间：{{ props.row.reportChilds[2][0].uploadTime }}
+              </span>
+            </div>
+            <span
+              v-if="props.row.reportChilds[2][0].statusVisble"
+              @click="uploadFile(3, null, null, 1, props.row.projectId)"
+              >初查</span
+            >
+            <div>
+              <span v-if="props.row.reportChilds[2][1].name">
+                {{ props.row.reportChilds[2][1].name }}
+              </span>
+              <span v-if="props.row.reportChilds[2][1].name">
+                上传人：{{ props.row.reportChilds[2][1].uploadName }}
+              </span>
+              <span v-if="props.row.reportChilds[2][1].name">
+                上传时间：{{ props.row.reportChilds[2][1].uploadTime }}
+              </span>
+            </div>
+            <span
+              style="top:61px;"
+              v-if="props.row.reportChilds[2][1].statusVisble"
+              @click="uploadFile(3, null, null, 2)"
+              >复查</span
+            >
           </div>
         </template>
       </baseCol>
       <baseCol label="操作">
-        <template #button="props">
-          <button @click="openDialog(props.row)">
-            上传报告
-          </button>
+        <template #button>
           <button>
             导出报告
           </button>
@@ -96,55 +194,199 @@
       @changeCurrentPage="init"
     />
 
-    <baseDialog :visible.sync="dialog" @closed="closedDialog">
-      <template #title>{{ dialogTitle }}</template>
-      <baseForm ref="reportForm" :form="form" :rules="rules">
-        <baseFormItem label="报告类型" prop="type" required>
-          <select v-model="form.type">
-            <option :value="1">基线检查报告</option>
-            <option :value="2">渗透测试报告</option>
-            <option :value="3">漏洞扫描报告</option>
-          </select>
-        </baseFormItem>
-        <baseFormItem
-          v-if="form.type === 1"
-          label="报告生成方式"
-          prop="mode"
-          required
-        >
-          <label>
-            <input type="radio" v-model="form.mode" value="1" />
-            扫描工具生成
-          </label>
-          <label>
-            <input type="radio" v-model="form.mode" value="2" />
-            手工模板录入
-          </label>
-        </baseFormItem>
-        <baseFormItem label="报告文件" prop="file" required>
-          <button type="button" style="margin-left:5px" @click="uploadFile">
-            点击上传
-          </button>
-          {{ form.file }}
-        </baseFormItem>
-        <button type="button" @click="submit">
+    <!-- 基线dialog -->
+    <baseDialog :visible.sync="dialogBase" width="80%" top="0">
+      <template #title>{{ dialogBaseTitle }}</template>
+      <div ref="reportBaseForm" class="base-form">
+        <div v-for="(item, index) in baseInfo" :key="index" class="group">
+          <div class="caption">{{ item.num }}、{{ item.title }}</div>
+          <div
+            v-for="(item2, index2) in item.childData"
+            :key="index2"
+            class="item"
+          >
+            <div class="title">
+              {{ item.num }}.{{ item2.num }}、<em>*</em>{{ item2.title }}
+            </div>
+            <div class="radio-box">
+              <label v-for="(item3, index3) in item2.options" :key="index3">
+                <input
+                  type="radio"
+                  :value="item3.value"
+                  v-model="item2.value"
+                />
+                {{ item3.label }}
+                <input
+                  v-if="item3.value === 0"
+                  type="text"
+                  v-model="item2.other"
+                />
+              </label>
+            </div>
+            <div><em>*</em>检测图片</div>
+            <div class="file-box">
+              <button @click="uploadFile(1, index, index2)">
+                点击添加附件
+              </button>
+              <span
+                v-for="(img, imgIndex) in item2.imgs"
+                :key="imgIndex"
+                class="remove-button"
+              >
+                {{ img.url | imgName }}
+                <svg-icon
+                  icon-class="close"
+                  @click="removeBaseImg('imgs', index, index2, imgIndex)"
+                />
+              </span>
+            </div>
+            <div v-if="item2.type === 2"><em>*</em>整改结果</div>
+            <div v-if="item2.type === 2" class="file-box">
+              <button @click="uploadFile('整改', index, index2)">
+                点击添加附件
+              </button>
+              <span
+                class="remove-button"
+                v-for="(img, imgIndex) in item2.newImgs"
+                :key="imgIndex"
+              >
+                {{ img.url | imgName }}
+                <svg-icon
+                  icon-class="close"
+                  @click="removeBaseImg('newImgs', index, index2, imgIndex)"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <button @click="submitBase" style="display:block;margin:0 auto;">
           <svg-icon icon-class="save" />保存
         </button>
-      </baseForm>
+      </div>
+    </baseDialog>
+
+    <!-- 渗透测试报告 -->
+    <baseDialog :visible.sync="dialogSeep" width="80%" top="0">
+      <template #title>{{ dialogSeepTitle }}</template>
+      <div v-if="currentCell && currentCell.status === 1" class="seep-form">
+        <baseForm ref="reportSeepForm" :form="seepForm" :rules="seepRules">
+          <baseFormItem label="漏洞名称" prop="leakTitle" required>
+            <input type="text" v-model="seepForm.leakTitle" />
+          </baseFormItem>
+          <baseFormItem label="等级" prop="hazardLevel" required>
+            <select v-model="seepForm.hazardLevel">
+              <option value="高">高</option>
+              <option value="中">中</option>
+              <option value="低">低</option>
+            </select>
+          </baseFormItem>
+          <baseFormItem label="CVE编号" prop="cevNum" required>
+            <input type="text" v-model="seepForm.cevNum" />
+          </baseFormItem>
+          <baseFormItem label="漏洞地址" prop="leakAddress" required>
+            <input type="text" v-model="seepForm.leakAddress" />
+          </baseFormItem>
+          <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
+            <textarea
+              cols="30"
+              rows="3"
+              v-model="seepForm.leakHazardDesc"
+            ></textarea>
+          </baseFormItem>
+          <baseFormItem label="整改建议" prop="reformDesc" required>
+            <textarea
+              cols="30"
+              rows="3"
+              v-model="seepForm.reformDesc"
+            ></textarea>
+          </baseFormItem>
+          <baseFormItem label="漏洞效果及截图" required>
+            <button type="button" @click="uploadFile(2)">
+              点击上传
+            </button>
+            <span
+              v-for="(img, imgIndex) in seepForm.imgs"
+              :key="imgIndex"
+              class="remove-button"
+            >
+              {{ img.url | imgName }}
+              <svg-icon icon-class="close" @click="removeSeepImg(imgIndex)" />
+            </span>
+          </baseFormItem>
+          <button type="button" @click="addSeep">新增</button>
+        </baseForm>
+      </div>
+      <baseTable :tableData="seepInfoIndex">
+        <baseCol prop="leakTitle" label="漏洞名称" />
+        <baseCol prop="hazardLevel" label="等级" />
+        <baseCol prop="cevNum" label="CVE编号" />
+        <baseCol prop="leakAddress" label="漏洞地址" />
+        <baseCol prop="imgs" label="漏洞效果及截图">
+          <template #button="props">
+            <span v-for="(img, imgIndex) in props.row.imgs" :key="imgIndex">
+              {{ img.url | imgName }}
+            </span>
+          </template>
+        </baseCol>
+        <baseCol prop="leakHazardDesc" label="漏洞危害说明" />
+        <baseCol prop="reformDesc" label="整改建议" />
+        <baseCol label="操作">
+          <template #button="props">
+            <button
+              v-if="currentCell && currentCell.status === 1"
+              class="remove"
+              @click="seepRemove(props.row.index)"
+            >
+              删除
+            </button>
+            <button
+              v-else
+              @click="seepRectification(props.row.uuid)"
+              style="padding:0 5px;"
+            >
+              整改完成
+            </button>
+          </template>
+        </baseCol>
+      </baseTable>
+      <button
+        v-if="currentCell && currentCell.status === 1"
+        @click="submitSeep"
+        style="display:block;margin:20px auto 0;"
+      >
+        <svg-icon icon-class="save" />保存
+      </button>
     </baseDialog>
   </div>
 </template>
 
 <script>
-import { getReportList, uploadReport, deleteReport } from '@/api/report'
+import {
+  getReportList,
+  getProjectReport,
+  uploadReport,
+  saveBaseline,
+  getPenetrationByProjectId,
+  savePenetration,
+  reformPenetration
+} from '@/api/reportCommon'
 
 export default {
   name: 'Report',
-  data() {
-    const formFileRule = function(form) {
-      if (form.file) return true
-      else return false
+  filters: {
+    buttonTxt(val) {
+      switch (val) {
+        case 1:
+          return '初查'
+        case 2:
+          return '复查'
+      }
+    },
+    imgName(val) {
+      return val.slice(val.lastIndexOf('/') + 1)
     }
+  },
+  data() {
     return {
       tableForm: {
         startPage: 1,
@@ -154,28 +396,52 @@ export default {
         processNode: 0
       },
       tableData: {},
-      dialog: false,
-      dialogTitle: '上传报告',
-      form: {
-        id: null,
-        type: null,
-        mode: null,
-        file: null
+      currentCell: {},
+      dialogBase: false,
+      dialogBaseTitle: '',
+      baseInfo: [],
+      dialogSeep: false,
+      dialogSeepTitle: '',
+      seepInfo: [],
+      seepForm: {
+        leakTitle: null,
+        hazardLevel: null,
+        cevNum: null,
+        leakAddress: null,
+        leakHazardDesc: null,
+        reformDesc: null,
+        imgs: []
       },
-      formData: new FormData(),
-      rules: {
-        type: [{ required: true, message: '请选择报告类型', trigger: 'blur' }],
-        mode: [
-          { required: true, message: '请选择报告生成方式', trigger: 'blur' }
+      seepRules: {
+        leakTitle: [
+          { required: true, message: '请输入漏洞名称', trigger: 'blur' }
         ],
-        file: [
-          {
-            other: formFileRule,
-            message: '请上传报告',
-            trigger: 'change'
-          }
+        hazardLevel: [
+          { required: true, message: '请选择等级', trigger: 'blur' }
+        ],
+        cevNum: [{ required: true, message: '请输入CVE编号', trigger: 'blur' }],
+        leakAddress: [
+          { required: true, message: '请输入漏洞地址', trigger: 'blur' }
+        ],
+        leakHazardDesc: [
+          { required: true, message: '请输入漏洞危害说明', trigger: 'blur' }
+        ],
+        reformDesc: [
+          { required: true, message: '请输入整改建议', trigger: 'blur' }
+        ],
+        imgs: [
+          { required: true, message: '请上传漏洞效果及截图', trigger: 'blur' }
         ]
       }
+    }
+  },
+  computed: {
+    seepInfoIndex() {
+      let res = this.seepInfo
+      res.forEach((item, index) => {
+        item['index'] = index
+      })
+      return res
     }
   },
   created() {
@@ -188,38 +454,133 @@ export default {
         this.tableData = res.data
       })
     },
-    uploadFile() {
+    uploadFile(type, level1, level2, status, projectId) {
+      // 1:基线;2:渗透,3:漏洞
+      this.currentCell.type = type
+      if (type === 3) {
+        this.currentCell.status = status
+        this.currentCell.projectId = projectId
+      }
+      this.currentCell.level1 = level1
+      this.currentCell.level2 = level2
       this.$refs.reportFile.dispatchEvent(new MouseEvent('click'))
     },
     upload(e) {
-      this.formData.append('file', e.target.files[0])
-      this.form.file = e.target.files[0].name
+      let formData = new FormData()
+      formData.append('file', e.target.files[0])
+      formData.append('projectId', this.currentCell.projectId)
+      formData.append(
+        'type',
+        this.currentCell.type === '整改' ? 1 : this.currentCell.type
+      )
+      formData.append('status', this.currentCell.status)
+      uploadReport(formData).then(res => {
+        this.$message({ content: res.message, type: 'success' })
+        switch (this.currentCell.type) {
+          case 1:
+            this.baseInfo[this.currentCell.level1].childData[
+              this.currentCell.level2
+            ].imgs.push({ url: res.data })
+            break
+          case '整改':
+            this.baseInfo[this.currentCell.level1].childData[
+              this.currentCell.level2
+            ].newImgs.push({ url: res.data })
+            break
+          case 2:
+            this.seepForm.imgs.push({ url: res.data })
+            break
+          case 3:
+            this.init()
+            break
+        }
+      })
       this.$refs.reportFile.value = null
     },
-    openDialog(info) {
-      this.form.if = info.uuid
-      this.dialog = true
-    },
-    closedDialog() {
-      Object.assign(this.$data.form, this.$options.data().form)
-      this.$refs.reportForm.clearErr()
-    },
-    submit() {
-      if (!this.$refs.reportForm.validate()) return
-      this.formData.append('projectId', this.form.id)
-      this.formData.append('type', this.form.type)
-      if (this.form.type === 1) this.formData.append('mode', this.form.mode)
-      uploadReport(this.formData).then(res => {
-        this.$message({ content: res.message, type: 'success' })
-        this.init()
-        this.dialog = false
+    // closedDialog() {
+    //   Object.assign(this.$data.baseInfo, this.$options.data().baseInfo)
+    //   // this.$refs.reportForm.clearErr()
+    // },
+    openBaseDialog(info, projectId) {
+      this.currentCell = info
+      this.currentCell.projectId = projectId
+      info.status === 1
+        ? (this.dialogBaseTitle = '初查安全防护基线配置要求')
+        : (this.dialogBaseTitle = '复查安全防护基线配置要求')
+      getProjectReport(projectId, info.status).then(res => {
+        this.baseInfo = res.data
+        this.dialogBase = true
       })
     },
-    remove(info) {
-      this.$confirm('确认删除？', '提示').then(() => {
-        deleteReport(info.fileId).then(res => {
+    removeBaseImg(type, index, index2, imgIndex) {
+      this.baseInfo[index].childData[index2][type].splice(imgIndex, 1)
+    },
+    submitBase() {
+      let res = {
+        projectId: null,
+        childData: [],
+        status: this.currentCell.status
+      }
+      res.projectId = this.currentCell.projectId
+      this.baseInfo.forEach(item => {
+        item.childData.forEach(item2 => {
+          res.childData.push({
+            key: item2.key,
+            value: item2.value,
+            other: item2.other,
+            imgs: item2.imgs,
+            newImgs: item2.newImgs
+          })
+        })
+      })
+      saveBaseline(res).then(res => {
+        this.init()
+        this.dialogBase = false
+        this.$message({ content: res.message, type: 'success' })
+      })
+    },
+    openSeepDialog(info, projectId) {
+      this.currentCell = info
+      this.currentCell.projectId = projectId
+      info.status === 1
+        ? (this.dialogSeepTitle = '初查渗透测试结果记录')
+        : (this.dialogSeepTitle = '复查渗透测试结果记录')
+      getPenetrationByProjectId(projectId, info.status).then(res => {
+        this.seepInfo = res.data
+        this.dialogSeep = true
+      })
+    },
+    removeSeepImg(index) {
+      this.seepForm.imgs.splice(index, 1)
+    },
+    addSeep() {
+      if (!this.$refs.reportSeepForm.validate()) return
+      this.seepForm.projectId = this.currentCell.projectId
+      this.seepInfo.push(JSON.parse(JSON.stringify(this.seepForm)))
+    },
+    submitSeep() {
+      savePenetration(this.seepInfo).then(res => {
+        this.init()
+        this.dialogSeep = false
+        this.$message({ content: res.message, type: 'success' })
+      })
+    },
+    seepRemove(index) {
+      this.seepInfo.splice(index, 1)
+    },
+    seepRectification(uuid) {
+      this.$confirm('确认完成？', '提示').then(() => {
+        reformPenetration(uuid).then(res => {
+          this.dialogSeepTitle = '复查渗透测试结果记录'
+          // 刷新表格
+          getPenetrationByProjectId(
+            this.currentCell.projectId,
+            this.currentCell.status
+          ).then(res => {
+            this.seepInfo = res.data
+            this.dialogSeep = true
+          })
           this.$message({ content: res.message, type: 'success' })
-          this.init()
         })
       })
     }
@@ -232,31 +593,92 @@ export default {
   position: relative;
   display: flex;
   flex-flow: column;
-  padding-right: 10px;
-  span {
-    width: 90%;
+  min-width: 150px;
+  > div:nth-child(1) {
+    border-bottom: 1px solid #d0e8fa;
   }
-  span:nth-child(4) {
+  > div {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    height: 60px;
+  }
+  > span {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 10%;
+    width: 16%;
+    height: 30px;
     top: -5px;
     right: 0;
-    bottom: -5px;
     background: #ebebeb;
     cursor: pointer;
     &:hover {
-      background: #ff4949;
-      svg {
-        color: #fff;
+      background: #158ae7;
+      color: #fff;
+    }
+  }
+}
+
+.base-form {
+  padding: 0 5%;
+  em {
+    color: red;
+    margin-right: 5px;
+  }
+  .group {
+    .caption {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .item {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 10px;
+      padding-left: 30px;
+      .title {
+        margin-left: -30px;
+      }
+      .radio-box {
+        margin: 5px 0;
+        label {
+          margin-right: 20px;
+          input[type='text'] {
+            width: unset;
+          }
+        }
+      }
+      .file-box {
+        button {
+          background: #fff;
+          border: 1px solid #158ae7;
+          color: #158ae7;
+          &:hover {
+            background: #158ae7;
+            color: #fff;
+          }
+        }
       }
     }
-    svg {
-      color: #999;
-      margin-right: -2px;
+  }
+}
+
+.seep-form {
+  form {
+    /deep/.form-gound {
+      width: 50%;
+      display: inline-block;
     }
+  }
+}
+
+.remove-button {
+  margin-right: 20px;
+  svg {
+    color: #ccc;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
   }
 }
 </style>

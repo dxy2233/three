@@ -61,7 +61,7 @@ export const asyncRouterMap = {
     path: 'report',
     component: () => import(/* webpackChunkName: 'report' */ '../views/report'),
     name: 'Report',
-    meta: { title: '相关报告', icon: 'loophole' }
+    meta: { title: '相关报告', icon: 'report' }
   },
   1: {
     path: '/count',
