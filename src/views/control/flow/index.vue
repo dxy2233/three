@@ -233,7 +233,7 @@ export default {
 <style lang="scss" scoped>
 .flow {
   .menus {
-    display: flex;
+    // display: flex;
     div {
       background-image: linear-gradient(#158ae7, #158ae7, #43acff);
       text-align: center;
@@ -242,25 +242,25 @@ export default {
     }
   }
   .full {
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 100px;
-    padding: 0 20%;
+    // flex-wrap: wrap;
+    // justify-content: center;
+    margin: 10px auto 0 auto;
+    width: 600px;
+    height: 600px;
+    position: relative;
+    border-radius: 50%;
     div {
-      @media (max-width: 1200px) {
-        width: 110px;
-        height: 110px;
-        margin: 0 1% 20px 1%;
-      }
-      width: 180px;
-      height: 180px;
+      position: absolute;
+      width: 160px;
+      height: 160px;
       margin: 0 2% 20px 1%;
       border-radius: 50%;
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
       box-shadow: 0 0 5px #158ae7;
+      span {
+        display: block;
+      }
       span:first-child {
+        margin-top: 40px;
         font-size: 22px;
       }
       span:nth-child(2) {
@@ -275,8 +275,37 @@ export default {
         transition: transform 2s;
       }
     }
+    div:nth-child(1) {
+      top: 0;
+      left: 210px;
+    }
+    div:nth-child(2) {
+      top: 90px;
+      left: 35px;
+    }
+    div:nth-child(3) {
+      top: 270px;
+      left: 0px;
+    }
+    div:nth-child(4) {
+      top: 420px;
+      left: 120px;
+    }
+    div:nth-child(5) {
+      top: 415px;
+      left: 315px;
+    }
+    div:nth-child(6) {
+      top: 265px;
+      left: 430px;
+    }
+    div:nth-child(7) {
+      top: 85px;
+      left: 385px;
+    }
   }
   .small {
+    display: flex;
     margin-bottom: 10px;
     div {
       width: 75px;
