@@ -544,27 +544,29 @@ export default {
       this.baseInfo[index].childData[index2][type].splice(imgIndex, 1)
     },
     submitBase() {
-      let res = {
-        projectId: null,
-        childData: [],
-        status: this.currentCell.status
-      }
-      res.projectId = this.currentCell.projectId
-      this.baseInfo.forEach(item => {
-        item.childData.forEach(item2 => {
-          res.childData.push({
-            key: item2.key,
-            value: item2.value,
-            other: item2.other,
-            imgs: item2.imgs,
-            newImgs: item2.newImgs
+      this.$confirm('确认保存？', '提示').then(() => {
+        let res = {
+          projectId: null,
+          childData: [],
+          status: this.currentCell.status
+        }
+        res.projectId = this.currentCell.projectId
+        this.baseInfo.forEach(item => {
+          item.childData.forEach(item2 => {
+            res.childData.push({
+              key: item2.key,
+              value: item2.value,
+              other: item2.other,
+              imgs: item2.imgs,
+              newImgs: item2.newImgs
+            })
           })
         })
-      })
-      saveBaseline(res).then(res => {
-        this.init()
-        this.dialogBase = false
-        this.$message({ content: res.message, type: 'success' })
+        saveBaseline(res).then(res => {
+          this.init()
+          this.dialogBase = false
+          this.$message({ content: res.message, type: 'success' })
+        })
       })
     },
     openSeepDialog(info, projectId) {
@@ -587,10 +589,12 @@ export default {
       this.seepInfo.push(JSON.parse(JSON.stringify(this.seepForm)))
     },
     submitSeep() {
-      savePenetration(this.seepInfo).then(res => {
-        this.init()
-        this.dialogSeep = false
-        this.$message({ content: res.message, type: 'success' })
+      this.$confirm('确认保存？', '提示').then(() => {
+        savePenetration(this.seepInfo).then(res => {
+          this.init()
+          this.dialogSeep = false
+          this.$message({ content: res.message, type: 'success' })
+        })
       })
     },
     seepRemove(index) {
