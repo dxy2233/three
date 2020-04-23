@@ -85,7 +85,7 @@
               </span>
             </div>
             <span
-              style="top:61px;"
+              style="top:66px;"
               v-if="props.row.reportChilds[0][1].statusVisble"
               @click="
                 openBaseDialog(
@@ -142,7 +142,7 @@
               </span>
             </div>
             <span
-              style="top:61px;"
+              style="top:66px;"
               v-if="props.row.reportChilds[1][1].statusVisble"
               @click="
                 openSeepDialog(
@@ -194,7 +194,7 @@
               </span>
             </div>
             <span
-              style="top:61px;"
+              style="top:66px;"
               v-if="props.row.reportChilds[2][1].statusVisble"
               @click="uploadFile(3, null, null, 2)"
               >复查</span
@@ -624,6 +624,8 @@ export default {
   min-width: 150px;
   > div:nth-child(1) {
     border-bottom: 1px solid #d0e8fa;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
   }
   > div {
     display: flex;
@@ -706,11 +708,14 @@ export default {
 }
 
 .remove-button {
-  margin-right: 20px;
+  color: #158ae7;
   svg {
-    color: #ccc;
+    position: relative;
+    top: -3px;
+    color: #ff4949;
     font-size: 10px;
-    border: 1px solid #ccc;
+    background: #fff;
+    border: 1px solid #ff4949;
     border-radius: 50%;
   }
 }
