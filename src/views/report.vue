@@ -247,20 +247,25 @@
                 />
               </label>
             </div>
-            <div><em>*</em>检测图片</div>
+            <div>检测图片</div>
             <div class="file-box">
-              <button @click="uploadFile(1, index, index2)">
+              <button
+                v-if="item2.type === 1"
+                @click="uploadFile(1, index, index2)"
+              >
                 点击添加附件
               </button>
               <span
                 v-for="(img, imgIndex) in item2.imgs"
                 :key="imgIndex"
-                class="remove-button"
+                @click="downloadFile(img.url)"
+                class="remove-button link"
               >
                 {{ img.url | imgName }}
                 <svg-icon
+                  v-if="item2.type === 1"
                   icon-class="close"
-                  @click="removeBaseImg('imgs', index, index2, imgIndex)"
+                  @click.stop="removeBaseImg('imgs', index, index2, imgIndex)"
                 />
               </span>
             </div>
@@ -270,14 +275,17 @@
                 点击添加附件
               </button>
               <span
-                class="remove-button"
                 v-for="(img, imgIndex) in item2.newImgs"
                 :key="imgIndex"
+                @click="downloadFile(img.url)"
+                class="remove-button link"
               >
                 {{ img.url | imgName }}
                 <svg-icon
                   icon-class="close"
-                  @click="removeBaseImg('newImgs', index, index2, imgIndex)"
+                  @click.stop="
+                    removeBaseImg('newImgs', index, index2, imgIndex)
+                  "
                 />
               </span>
             </div>
@@ -712,7 +720,10 @@ export default {
 }
 
 .remove-button {
-  color: #158ae7;
+  max-width: unset;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
   svg {
     position: relative;
     top: -3px;
