@@ -659,11 +659,11 @@ export default {
     height: 30px;
     top: -5px;
     right: 0;
-    background: #ebebeb;
+    background: #158ae7;
+    color: #fff;
     cursor: pointer;
     &:hover {
-      background: #158ae7;
-      color: #fff;
+      background: #045fc9;
     }
   }
 }
