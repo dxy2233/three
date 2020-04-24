@@ -21,14 +21,14 @@
         当前所处节点
         <select v-model="tableForm.processNode">
           <option :value="0">全部</option>
-          <option :value="1">立项</option>
-          <option :value="2">设计</option>
+          <!-- <option :value="1">立项</option> -->
+          <!-- <option :value="2">设计</option> -->
           <option :value="3">建设</option>
           <option :value="4">初验</option>
           <option :value="5">终验</option>
           <option :value="6">转维</option>
-          <option :value="7">暂停</option>
-          <option :value="8">完成</option>
+          <!-- <option :value="7">暂停</option> -->
+          <!-- <option :value="8">完成</option> -->
         </select>
       </label>
       <button @click="init(true)"><svg-icon icon-class="search" />搜索</button>
@@ -321,14 +321,14 @@
           <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
             <textarea
               cols="30"
-              rows="3"
+              rows="6"
               v-model="seepForm.leakHazardDesc"
             ></textarea>
           </baseFormItem>
           <baseFormItem label="整改建议" prop="reformDesc" required>
             <textarea
               cols="30"
-              rows="3"
+              rows="6"
               v-model="seepForm.reformDesc"
             ></textarea>
           </baseFormItem>
