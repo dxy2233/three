@@ -337,7 +337,7 @@
               v-model="seepForm.reformDesc"
             ></textarea>
           </baseFormItem>
-          <baseFormItem label="漏洞效果及截图" required>
+          <baseFormItem label="漏洞效果及截图" prop="imgs" required>
             <button type="button" @click="uploadFile(2)">
               点击上传
             </button>
@@ -471,7 +471,11 @@ export default {
           { required: true, message: '请输入整改建议', trigger: 'blur' }
         ],
         imgs: [
-          { required: true, message: '请上传漏洞效果及截图', trigger: 'blur' }
+          {
+            required: true,
+            message: '请上传漏洞效果及截图',
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -530,6 +534,7 @@ export default {
             break
           case 2:
             this.seepForm.imgs.push({ url: res.data })
+            this.$refs.reportSeepForm.validate()
             break
           case 3:
             this.init()
@@ -543,7 +548,7 @@ export default {
     },
     closedDialog() {
       Object.assign(this.$data.seepForm, this.$options.data().seepForm)
-      this.$refs.reportSeepForm.clearErr()
+      if (this.$refs.reportSeepForm) this.$refs.reportSeepForm.clearErr()
     },
     openBaseDialog(info, projectId) {
       this.currentCell = info
