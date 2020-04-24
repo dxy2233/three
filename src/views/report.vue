@@ -196,7 +196,7 @@
             <span
               style="top:66px;"
               v-if="props.row.reportChilds[2][1].statusVisble"
-              @click="uploadFile(3, null, null, 2)"
+              @click="uploadFile(3, null, null, 2, props.row.projectId)"
               >复查</span
             >
           </div>
@@ -298,7 +298,12 @@
     </baseDialog>
 
     <!-- 渗透测试报告 -->
-    <baseDialog :visible.sync="dialogSeep" width="80%" top="0">
+    <baseDialog
+      :visible.sync="dialogSeep"
+      @closed="closedDialog"
+      width="80%"
+      top="0"
+    >
       <template #title>{{ dialogSeepTitle }}</template>
       <div v-if="currentCell && currentCell.status === 1" class="seep-form">
         <baseForm ref="reportSeepForm" :form="seepForm" :rules="seepRules">
@@ -345,7 +350,10 @@
               <svg-icon icon-class="close" @click="removeSeepImg(imgIndex)" />
             </span>
           </baseFormItem>
-          <button type="button" @click="addSeep">新增</button>
+          <baseFormItem label=""> </baseFormItem>
+          <button type="button" @click="addSeep">
+            新增
+          </button>
         </baseForm>
       </div>
       <baseTable :tableData="seepInfoIndex">
@@ -533,10 +541,10 @@ export default {
     downloadFile(path) {
       download(path)
     },
-    // closedDialog() {
-    //   Object.assign(this.$data.baseInfo, this.$options.data().baseInfo)
-    //   // this.$refs.reportForm.clearErr()
-    // },
+    closedDialog() {
+      Object.assign(this.$data.seepForm, this.$options.data().seepForm)
+      this.$refs.reportSeepForm.clearErr()
+    },
     openBaseDialog(info, projectId) {
       this.currentCell = info
       this.currentCell.projectId = projectId
@@ -595,6 +603,7 @@ export default {
       if (!this.$refs.reportSeepForm.validate()) return
       this.seepForm.projectId = this.currentCell.projectId
       this.seepInfo.push(JSON.parse(JSON.stringify(this.seepForm)))
+      Object.assign(this.$data.seepForm, this.$options.data().seepForm)
     },
     submitSeep() {
       this.$confirm('确认保存？', '提示').then(() => {
@@ -712,9 +721,10 @@ export default {
 
 .seep-form {
   form {
+    display: flex;
+    flex-wrap: wrap;
     /deep/.form-gound {
       width: 50%;
-      display: inline-block;
     }
   }
 }
