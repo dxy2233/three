@@ -8,7 +8,7 @@ module.exports = {
   outputDir: './../static',
   productionSourceMap: false,
   css: {
-    sourceMap: false
+    sourceMap: false,
   },
   // devServer: {
   //   overlay: {
@@ -18,10 +18,7 @@ module.exports = {
   // },
   chainWebpack(config) {
     // set svg-sprite-loader
-    config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
-      .end()
+    config.module.rule('svg').exclude.add(resolve('src/icons')).end()
     config.module
       .rule('icons')
       .test(/\.svg$/)
@@ -30,8 +27,8 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: 'icon-[name]',
       })
       .end()
-  }
+  },
 }

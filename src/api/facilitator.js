@@ -7,7 +7,7 @@ export function deleteFacilitatorById(id) {
   return request({
     url: '/facilitator/deleteFacilitatorById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -18,7 +18,7 @@ export function deleteFacilitatorPersonById(id) {
   return request({
     url: '/facilitator/deleteFacilitatorPersonById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -28,7 +28,7 @@ export function deleteFacilitatorPersonById(id) {
 export function getFacilitatorAndPerson() {
   return request({
     url: '/facilitator/getFacilitatorAndPerson',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -38,7 +38,7 @@ export function getFacilitatorAndPerson() {
 export function getFacilitatorNameList() {
   return request({
     url: '/facilitator/getFacilitatorNameList',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -54,7 +54,7 @@ export function getInfoPage(data) {
   return request({
     url: '/facilitator/getInfoPage',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -65,7 +65,7 @@ export function getPersonByFacilitatorId(facilitatorId) {
   return request({
     url: '/facilitator/getPersonByFacilitatorId',
     method: 'get',
-    params: { facilitatorId }
+    params: { facilitatorId },
   })
 }
 
@@ -76,7 +76,7 @@ export function qualificationUpload(data) {
   return request({
     url: '/facilitator/qualificationUpload',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -94,7 +94,7 @@ export function saveFacilitator(data) {
   return request({
     url: '/facilitator/saveFacilitator',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -111,6 +111,6 @@ export function saveFacilitatorPerson(data) {
   return request({
     url: '/facilitator/saveFacilitatorPerson',
     method: 'post',
-    data
+    data,
   })
 }

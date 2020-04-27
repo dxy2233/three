@@ -20,8 +20,8 @@ export default {
     AppMain,
     Navbar,
     Sidebar,
-    Tags
-  }
+    Tags,
+  },
 }
 </script>
 

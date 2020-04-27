@@ -8,7 +8,7 @@ export function downloadTemplate(type) {
     url: '/template/downloadTemplate',
     method: 'get',
     responseType: 'blob',
-    params: { type }
+    params: { type },
   })
 }
 
@@ -19,6 +19,6 @@ export function uploadFile(data) {
   return request({
     url: '/template/uploadFile',
     method: 'post',
-    data
+    data,
   })
 }

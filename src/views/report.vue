@@ -49,6 +49,7 @@
                 v-if="props.row.reportChilds[0][0].name"
                 class="link"
                 @click="downloadFile(props.row.reportChilds[0][0].path)"
+                :title="props.row.reportChilds[0][0].name"
               >
                 {{ props.row.reportChilds[0][0].name }}
               </span>
@@ -74,6 +75,7 @@
                 v-if="props.row.reportChilds[0][1].name"
                 class="link"
                 @click="downloadFile(props.row.reportChilds[0][1].path)"
+                :title="props.row.reportChilds[0][1].name"
               >
                 {{ props.row.reportChilds[0][1].name }}
               </span>
@@ -85,7 +87,7 @@
               </span>
             </div>
             <span
-              style="top:66px;"
+              style="top: 66px;"
               v-if="props.row.reportChilds[0][1].statusVisble"
               @click="
                 openBaseDialog(
@@ -106,6 +108,7 @@
                 v-if="props.row.reportChilds[1][0].name"
                 class="link"
                 @click="downloadFile(props.row.reportChilds[1][0].path)"
+                :title="props.row.reportChilds[1][0].name"
               >
                 {{ props.row.reportChilds[1][0].name }}
               </span>
@@ -142,7 +145,7 @@
               </span>
             </div>
             <span
-              style="top:66px;"
+              style="top: 66px;"
               v-if="props.row.reportChilds[1][1].statusVisble"
               @click="
                 openSeepDialog(
@@ -194,7 +197,7 @@
               </span>
             </div>
             <span
-              style="top:66px;"
+              style="top: 66px;"
               v-if="props.row.reportChilds[2][1].statusVisble"
               @click="uploadFile(3, null, null, 2, props.row.projectId)"
               >复查</span
@@ -219,9 +222,9 @@
     />
 
     <!-- 基线dialog -->
-    <baseDialog :visible.sync="dialogBase" width="80%" top="0">
+    <baseDialog ref="baseDialog" :visible.sync="dialogBase" width="80%" top="0">
       <template #title>{{ dialogBaseTitle }}</template>
-      <div ref="reportBaseForm" class="base-form">
+      <baseForm ref="reportBaseForm" class="base-form">
         <div v-for="(item, index) in baseInfo" :key="index" class="group">
           <div class="caption">{{ item.num }}、{{ item.title }}</div>
           <div
@@ -229,10 +232,11 @@
             :key="index2"
             class="item"
           >
-            <div class="title">
-              {{ item.num }}.{{ item2.num }}、<em>*</em>{{ item2.title }}
-            </div>
-            <div class="radio-box">
+            <baseFormItem
+              :label="item.num + '.' + item2.num + item2.title"
+              :required="item2.isCheck"
+              class="radio-box"
+            >
               <label v-for="(item3, index3) in item2.options" :key="index3">
                 <input
                   type="radio"
@@ -246,12 +250,12 @@
                   v-model="item2.other"
                 />
               </label>
-            </div>
-            <div>检测图片</div>
-            <div class="file-box">
+            </baseFormItem>
+            <baseFormItem label="检测图片" class="file-box">
               <button
                 v-if="item2.type === 1"
                 @click="uploadFile(1, index, index2)"
+                style="margin: 10px 5px 10px 0;"
               >
                 点击添加附件
               </button>
@@ -268,10 +272,16 @@
                   @click.stop="removeBaseImg('imgs', index, index2, imgIndex)"
                 />
               </span>
-            </div>
-            <div v-if="item2.type === 2"><em>*</em>整改结果</div>
-            <div v-if="item2.type === 2" class="file-box">
-              <button @click="uploadFile('整改', index, index2)">
+            </baseFormItem>
+            <baseFormItem
+              v-if="item2.type === 2"
+              label="整改结果"
+              class="file-box"
+            >
+              <button
+                @click="uploadFile('整改', index, index2)"
+                style="margin: 10px 5px 10px 0;"
+              >
                 点击添加附件
               </button>
               <span
@@ -288,13 +298,13 @@
                   "
                 />
               </span>
-            </div>
+            </baseFormItem>
           </div>
         </div>
-        <button @click="submitBase" style="display:block;margin:0 auto;">
+        <button @click="submitBase" style="display: block; margin: 0 auto;">
           <svg-icon icon-class="save" />保存
         </button>
-      </div>
+      </baseForm>
     </baseDialog>
 
     <!-- 渗透测试报告 -->
@@ -382,7 +392,7 @@
             <button
               v-else
               @click="seepRectification(props.row.uuid)"
-              style="padding:0 5px;"
+              style="padding: 0 5px;"
             >
               整改完成
             </button>
@@ -392,7 +402,7 @@
       <button
         v-if="currentCell && currentCell.status === 1"
         @click="submitSeep"
-        style="display:block;margin:20px auto 0;"
+        style="display: block; margin: 20px auto 0;"
       >
         <svg-icon icon-class="save" />保存
       </button>
@@ -408,7 +418,7 @@ import {
   saveBaseline,
   getPenetrationByProjectId,
   savePenetration,
-  reformPenetration
+  reformPenetration,
 } from '@/api/reportCommon'
 import { download } from '@/api/sftp'
 
@@ -425,7 +435,7 @@ export default {
     },
     imgName(val) {
       return val.slice(val.lastIndexOf('/') + 1)
-    }
+    },
   },
   data() {
     return {
@@ -434,7 +444,7 @@ export default {
         pageSize: 20,
         projectCode: '',
         projectName: '',
-        processNode: 0
+        processNode: 0,
       },
       tableData: {},
       currentCell: {},
@@ -451,33 +461,33 @@ export default {
         leakAddress: null,
         leakHazardDesc: null,
         reformDesc: null,
-        imgs: []
+        imgs: [],
       },
       seepRules: {
         leakTitle: [
-          { required: true, message: '请输入漏洞名称', trigger: 'blur' }
+          { required: true, message: '请输入漏洞名称', trigger: 'blur' },
         ],
         hazardLevel: [
-          { required: true, message: '请选择等级', trigger: 'blur' }
+          { required: true, message: '请选择等级', trigger: 'blur' },
         ],
         cevNum: [{ required: true, message: '请输入CVE编号', trigger: 'blur' }],
         leakAddress: [
-          { required: true, message: '请输入漏洞地址', trigger: 'blur' }
+          { required: true, message: '请输入漏洞地址', trigger: 'blur' },
         ],
         leakHazardDesc: [
-          { required: true, message: '请输入漏洞危害说明', trigger: 'blur' }
+          { required: true, message: '请输入漏洞危害说明', trigger: 'blur' },
         ],
         reformDesc: [
-          { required: true, message: '请输入整改建议', trigger: 'blur' }
+          { required: true, message: '请输入整改建议', trigger: 'blur' },
         ],
         imgs: [
           {
             required: true,
             message: '请上传漏洞效果及截图',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
@@ -487,7 +497,7 @@ export default {
         item['index'] = index
       })
       return res
-    }
+    },
   },
   created() {
     this.init()
@@ -495,7 +505,7 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getReportList(this.tableForm).then(res => {
+      getReportList(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -519,7 +529,7 @@ export default {
         this.currentCell.type === '整改' ? 1 : this.currentCell.type
       )
       formData.append('status', this.currentCell.status)
-      uploadReport(formData).then(res => {
+      uploadReport(formData).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         switch (this.currentCell.type) {
           case 1:
@@ -556,9 +566,12 @@ export default {
       info.status === 1
         ? (this.dialogBaseTitle = '初查安全防护基线配置要求')
         : (this.dialogBaseTitle = '复查安全防护基线配置要求')
-      getProjectReport(projectId, info.status).then(res => {
+      getProjectReport(projectId, info.status).then((res) => {
         this.baseInfo = res.data
         this.dialogBase = true
+        this.$nextTick(() => {
+          this.$refs.baseDialog.$el.scrollTop = 0
+        })
       })
     },
     removeBaseImg(type, index, index2, imgIndex) {
@@ -569,21 +582,21 @@ export default {
         let res = {
           projectId: null,
           childData: [],
-          status: this.currentCell.status
+          status: this.currentCell.status,
         }
         res.projectId = this.currentCell.projectId
-        this.baseInfo.forEach(item => {
-          item.childData.forEach(item2 => {
+        this.baseInfo.forEach((item) => {
+          item.childData.forEach((item2) => {
             res.childData.push({
               key: item2.key,
               value: item2.value,
               other: item2.other,
               imgs: item2.imgs,
-              newImgs: item2.newImgs
+              newImgs: item2.newImgs,
             })
           })
         })
-        saveBaseline(res).then(res => {
+        saveBaseline(res).then((res) => {
           this.init()
           this.dialogBase = false
           this.$message({ content: res.message, type: 'success' })
@@ -596,7 +609,7 @@ export default {
       info.status === 1
         ? (this.dialogSeepTitle = '初查渗透测试结果记录')
         : (this.dialogSeepTitle = '复查渗透测试结果记录')
-      getPenetrationByProjectId(projectId, info.status).then(res => {
+      getPenetrationByProjectId(projectId, info.status).then((res) => {
         this.seepInfo = res.data
         this.dialogSeep = true
       })
@@ -612,7 +625,7 @@ export default {
     },
     submitSeep() {
       this.$confirm('确认保存？', '提示').then(() => {
-        savePenetration(this.seepInfo).then(res => {
+        savePenetration(this.seepInfo).then((res) => {
           this.init()
           this.dialogSeep = false
           this.$message({ content: res.message, type: 'success' })
@@ -624,21 +637,21 @@ export default {
     },
     seepRectification(uuid) {
       this.$confirm('确认完成？', '提示').then(() => {
-        reformPenetration(uuid).then(res => {
+        reformPenetration(uuid).then((res) => {
           this.dialogSeepTitle = '复查渗透测试结果记录'
           // 刷新表格
           getPenetrationByProjectId(
             this.currentCell.projectId,
             this.currentCell.status
-          ).then(res => {
+          ).then((res) => {
             this.seepInfo = res.data
             this.dialogSeep = true
           })
           this.$message({ content: res.message, type: 'success' })
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -669,9 +682,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 16%;
-    height: 30px;
-    top: -5px;
+    width: 35px;
+    font-size: 12px;
+    height: 20px;
+    border-radius: 3px;
+    top: 45px;
     right: 0;
     background: #158ae7;
     color: #fff;
@@ -683,7 +698,6 @@ export default {
 }
 
 .base-form {
-  padding: 0 5%;
   em {
     color: red;
     margin-right: 5px;
@@ -691,32 +705,39 @@ export default {
   .group {
     .caption {
       font-weight: bold;
-      margin-bottom: 5px;
     }
     .item {
       border-bottom: 1px solid #ccc;
       margin-bottom: 10px;
-      padding-left: 30px;
-      .title {
-        margin-left: -30px;
+      /deep/.form-item {
+        flex-flow: column;
+        padding: unset;
+        > label {
+          text-align: left;
+        }
+        > span {
+          width: 100%;
+        }
       }
       .radio-box {
-        margin: 5px 0;
         label {
-          margin-right: 20px;
           input[type='text'] {
             width: unset;
           }
         }
       }
       .file-box {
-        button {
-          background: #fff;
-          border: 1px solid #158ae7;
-          color: #158ae7;
-          &:hover {
-            background: #158ae7;
-            color: #fff;
+        .remove-button {
+          max-width: unset;
+          margin: 0 10px 0 0;
+          svg {
+            position: relative;
+            top: -3px;
+            color: #ff4949;
+            font-size: 10px;
+            background: #fff;
+            border: 1px solid #ff4949;
+            border-radius: 50%;
           }
         }
       }
@@ -731,22 +752,6 @@ export default {
     /deep/.form-gound {
       width: 50%;
     }
-  }
-}
-
-.remove-button {
-  max-width: unset;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  svg {
-    position: relative;
-    top: -3px;
-    color: #ff4949;
-    font-size: 10px;
-    background: #fff;
-    border: 1px solid #ff4949;
-    border-radius: 50%;
   }
 }
 </style>

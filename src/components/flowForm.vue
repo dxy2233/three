@@ -37,7 +37,7 @@
           :class="{
             finish: item.status === '完成',
             ing: item.status === '进行中',
-            active: step === index + 1
+            active: step === index + 1,
           }"
         >
           <span class="txt">{{ item.txt }}</span>
@@ -111,8 +111,8 @@
                   :disabled="item.lock"
                 />
               </div>
-              <div class="item" style="flex:2">
-                <label style="width:15%">变更签证</label>
+              <div class="item" style="flex: 2;">
+                <label style="width: 15%;">变更签证</label>
                 <button
                   v-if="allData.designBO.visa.uploadVisible"
                   @click="uploadFile(null, 4)"
@@ -292,7 +292,7 @@
               :disabled="stepData[step - 1].lock"
               @click="uploadFile(allData.constructionBO, 5)"
               class="major"
-              style="margin-right:5px;"
+              style="margin-right: 5px;"
             >
               上传
             </button>
@@ -362,7 +362,7 @@
             </div>
           </div>
           <!-- 转维 -->
-          <div v-else-if="item.key === 'maintain'" class="transformation ">
+          <div v-else-if="item.key === 'maintain'" class="transformation">
             <h4>IP地址</h4>
             {{ allData.maintainBO.ipList.join('，') }}
             <!-- <div
@@ -555,7 +555,7 @@
       <template #title>新增评审</template>
       <div class="review-item">
         <label><em>*</em>评审报告</label>
-        <button @click="uploadFile(null, 2)" style="margin-right:5px;">
+        <button @click="uploadFile(null, 2)" style="margin-right: 5px;">
           点击上传评审报告
         </button>
         {{ rowInfo.examineFileName }}
@@ -633,7 +633,7 @@
         </baseFormItem> -->
         <baseFormItem label="参会人员" prop="perString" required>
           <textarea rows="5" v-model="meetingForm.perString"></textarea>
-          <div style="color:#ff4949">*以顿号(、)进行分隔</div>
+          <div style="color: #ff4949;">*以顿号(、)进行分隔</div>
         </baseFormItem>
         <baseFormItem label="会议文件" prop="fileName" required>
           <button type="button" @click="uploadFile(allData[nowKey + 'BO'], 3)">
@@ -717,7 +717,7 @@ import {
   passFlawByProcessId,
   importDevice,
   saveDevice,
-  deleteDeviceById
+  deleteDeviceById,
 } from '@/api/process'
 import {
   uploadFile,
@@ -725,12 +725,12 @@ import {
   getExamineList,
   saveSuggestion,
   confirm,
-  downloadFile
+  downloadFile,
 } from '@/api/file'
 import {
   // getOrgPersonPage,
   getOrgPersonByIds,
-  getProcessOrgNodeTree
+  getProcessOrgNodeTree,
 } from '@/api/systemOrgNode'
 import { getDictionaryValue } from '@/api/dictionary'
 import { downloadTemplate } from '@/api/template'
@@ -749,15 +749,15 @@ export default {
         case 2:
           return '通过'
       }
-    }
+    },
   },
   props: {
     row: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
-    const fileNameRule = function(form) {
+    const fileNameRule = function (form) {
       if (form.fileName === '') return false
       else return true
     }
@@ -769,7 +769,7 @@ export default {
         { txt: '', status: '', visible: '', lock: true, key: 'construction' },
         { txt: '', status: '', visible: '', lock: true, key: 'acceptFirst' },
         { txt: '', status: '', visible: '', lock: true, key: 'acceptFinal' },
-        { txt: '', status: '', visible: '', lock: true, key: 'maintain' }
+        { txt: '', status: '', visible: '', lock: true, key: 'maintain' },
       ],
       allData: {},
       rowInfo: {}, // table当前row的数据
@@ -795,7 +795,7 @@ export default {
         manufacturer: '',
         enteringPersonnel: '',
         enteringStartTime: '',
-        enteringEndTime: ''
+        enteringEndTime: '',
       },
       meetingDialog: false,
       meetingDialogTitle: '',
@@ -811,25 +811,25 @@ export default {
         fileId: '',
         fileName: '',
         filePath: '',
-        fileSize: ''
+        fileSize: '',
       },
       meetingRules: {
         conferenceName: [
-          { required: true, message: '请输入会议名称', trigger: 'blur' }
+          { required: true, message: '请输入会议名称', trigger: 'blur' },
         ],
         hostName: [
-          { required: true, message: '请输入主持人员', trigger: 'blur' }
+          { required: true, message: '请输入主持人员', trigger: 'blur' },
         ],
         conferenceTime: [
-          { required: true, message: '请输入会议时间', trigger: 'blur' }
+          { required: true, message: '请输入会议时间', trigger: 'blur' },
         ],
         orgId: [
-          { required: true, message: '请选择参会部门', trigger: 'change' }
+          { required: true, message: '请选择参会部门', trigger: 'change' },
         ],
         perString: [
-          { required: true, message: '请输入参会人员', trigger: 'blur' }
+          { required: true, message: '请输入参会人员', trigger: 'blur' },
         ],
-        fileName: [{ other: fileNameRule, message: '请上传会议文件' }]
+        fileName: [{ other: fileNameRule, message: '请上传会议文件' }],
       },
       meetingDepartment: [],
       meetingStaffSearch: '',
@@ -851,8 +851,8 @@ export default {
         publicAddress: '',
         url: '',
         port: '',
-        remark: ''
-      }
+        remark: '',
+      },
       // buildRules: {
       //   serialNumber: [
       //     { required: true, message: '请输入序号', trigger: 'blur' }
@@ -901,42 +901,42 @@ export default {
     },
     // 当前选中的参会人员
     meetingStaffChecked() {
-      return this.meetingStaff.filter(item =>
+      return this.meetingStaff.filter((item) =>
         this.meetingForm.perIds.includes(item.id)
       )
-    }
+    },
   },
   created() {
     this.init(true)
-    getDictionaryValue().then(res => {
+    getDictionaryValue().then((res) => {
       this.constructionData = res.data
     })
     this.initConstruction()
   },
   methods: {
     init(ifSetStep) {
-      getProcessById(this.row.processId).then(res => {
+      getProcessById(this.row.processId).then((res) => {
         // 缓存数据
         let cachData
         if (this.allData.initiateBO) {
           cachData = {
             initiateBO: {
               org: this.allData.initiateBO.org,
-              type: this.allData.initiateBO.type
+              type: this.allData.initiateBO.type,
             },
             designBO: {
               org: this.allData.designBO.org,
               principal: this.allData.designBO.principal,
               tel: this.allData.designBO.tel,
-              email: this.allData.designBO.email
+              email: this.allData.designBO.email,
             },
             // constructionBO: {},
             acceptFirstBO: {
-              summary: this.allData.acceptFirstBO.summary
+              summary: this.allData.acceptFirstBO.summary,
             },
             acceptFinalBO: {
-              summary: this.allData.acceptFinalBO.summary
-            }
+              summary: this.allData.acceptFinalBO.summary,
+            },
             // maintainBO: {}
           }
         }
@@ -951,13 +951,13 @@ export default {
           }
         }
         // 组合数据
-        this.stepData.map(item => {
+        this.stepData.map((item) => {
           item.txt = this.allData[item.key + 'BO'].schedule
           item.visible = this.allData[item.key + 'Visible']
           item.status = this.allData[item.key + 'BO'].status
         })
         // 去除无权限的
-        this.stepData = this.stepData.filter(item => item.visible)
+        this.stepData = this.stepData.filter((item) => item.visible)
         // 调到进行中的步骤
         if (ifSetStep) {
           this.step =
@@ -984,31 +984,31 @@ export default {
     save() {
       switch (this.stepData[this.step - 1].key) {
         case 'initiate':
-          saveInitiate(this.allData.initiateBO).then(res => {
+          saveInitiate(this.allData.initiateBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
           break
         case 'design':
-          saveDesign(this.allData.designBO).then(res => {
+          saveDesign(this.allData.designBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
           break
         case 'acceptFirst':
-          saveAcceptFirst(this.allData.acceptFirstBO).then(res => {
+          saveAcceptFirst(this.allData.acceptFirstBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
           break
         case 'acceptFinal':
-          saveAcceptFinal(this.allData.acceptFinalBO).then(res => {
+          saveAcceptFinal(this.allData.acceptFinalBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
           break
         case 'maintain':
-          saveMaintain(this.allData.maintainBO).then(res => {
+          saveMaintain(this.allData.maintainBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
@@ -1022,7 +1022,7 @@ export default {
         archiveSchedule(
           this.row.processId,
           this.allData[this.nowKey + 'BO'].schedule
-        ).then(res => {
+        ).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -1058,7 +1058,7 @@ export default {
         let formData = new FormData()
         formData.append('file', e.target.files[0])
         formData.append('processId', this.rowInfo.processId)
-        importDevice(formData).then(res => {
+        importDevice(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
         })
@@ -1072,7 +1072,7 @@ export default {
         formData.append('isExamineFile', this.rowInfo.isExamineFile || false)
         let temName = e.target.files[0].name
         let temSize = e.target.files[0].size
-        uploadFile(formData).then(res => {
+        uploadFile(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           if (!this.rowInfo.isExamineFile) this.init()
           else {
@@ -1104,7 +1104,7 @@ export default {
     // 删除文件
     removeFile(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteFile(id).then(res => {
+        deleteFile(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -1113,7 +1113,7 @@ export default {
     // 评审table列表
     openExamine(info) {
       this.rowInfo = info
-      getExamineList(info.fileId).then(res => {
+      getExamineList(info.fileId).then((res) => {
         this.examineTabelData = res.data
         this.examineDialog = true
       })
@@ -1127,9 +1127,9 @@ export default {
       saveSuggestion({
         ...this.rowInfo,
         examineSummary: this.examineSummary,
-        fileId: this.rowInfo.fileId
+        fileId: this.rowInfo.fileId,
       }).then(() => {
-        getExamineList(this.rowInfo.fileId).then(res => {
+        getExamineList(this.rowInfo.fileId).then((res) => {
           this.examineTabelData = res.data
         })
         this.examineFileDialog = false
@@ -1142,7 +1142,7 @@ export default {
     // 通过评审
     passExamine() {
       this.$confirm('确认通过？', '提示').then(() => {
-        confirm(this.rowInfo.fileId).then(res => {
+        confirm(this.rowInfo.fileId).then((res) => {
           this.init()
           this.$message({ content: res.message, type: 'success' })
           this.examineDialog = false
@@ -1151,7 +1151,7 @@ export default {
     },
     // 建设页面表格
     initConstruction() {
-      getDeviceList(this.row.processId).then(res => {
+      getDeviceList(this.row.processId).then((res) => {
         this.constructionTable = res.data
       })
     },
@@ -1167,20 +1167,20 @@ export default {
         let res = []
         function loop(array) {
           res = res.concat(array)
-          array.forEach(item => {
+          array.forEach((item) => {
             if (item.nextNodes) loop(item.nextNodes)
           })
         }
         loop(array)
         return res
       }
-      getProcessOrgNodeTree(this.row.processId).then(res => {
+      getProcessOrgNodeTree(this.row.processId).then((res) => {
         this.meetingDepartment = flat(res.data)
       })
       // this.meetingDepartment = flat(this.systemOrgNodeTree)
       if (info) {
-        getConferenceById(info.id).then(res => {
-          getOrgPersonByIds({ orgIds: res.data.orgId }).then(res => {
+        getConferenceById(info.id).then((res) => {
+          getOrgPersonByIds({ orgIds: res.data.orgId }).then((res) => {
             this.meetingStaff = res.data
           })
           this.meetingForm = res.data
@@ -1216,7 +1216,7 @@ export default {
       if (!this.$refs.mettingForm.validate()) return
       this.meetingForm.processId = this.allData[this.nowKey + 'BO'].processId
       this.meetingForm.schedule = this.allData[this.nowKey + 'BO'].schedule
-      saveConference(this.meetingForm).then(res => {
+      saveConference(this.meetingForm).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
         this.meetingDialog = false
@@ -1225,7 +1225,7 @@ export default {
     // 删除会议文件
     removeMeeting(info) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteConference(info.id).then(res => {
+        deleteConference(info.id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -1233,7 +1233,7 @@ export default {
     },
     // 漏洞申请复评
     review(id) {
-      reviewByFileId(id).then(res => {
+      reviewByFileId(id).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
       })
@@ -1241,7 +1241,7 @@ export default {
     // 漏洞通过
     passFlaw(id) {
       this.$confirm('确认通过？', '提示').then(() => {
-        passFlawByProcessId(id).then(res => {
+        passFlawByProcessId(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -1253,7 +1253,7 @@ export default {
     },
     buildSave() {
       if (!this.$refs.flowBuildForm.validate()) return
-      saveDevice(this.buildForm).then(res => {
+      saveDevice(this.buildForm).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.initConstruction()
         this.buildDialog = false
@@ -1261,13 +1261,13 @@ export default {
     },
     removeBuild(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteDeviceById(id).then(res => {
+        deleteDeviceById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

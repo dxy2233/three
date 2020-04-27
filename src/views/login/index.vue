@@ -58,9 +58,9 @@ export default {
         username: '',
         password: '',
         verCode: '',
-        verCodeId: ''
+        verCodeId: '',
       },
-      verifyImg: ''
+      verifyImg: '',
     }
   },
   created() {
@@ -84,12 +84,12 @@ export default {
         })
     },
     getVerifyImg() {
-      getVerify().then(res => {
+      getVerify().then((res) => {
         this.verifyImg = res.data.base64
         this.form.verCodeId = res.data.verCodeId
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -199,7 +199,7 @@ import {
   getFlawById,
   importFlaw,
   repairFlaw,
-  downloadWord
+  downloadWord,
 } from '@/api/flaw'
 import { download } from '@/api/sftp'
 import { getMaintainStatusProject } from '@/api/projectInfo'
@@ -223,7 +223,7 @@ export default {
         case 2:
           return '高'
       }
-    }
+    },
   },
   data() {
     return {
@@ -236,7 +236,7 @@ export default {
         title: '',
         startTime: '',
         endTime: '',
-        sourceState: ''
+        sourceState: '',
       },
       tableData: {},
       dialog: false,
@@ -255,31 +255,31 @@ export default {
         verificationInformation: '',
         vendorPatch: '',
         attachmentName: '',
-        attachmentUrl: ''
+        attachmentUrl: '',
       },
       rules: {
         projectId: [
-          { required: true, message: '请选择项目', trigger: 'change' }
+          { required: true, message: '请选择项目', trigger: 'change' },
         ],
         title: [{ required: true, message: '请输入漏洞名称', trigger: 'blur' }],
         hazardLevel: [
-          { required: true, message: '请选择危害级别', trigger: 'change' }
+          { required: true, message: '请选择危害级别', trigger: 'change' },
         ],
         influencingProducts: [
-          { required: true, message: '请输入影响系统', trigger: 'blur' }
+          { required: true, message: '请输入影响系统', trigger: 'blur' },
         ],
         leakDescribe: [
-          { required: true, message: '请输入漏洞描述', trigger: 'blur' }
+          { required: true, message: '请输入漏洞描述', trigger: 'blur' },
         ],
         leakType: [
-          { required: true, message: '请选择漏洞类型', trigger: 'blur' }
-        ]
+          { required: true, message: '请选择漏洞类型', trigger: 'blur' },
+        ],
       },
-      uploadType: ''
+      uploadType: '',
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     this.init()
@@ -287,18 +287,18 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getFlawPage(this.tableForm).then(res => {
+      getFlawPage(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
     openDialog(type, info) {
       this.dialogTitle = type
       // 获取进行中的项目
-      getMaintainStatusProject().then(res => {
+      getMaintainStatusProject().then((res) => {
         this.maintainStatusProject = res.data
       })
       if (info) {
-        getFlawById(info.id).then(res => {
+        getFlawById(info.id).then((res) => {
           this.form = res.data
         })
       }
@@ -310,7 +310,7 @@ export default {
     },
     submit() {
       if (!this.$refs.holeForm.validate()) return
-      saveFlaw(this.form).then(res => {
+      saveFlaw(this.form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
         this.dialog = false
@@ -325,7 +325,7 @@ export default {
       switch (this.uploadType) {
         case 1:
           formData.append('file', e.target.files[0])
-          flawAttachUpload(formData).then(res => {
+          flawAttachUpload(formData).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.form.attachmentName = res.data.attachmentName
             this.form.attachmentUrl = res.data.attachmentUrl
@@ -333,7 +333,7 @@ export default {
           break
         case 2:
           formData.append('myfile', e.target.files[0])
-          importFlaw(formData).then(res => {
+          importFlaw(formData).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
@@ -346,7 +346,7 @@ export default {
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteFlawById(id).then(res => {
+        deleteFlawById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -354,7 +354,7 @@ export default {
     },
     // 漏洞整改
     changeHoleTime(id) {
-      repairFlaw(id).then(res => {
+      repairFlaw(id).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
       })
@@ -362,8 +362,8 @@ export default {
     // 导出word文档
     uploadWord(info) {
       downloadWord(info)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -7,7 +7,7 @@ export function confirm(id) {
   return request({
     url: '/examination/confirm',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -18,7 +18,7 @@ export function deleteProjectById(id) {
   return request({
     url: '/examination/deleteProjectById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -29,7 +29,7 @@ export function deleteReport(id) {
   return request({
     url: '/examination/deleteReport',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -41,7 +41,7 @@ export function downloadRelateFolderById(id, projectName) {
     url: '/examination/downloadRelateFolderById',
     method: 'get',
     responseType: 'blob',
-    params: { id, projectName }
+    params: { id, projectName },
   })
 }
 
@@ -53,7 +53,7 @@ export function downloadReport(id) {
     url: '/examination/downloadReport',
     method: 'get',
     responseType: 'blob',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -63,7 +63,7 @@ export function downloadReport(id) {
 export function getBaseInfoList() {
   return request({
     url: '/examination/getBaseInfoList',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -80,7 +80,7 @@ export function getExaminationGroupByUser(data) {
   return request({
     url: '/examination/getExaminationGroupByUser',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -90,7 +90,7 @@ export function getExaminationGroupByUser(data) {
 export function getExpertList() {
   return request({
     url: '/examination/getExpertList',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -101,7 +101,7 @@ export function getRelateFileListById(id) {
   return request({
     url: '/examination/getRelateFileListById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -112,7 +112,7 @@ export function getReportList(id) {
   return request({
     url: '/examination/getReportList',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -129,7 +129,7 @@ export function saveExaminationGroup(data) {
   return request({
     url: '/examination/saveExaminationGroup',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -140,6 +140,6 @@ export function uploadReport(data) {
   return request({
     url: '/examination/uploadReport',
     method: 'post',
-    data
+    data,
   })
 }

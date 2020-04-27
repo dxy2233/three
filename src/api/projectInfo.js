@@ -10,7 +10,7 @@ export function checkExamineStatus(data) {
   return request({
     url: '/projectInfo/checkExamineStatus',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -21,7 +21,7 @@ export function deleteProjectInfoById(id) {
   return request({
     url: '/projectInfo/deleteProjectInfoById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -37,7 +37,7 @@ export function getInfoPage(data) {
   return request({
     url: '/projectInfo/getInfoPage',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -47,7 +47,7 @@ export function getInfoPage(data) {
 export function getMaintainStatusProject() {
   return request({
     url: '/projectInfo/getMaintainStatusProject',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -57,7 +57,7 @@ export function getMaintainStatusProject() {
 export function getOperator() {
   return request({
     url: '/projectInfo/getOperator',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -68,7 +68,7 @@ export function importProject(data) {
   return request({
     url: '/projectInfo/importProject',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -91,6 +91,6 @@ export function saveProjectInfo(data) {
   return request({
     url: '/projectInfo/saveProjectInfo',
     method: 'post',
-    data
+    data,
   })
 }

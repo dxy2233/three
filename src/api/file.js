@@ -7,7 +7,7 @@ export function confirm(fileId) {
   return request({
     url: '/file/confirm',
     method: 'get',
-    params: { fileId }
+    params: { fileId },
   })
 }
 
@@ -18,7 +18,7 @@ export function deleteFile(fileId) {
   return request({
     url: '/file/deleteFile',
     method: 'get',
-    params: { fileId }
+    params: { fileId },
   })
 }
 
@@ -30,7 +30,7 @@ export function downloadFile(fileId, isExamineFile) {
     url: '/file/downloadFile',
     method: 'get',
     responseType: 'blob',
-    params: { fileId, isExamineFile }
+    params: { fileId, isExamineFile },
   })
 }
 
@@ -41,7 +41,7 @@ export function getExamineList(fileId) {
   return request({
     url: '/file/getExamineList',
     method: 'get',
-    params: { fileId }
+    params: { fileId },
   })
 }
 
@@ -60,7 +60,7 @@ export function saveSuggestion(data) {
   return request({
     url: '/file/saveSuggestion',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -71,6 +71,6 @@ export function uploadFile(data) {
   return request({
     url: '/file/uploadFile',
     method: 'post',
-    data
+    data,
   })
 }

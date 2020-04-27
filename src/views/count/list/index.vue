@@ -24,11 +24,11 @@ export default {
   name: 'List',
   data() {
     return {
-      tableData: []
+      tableData: [],
     }
   },
   created() {
-    getList().then(res => {
+    getList().then((res) => {
       this.tableData = res.data
     })
   },
@@ -37,8 +37,8 @@ export default {
       downloadList().then(() => {
         this.$message({ content: '下载成功', type: 'success' })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

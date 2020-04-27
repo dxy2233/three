@@ -136,7 +136,7 @@
             <input
               type="text"
               v-model="staffsSearch"
-              style="margin-bottom:5px;"
+              style="margin-bottom: 5px;"
             />
             <label v-for="(item, index) in staffsSearched" :key="index">
               <input
@@ -162,7 +162,7 @@
             <input
               type="text"
               v-model="termsSearch"
-              style="margin-bottom:5px;"
+              style="margin-bottom: 5px;"
             />
             <label v-for="(item, index) in termsSearched" :key="index">
               <input
@@ -195,7 +195,7 @@
       <nav>
         <span @click="catList(false)">返回上一级</span>|
         <span>{{
-          activeFileData.map(item => item.folderName).join(' > ')
+          activeFileData.map((item) => item.folderName).join(' > ')
         }}</span>
       </nav>
       <div v-if="activeFileData.length > 0" class="folder-wrap">
@@ -263,7 +263,7 @@ import {
   uploadReport,
   getRelateFileListById,
   downloadReport,
-  confirm
+  confirm,
 } from '@/api/examinationGroup'
 import { downloadFile } from '@/api/file'
 import { orgTree } from '@/assets/mixin/common'
@@ -280,12 +280,12 @@ export default {
         projectName: '',
         expired: '',
         orgId: '',
-        examineStatus: null
+        examineStatus: null,
       },
       tableData: {
         pageInfo: {
-          list: []
-        }
+          list: [],
+        },
       },
       dialog: false,
       dialogTitle: '',
@@ -299,7 +299,7 @@ export default {
         projectIdList: [],
         expertIdList: [],
         startTime: '',
-        endTime: ''
+        endTime: '',
       },
       randomVal: '',
       activeRow: {},
@@ -307,44 +307,44 @@ export default {
       reportTable: [],
       fileDialog: false,
       fileData: [],
-      activeFileData: []
+      activeFileData: [],
     }
   },
   computed: {
     ...mapGetters(['info']),
     // 选中的审计项目信息
     projectIdList() {
-      return this.terms.filter(item =>
+      return this.terms.filter((item) =>
         this.examinationForm.projectIdList.includes(item.id)
       )
     },
     // 选中的专家信息
     expertIdList() {
-      return this.staffs.filter(item =>
+      return this.staffs.filter((item) =>
         this.examinationForm.expertIdList.includes(item.id)
       )
     },
     // 搜索后的人员列表
     staffsSearched() {
-      return this.staffs.filter(item => item.name.includes(this.staffsSearch))
+      return this.staffs.filter((item) => item.name.includes(this.staffsSearch))
     },
     // 搜索后的项目列表
     termsSearched() {
-      return this.terms.filter(item => item.name.includes(this.termsSearch))
-    }
+      return this.terms.filter((item) => item.name.includes(this.termsSearch))
+    },
   },
   created() {
     this.init()
   },
   methods: {
     init() {
-      getExaminationGroupByUser(this.tableForm).then(res => {
+      getExaminationGroupByUser(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
     openDialog(type) {
       this.dialogTitle = type
-      Promise.all([getExpertList(), getBaseInfoList()]).then(res => {
+      Promise.all([getExpertList(), getBaseInfoList()]).then((res) => {
         this.staffs = res[0].data
         this.terms = res[1].data
         this.dialog = true
@@ -352,7 +352,7 @@ export default {
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteProjectById(id).then(res => {
+        deleteProjectById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -362,7 +362,7 @@ export default {
     randomLot() {
       // 筛选出可选列表
       let list = this.terms.filter(
-        item => !this.examinationForm.projectIdList.includes(item.id)
+        (item) => !this.examinationForm.projectIdList.includes(item.id)
       )
       for (let i = 1; i <= this.randomVal; i++) {
         // 计算随机索引
@@ -382,7 +382,7 @@ export default {
         }
       }
       let subData = JSON.parse(JSON.stringify(this.examinationForm))
-      saveExaminationGroup([subData]).then(res => {
+      saveExaminationGroup([subData]).then((res) => {
         this.init()
         this.dialog = false
         this.$message({ content: res.message, type: 'success' })
@@ -397,7 +397,7 @@ export default {
       formData.append('file', e.target.files[0])
       formData.append('id', this.activeRow.id)
       this.$refs.checkFile.value = null
-      uploadReport(formData).then(res => {
+      uploadReport(formData).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.openReport()
       })
@@ -417,14 +417,14 @@ export default {
     openReport(info) {
       if (info) this.activeRow = info
       const parameter = info ? info.id : this.activeRow.id
-      getReportList(parameter).then(res => {
+      getReportList(parameter).then((res) => {
         this.reportTable = res.data
         this.reportDialog = true
       })
     },
     reportPass() {
       this.$confirm('确认通过？', '提示').then(() => {
-        confirm(this.activeRow.id).then(res => {
+        confirm(this.activeRow.id).then((res) => {
           this.init()
           this.$message({ content: res.message, type: 'success' })
           this.reportDialog = false
@@ -432,7 +432,7 @@ export default {
       })
     },
     openFile(info) {
-      getRelateFileListById(info.id).then(res => {
+      getRelateFileListById(info.id).then((res) => {
         this.fileData = res.data
         this.activeFileData.push(res.data)
         this.fileDialog = true
@@ -444,8 +444,8 @@ export default {
     // 相关资料点击事件
     catList(row) {
       row ? this.activeFileData.push(row) : this.activeFileData.pop()
-    }
-  }
+    },
+  },
 }
 </script>
 

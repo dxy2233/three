@@ -21,28 +21,28 @@ export default {
   name: 'Tags',
   data() {
     return {
-      tags: [] // { title: '', path: '', name: '' }
+      tags: [], // { title: '', path: '', name: '' }
     }
   },
   created() {
     this.tags.push({
       title: this.$route.meta.title,
       path: this.$route.fullPath,
-      name: this.$route.name
+      name: this.$route.name,
     })
     this.$store.dispatch('baseData/changeKeepRouters', this.tags)
   },
   watch: {
     $route(val) {
-      const newRouter = this.tags.every(item => item.path !== val.fullPath)
+      const newRouter = this.tags.every((item) => item.path !== val.fullPath)
       if (newRouter)
         this.tags.push({
           title: val.meta.title,
           path: val.fullPath,
-          name: val.name
+          name: val.name,
         })
       this.$store.dispatch('baseData/changeKeepRouters', this.tags)
-    }
+    },
   },
   methods: {
     changeRouter(path) {
@@ -53,8 +53,8 @@ export default {
       index === 0
         ? this.changeRouter(this.tags[index].path)
         : this.changeRouter(this.tags[index - 1].path)
-    }
-  }
+    },
+  },
 }
 </script>
 

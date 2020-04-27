@@ -3,10 +3,10 @@ import { mapGetters } from 'vuex'
 
 export const orgTree = {
   computed: {
-    ...mapGetters(['systemOrgNodeTree'])
+    ...mapGetters(['systemOrgNodeTree']),
   },
   created() {
     if (this.systemOrgNodeTree.length === 0)
       store.dispatch('publicData/getOrgTree')
-  }
+  },
 }

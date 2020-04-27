@@ -16,8 +16,8 @@ import menus from './menus'
 export default {
   components: { menus },
   computed: {
-    ...mapGetters(['allRoutes'])
-  }
+    ...mapGetters(['allRoutes']),
+  },
 }
 </script>
 

@@ -3,7 +3,7 @@ export default {
   name: 'Loading',
   data: () => ({
     show: false,
-    text: ''
+    text: '',
   }),
   render() {
     return (
@@ -11,7 +11,7 @@ export default {
         loading...
       </div>
     )
-  }
+  },
 }
 </script>
 

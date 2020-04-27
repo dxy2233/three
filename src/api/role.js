@@ -7,7 +7,7 @@ export function deleteRole(roleId) {
   return request({
     url: '/role/deleteRole',
     method: 'get',
-    params: { roleId }
+    params: { roleId },
   })
 }
 
@@ -18,7 +18,7 @@ export function getRoleById(id) {
   return request({
     url: '/role/getRoleById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -28,7 +28,7 @@ export function getRoleById(id) {
 export function getRoleList() {
   return request({
     url: '/role/getRoleList',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -38,7 +38,7 @@ export function getRoleList() {
 export function getRoles() {
   return request({
     url: '/role/getRoles',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -53,6 +53,6 @@ export function saveRole(data) {
   return request({
     url: '/role/saveRole',
     method: 'post',
-    data
+    data,
   })
 }

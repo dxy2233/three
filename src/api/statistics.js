@@ -7,7 +7,7 @@ export function downloadList() {
   return request({
     url: '/statistics/downloadList',
     method: 'get',
-    responseType: 'blob'
+    responseType: 'blob',
   })
 }
 
@@ -17,7 +17,7 @@ export function downloadList() {
 export function getList() {
   return request({
     url: '/statistics/getList',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -28,7 +28,7 @@ export function getStatisticsByType(type, year, month, week) {
   return request({
     url: '/statistics/getStatisticsByType',
     method: 'get',
-    params: { type, year, month, week }
+    params: { type, year, month, week },
   })
 }
 
@@ -38,6 +38,6 @@ export function getStatisticsByType(type, year, month, week) {
 export function getYearStatistics() {
   return request({
     url: '/statistics/getYearStatistics',
-    method: 'get'
+    method: 'get',
   })
 }

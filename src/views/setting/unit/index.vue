@@ -73,24 +73,26 @@ export default {
         id: '',
         orgCode: '',
         postalCode: '',
-        orgAdd: ''
+        orgAdd: '',
       },
       rules: {
         orgCode: [
-          { required: true, message: '请输入项目名称', trigger: 'blur' }
+          { required: true, message: '请输入项目名称', trigger: 'blur' },
         ],
         postalCode: [
-          { required: true, message: '请输入项目名称', trigger: 'blur' }
+          { required: true, message: '请输入项目名称', trigger: 'blur' },
         ],
-        orgAdd: [{ required: true, message: '请输入项目名称', trigger: 'blur' }]
-      }
+        orgAdd: [
+          { required: true, message: '请输入项目名称', trigger: 'blur' },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
-    getSystemOrgNodeTree().then(res => {
+    getSystemOrgNodeTree().then((res) => {
       this.treeData = res.data
       this.$refs.unitTree.nodeClick(this.treeData[0])
     })
@@ -109,9 +111,9 @@ export default {
     },
     submit() {
       if (!this.$refs.unitForm.validate()) return
-      saveSystemOrgNode(this.form).then(res => {
+      saveSystemOrgNode(this.form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
-        getSystemOrgNodeTree().then(res => {
+        getSystemOrgNodeTree().then((res) => {
           this.treeData = res.data
           let resData = {}
           function loop(array, id) {
@@ -129,8 +131,8 @@ export default {
           this.dialog = false
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

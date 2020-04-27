@@ -107,7 +107,7 @@
           </label>
         </baseFormItem>
         <baseFormItem label="资质证明" required>
-          <button type="button" style="margin-left:5px" @click="uploadFile">
+          <button type="button" style="margin-left: 5px;" @click="uploadFile">
             点击上传
           </button>
           {{ form.qualificationName }}
@@ -193,7 +193,7 @@ import {
   deleteFacilitatorById,
   getPersonByFacilitatorId,
   saveFacilitatorPerson,
-  deleteFacilitatorPersonById
+  deleteFacilitatorPersonById,
 } from '@/api/facilitator'
 import { download } from '@/api/sftp'
 import { contact } from '@/utils/validate'
@@ -214,10 +214,10 @@ export default {
         case 0:
           return '女'
       }
-    }
+    },
   },
   data() {
-    const qualificationRule = function(form) {
+    const qualificationRule = function (form) {
       if (form.qualification && form.qualificationPath === '') return false
       else return true
     }
@@ -227,7 +227,7 @@ export default {
         pageSize: 20,
         id: '',
         name: '',
-        orgId: ''
+        orgId: '',
       },
       tableData: {},
       dialog: false,
@@ -239,26 +239,26 @@ export default {
         endTime: '',
         qualification: '',
         qualificationName: '',
-        qualificationPath: ''
+        qualificationPath: '',
       },
       rules: {
         name: [
-          { required: true, message: '请输入服务商名称', trigger: 'blur' }
+          { required: true, message: '请输入服务商名称', trigger: 'blur' },
         ],
         startTime: [
-          { required: true, message: '请输入服务开始时间', trigger: 'blur' }
+          { required: true, message: '请输入服务开始时间', trigger: 'blur' },
         ],
         endTime: [
-          { required: true, message: '请输入服务结束时间', trigger: 'blur' }
+          { required: true, message: '请输入服务结束时间', trigger: 'blur' },
         ],
         qualification: [
           { required: true, message: '请输入是否符合资质', trigger: 'change' },
           {
             other: qualificationRule,
             message: '请上传资质证明',
-            trigger: 'change'
-          }
-        ]
+            trigger: 'change',
+          },
+        ],
       },
       dialogStaff: false,
       staffTable: [],
@@ -270,13 +270,13 @@ export default {
         name: '',
         sex: '',
         idCard: '',
-        practiceMode: ''
+        practiceMode: '',
       },
       rulesStaffOne: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请输入性别', trigger: 'change' }],
         idCard: [
-          { required: true, message: '请输入身份证', trigger: 'blur' }
+          { required: true, message: '请输入身份证', trigger: 'blur' },
           // { validator: idCard, message: '请输入正确的身份证', trigger: 'blur' }
         ],
         practiceMode: [
@@ -284,14 +284,14 @@ export default {
           {
             validator: contact,
             message: '请输入正确的联系方式',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     this.init()
@@ -299,7 +299,7 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getInfoPage(this.tableForm).then(res => {
+      getInfoPage(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -321,7 +321,7 @@ export default {
     submitService() {
       if (!this.$refs.servicerForm.validate()) return
       let subData = JSON.parse(JSON.stringify(this.form))
-      saveFacilitator(subData).then(res => {
+      saveFacilitator(subData).then((res) => {
         this.init()
         this.dialog = false
         this.$message({ content: res.message, type: 'success' })
@@ -330,7 +330,7 @@ export default {
     // 删除服务商
     removeService(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteFacilitatorById(id).then(res => {
+        deleteFacilitatorById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -338,7 +338,7 @@ export default {
     },
     // 打开人员管理
     openStaffDialog(type, info) {
-      getPersonByFacilitatorId(info.id).then(res => {
+      getPersonByFacilitatorId(info.id).then((res) => {
         this.staffTable = res.data
         this.staffOneForm.facilitatorId = info.id // 添加服务商id
         this.dialogStaff = true
@@ -350,7 +350,7 @@ export default {
       if (info) {
         this.staffOneForm = {
           facilitatorId: this.staffOneForm.facilitatorId,
-          ...JSON.parse(JSON.stringify(info))
+          ...JSON.parse(JSON.stringify(info)),
         }
       }
       this.dialogStaffOne = true
@@ -359,12 +359,14 @@ export default {
     submitStaff() {
       if (!this.$refs.staffOneForm.validate()) return
       saveFacilitatorPerson(this.staffOneForm).then(() => {
-        getPersonByFacilitatorId(this.staffOneForm.facilitatorId).then(res => {
-          this.staffTable = res.data
-          this.$message({ content: res.message, type: 'success' })
-          this.dialogStaffOne = false
-          this.init()
-        })
+        getPersonByFacilitatorId(this.staffOneForm.facilitatorId).then(
+          (res) => {
+            this.staffTable = res.data
+            this.$message({ content: res.message, type: 'success' })
+            this.dialogStaffOne = false
+            this.init()
+          }
+        )
       })
     },
     // 关闭人员信息编辑的回调,保留facilitatorId
@@ -377,7 +379,7 @@ export default {
       this.$confirm('确认删除？', '提示').then(() => {
         deleteFacilitatorPersonById(id).then(() => {
           getPersonByFacilitatorId(this.staffOneForm.facilitatorId).then(
-            res => {
+            (res) => {
               this.staffTable = res.data
             }
           )
@@ -392,13 +394,13 @@ export default {
       let formData = new FormData()
       formData.append('file', e.target.files[0])
       this.$refs.servicerFile.value = null
-      qualificationUpload(formData).then(res => {
+      qualificationUpload(formData).then((res) => {
         this.form.qualificationName = res.data.qualificationName
         this.form.qualificationPath = res.data.qualificationPath
         this.$message({ content: res.message, type: 'success' })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

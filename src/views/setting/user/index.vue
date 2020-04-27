@@ -209,7 +209,7 @@ import {
   deleteUser,
   resetPassword,
   saveUser,
-  unLockUser
+  unLockUser,
 } from '@/api/user'
 import { getRoles } from '@/api/role'
 import { getFacilitatorAndPerson } from '@/api/facilitator'
@@ -223,7 +223,7 @@ export default {
   mixins: [orgTree],
   filters: {
     roleFilter(val) {
-      let res = val.map(item => {
+      let res = val.map((item) => {
         for (let i = 0; i <= that.roles.length; i++) {
           if (that.roles[i].id === item) {
             item = that.roles[i].name
@@ -233,7 +233,7 @@ export default {
         return item
       })
       return res.join('，')
-    }
+    },
   },
   data() {
     return {
@@ -242,7 +242,7 @@ export default {
         pageSize: 20,
         name: '',
         phone: '',
-        orgId: ''
+        orgId: '',
       },
       tableData: {},
       dialog: false,
@@ -257,12 +257,12 @@ export default {
         roles: [],
         facilitatorId: '',
         sysOrgNodeId: '',
-        type: ''
+        type: '',
       },
       rules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
         facilitatorId: [
-          { required: true, message: '请选择所属服务商', trigger: 'change' }
+          { required: true, message: '请选择所属服务商', trigger: 'change' },
         ],
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         phone: [
@@ -270,12 +270,12 @@ export default {
           {
             validator: contact,
             message: '请输入正确的联系方式',
-            trigger: 'blur'
-          }
-        ]
+            trigger: 'blur',
+          },
+        ],
       },
       roles: [],
-      facilitatorList: []
+      facilitatorList: [],
     }
   },
   computed: {
@@ -283,17 +283,17 @@ export default {
     selectedFacilitator() {
       return this.form.facilitatorId
         ? this.facilitatorList.filter(
-            item => item.id === this.form.facilitatorId
+            (item) => item.id === this.form.facilitatorId
           )[0]
         : {}
     },
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   beforeCreate() {
     that = this
   },
   created() {
-    getRoles().then(res => {
+    getRoles().then((res) => {
       this.roles = res.data
     })
     this.init()
@@ -301,12 +301,12 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getUserList(this.tableForm).then(res => {
+      getUserList(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
     openDialog(type, info, userType) {
-      getFacilitatorAndPerson().then(res => {
+      getFacilitatorAndPerson().then((res) => {
         this.facilitatorList = res.data
       })
       if (!type) {
@@ -335,7 +335,7 @@ export default {
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteUser(id).then(res => {
+        deleteUser(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -343,7 +343,7 @@ export default {
     },
     resetPwd(id) {
       this.$confirm('确认重置？', '提示').then(() => {
-        resetPassword(id).then(res => {
+        resetPassword(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -351,7 +351,7 @@ export default {
     },
     unlock(id) {
       this.$confirm('确认解锁？', '提示').then(() => {
-        unLockUser(id).then(res => {
+        unLockUser(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -374,13 +374,13 @@ export default {
       if (!this.$refs.userForm.validate()) return
       // 后端遗留问题，清除关键词字段，增加姓名的id
       if (this.form.type === 2) delete this.form.sysOrgNodeId
-      saveUser(this.form).then(res => {
+      saveUser(this.form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
         this.dialog = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

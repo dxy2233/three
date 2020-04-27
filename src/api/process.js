@@ -7,7 +7,7 @@ export function archiveSchedule(id, projectSchedule) {
   return request({
     url: '/process/archiveSchedule',
     method: 'get',
-    params: { id, projectSchedule }
+    params: { id, projectSchedule },
   })
 }
 
@@ -18,7 +18,7 @@ export function deleteConference(id) {
   return request({
     url: '/process/deleteConference',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -29,7 +29,7 @@ export function deleteDeviceById(id) {
   return request({
     url: '/process/deleteDeviceById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -40,7 +40,7 @@ export function getConferenceById(id) {
   return request({
     url: '/process/getConferenceById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -51,7 +51,7 @@ export function getDeviceList(processId) {
   return request({
     url: '/process/getDeviceList',
     method: 'get',
-    params: { processId }
+    params: { processId },
   })
 }
 
@@ -62,7 +62,7 @@ export function getProcessById(id) {
   return request({
     url: '/process/getProcessById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -80,7 +80,7 @@ export function getProcessList(data) {
   return request({
     url: '/process/getProcessList',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -91,7 +91,7 @@ export function importDevice(data) {
   return request({
     url: '/process/importDevice',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -102,7 +102,7 @@ export function passFlawByProcessId(processId) {
   return request({
     url: '/process/passFlawByProcessId',
     method: 'get',
-    params: { processId }
+    params: { processId },
   })
 }
 
@@ -113,7 +113,7 @@ export function pauseProcess(id, pause, reason) {
   return request({
     url: '/process/pauseProcess',
     method: 'get',
-    params: { id, pause, reason }
+    params: { id, pause, reason },
   })
 }
 
@@ -124,7 +124,7 @@ export function reviewByFileId(fileId) {
   return request({
     url: '/process/reviewByFileId',
     method: 'get',
-    params: { fileId }
+    params: { fileId },
   })
 }
 
@@ -145,7 +145,7 @@ export function saveAcceptFinal(data) {
   return request({
     url: '/process/saveAcceptFinal',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -166,7 +166,7 @@ export function saveAcceptFirst(data) {
   return request({
     url: '/process/saveAcceptFirst',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -189,7 +189,7 @@ export function saveConference(data) {
   return request({
     url: '/process/saveConference',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -214,7 +214,7 @@ export function saveDesign(data) {
   return request({
     url: '/process/saveDesign',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -244,7 +244,7 @@ export function saveDevice(data) {
   return request({
     url: '/process/saveDevice',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -266,7 +266,7 @@ export function saveInitiate(data) {
   return request({
     url: '/process/saveInitiate',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -288,6 +288,6 @@ export function saveMaintain(data) {
   return request({
     url: '/process/saveMaintain',
     method: 'post',
-    data
+    data,
   })
 }

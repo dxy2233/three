@@ -7,7 +7,7 @@ export function deleteFlawById(id) {
   return request({
     url: '/flaw/deleteFlawById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -35,7 +35,7 @@ export function downloadWord(data) {
     url: '/flaw/downloadWord',
     method: 'post',
     responseType: 'blob',
-    data
+    data,
   })
 }
 
@@ -46,7 +46,7 @@ export function flawAttachUpload(data) {
   return request({
     url: '/flaw/flawAttachUpload',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -57,7 +57,7 @@ export function getFlawById(id) {
   return request({
     url: '/flaw/getFlawById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -77,7 +77,7 @@ export function getFlawPage(data) {
   return request({
     url: '/flaw/getFlawPage',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -88,7 +88,7 @@ export function importFlaw(data) {
   return request({
     url: '/flaw/importFlaw',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -99,7 +99,7 @@ export function repairFlaw(id) {
   return request({
     url: '/flaw/repairFlaw',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -124,6 +124,6 @@ export function saveFlaw(data) {
   return request({
     url: '/flaw/saveFlaw',
     method: 'post',
-    data
+    data,
   })
 }

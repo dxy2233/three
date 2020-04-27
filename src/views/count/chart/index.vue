@@ -81,7 +81,7 @@
           </div>
           <div
             :id="item.left.field + 'Chart'"
-            style="width:100%;height:400px;"
+            style="width: 100%; height: 400px;"
           />
         </div>
       </div>
@@ -122,7 +122,7 @@
           </div>
           <div
             :id="item.right.field + 'Chart'"
-            style="width:96%;height:400px;margin:0 auto;"
+            style="width: 96%; height: 400px; margin: 0 auto;"
           />
         </div>
       </div>
@@ -156,7 +156,7 @@ export default {
             fun: this.filingOptions,
             type: 1,
             year: '',
-            month: 0
+            month: 0,
           },
           right: {
             field: 'budget',
@@ -165,8 +165,8 @@ export default {
             count: '',
             fun: this.budgetOptions,
             type: 5,
-            year: ''
-          }
+            year: '',
+          },
         },
         {
           left: {
@@ -175,7 +175,7 @@ export default {
             countText: '当前流程管控总数',
             count: '',
             fun: this.processOptions,
-            type: 3
+            type: 3,
           },
           right: {
             field: 'check',
@@ -184,8 +184,8 @@ export default {
             count: '',
             fun: this.checkOptions,
             type: 2,
-            year: ''
-          }
+            year: '',
+          },
         },
         {
           left: {
@@ -196,7 +196,7 @@ export default {
             fun: this.seniorityOptions,
             type: 6,
             year: '',
-            month: 0
+            month: 0,
           },
           right: {
             field: 'audit',
@@ -205,8 +205,8 @@ export default {
             count: '',
             fun: this.auditOptions,
             type: 4,
-            year: ''
-          }
+            year: '',
+          },
         },
         {
           left: {
@@ -217,7 +217,7 @@ export default {
             fun: this.ipOptions,
             type: 7,
             year: '',
-            month: 0
+            month: 0,
           },
           right: {
             field: 'outlay',
@@ -226,8 +226,8 @@ export default {
             count: '',
             fun: this.outlayOptions,
             type: 8,
-            year: ''
-          }
+            year: '',
+          },
         },
         {
           // left: {
@@ -247,7 +247,7 @@ export default {
             countText: '总用时',
             count: '',
             fun: this.timeCostOptions,
-            type: 11
+            type: 11,
           },
           right: {
             field: 'holeHarm',
@@ -256,9 +256,9 @@ export default {
             count: '',
             fun: this.holeHarmOptions,
             type: 10,
-            year: ''
-          }
-        }
+            year: '',
+          },
+        },
       ],
       years: [],
       months: [
@@ -274,12 +274,12 @@ export default {
         { value: 9, label: '九月' },
         { value: 10, label: '十月' },
         { value: 11, label: '十一月' },
-        { value: 12, label: '十二月' }
-      ]
+        { value: 12, label: '十二月' },
+      ],
     }
   },
   mounted() {
-    getYearStatistics().then(res => {
+    getYearStatistics().then((res) => {
       this.years = res.data
       this.domData.forEach((item, index) => {
         this.init(
@@ -310,7 +310,7 @@ export default {
       myChart.setOption(options)
     },
     init(field, index, adress, opitonFun, type, year, month, week) {
-      getStatisticsByType(type, year, month, week).then(res => {
+      getStatisticsByType(type, year, month, week).then((res) => {
         this.domData[index][adress].count = res.data.count
         let options = opitonFun(res.data.chartList)
         this.createChart(`${field}Chart`, options)
@@ -324,43 +324,43 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         toolbox: {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             // rotate: 40,
             textStyle: {
-              color: '#000' // 刻度字的颜色
-            }
+              color: '#000', // 刻度字的颜色
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#00a8b3' // 刻度线的颜色
-            }
-          }
+              color: '#00a8b3', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '数量(个)',
@@ -368,34 +368,34 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#00a8b3' // 刻度字的颜色
-            }
+              color: '#00a8b3', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '项目备案各部门负责数',
             type: 'bar',
-            data: list.map(item => item.value),
+            data: list.map((item) => item.value),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
     },
@@ -405,19 +405,19 @@ export default {
         color: ['#f6ba05', '#00cccc', '#018bd0'],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}个({d}%)'
+          formatter: '{a} <br/>{b}: {c}个({d}%)',
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: list.map(item => item.name)
+          data: list.map((item) => item.name),
         },
         toolbox: {
           show: true,
           feature: {
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         series: [
           {
@@ -428,12 +428,12 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
             },
-            data: list
-          }
-        ]
+            data: list,
+          },
+        ],
       }
       return options
     },
@@ -445,42 +445,42 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         toolbox: {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#19b465' // 刻度线的颜色
-            }
-          }
+              color: '#19b465', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '数量(个)',
@@ -488,34 +488,34 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#19b465' // 刻度字的颜色
-            }
+              color: '#19b465', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '流程管控',
             type: 'bar',
-            data: list.map(item => item.value),
+            data: list.map((item) => item.value),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
     },
@@ -525,19 +525,19 @@ export default {
         color: ['#00c0d7', '#ff4949'],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}个({d}%)'
+          formatter: '{a} <br/>{b}: {c}个({d}%)',
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: list.map(item => item.name)
+          data: list.map((item) => item.name),
         },
         toolbox: {
           show: true,
           feature: {
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         series: [
           {
@@ -548,12 +548,12 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
             },
-            data: list
-          }
-        ]
+            data: list,
+          },
+        ],
       }
       return options
     },
@@ -563,19 +563,19 @@ export default {
         color: ['#00c0d7', '#f6ba05', '#ff4949', '#19b465', '#018bd0'],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}个({d}%)'
+          formatter: '{a} <br/>{b}: {c}个({d}%)',
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: list.map(item => item.name)
+          data: list.map((item) => item.name),
         },
         toolbox: {
           show: true,
           feature: {
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         series: [
           {
@@ -587,12 +587,12 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
             },
-            data: list
-          }
-        ]
+            data: list,
+          },
+        ],
       }
       return options
     },
@@ -604,42 +604,42 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         toolbox: {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#00a8b3' // 刻度线的颜色
-            }
-          }
+              color: '#00a8b3', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '数量(个)',
@@ -647,34 +647,34 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#00a8b3' // 刻度字的颜色
-            }
+              color: '#00a8b3', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '项目备案预算区间',
             type: 'bar',
-            data: list.map(item => item.value),
+            data: list.map((item) => item.value),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
     },
@@ -686,8 +686,8 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         toolbox: {
           show: true,
@@ -695,34 +695,34 @@ export default {
             // dataView: { show: true, readOnly: false },
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#f6ba05' // 刻度线的颜色
-            }
-          }
+              color: '#f6ba05', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '数量(个)',
@@ -730,34 +730,34 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#f6ba05' // 刻度字的颜色
-            }
+              color: '#f6ba05', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '项目备案公网IP数量',
             type: 'bar',
-            data: list.map(item => item.value),
+            data: list.map((item) => item.value),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
     },
@@ -767,19 +767,19 @@ export default {
         color: ['#00c0d7', '#ff4949', '#19b465'],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}个({d}%)'
+          formatter: '{a} <br/>{b}: {c}个({d}%)',
         },
         toolbox: {
           show: true,
           feature: {
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: list.map(item => item.name)
+          data: list.map((item) => item.name),
         },
         series: [
           {
@@ -790,12 +790,12 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
             },
-            data: list
-          }
-        ]
+            data: list,
+          },
+        ],
       }
       return options
     },
@@ -807,42 +807,42 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         toolbox: {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#00a8b3' // 刻度线的颜色
-            }
-          }
+              color: '#00a8b3', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '数量(个)',
@@ -850,34 +850,34 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#00a8b3' // 刻度字的颜色
-            }
+              color: '#00a8b3', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '漏洞类型数量',
             type: 'bar',
-            data: list.map(item => item.value),
+            data: list.map((item) => item.value),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
     },
@@ -887,19 +887,19 @@ export default {
         color: ['#00c0d7', '#f6ba05', '#ff4949', '#19b465', '#018bd0'],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}个({d}%)'
+          formatter: '{a} <br/>{b}: {c}个({d}%)',
         },
         toolbox: {
           show: true,
           feature: {
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: list.map(item => item.name)
+          data: list.map((item) => item.name),
         },
         series: [
           {
@@ -910,12 +910,12 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
             },
-            data: list
-          }
-        ]
+            data: list,
+          },
+        ],
       }
       return options
     },
@@ -927,42 +927,42 @@ export default {
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         toolbox: {
           show: true,
           feature: {
             magicType: { show: true, type: ['line', 'bar'] },
             restore: { show: true },
-            saveAsImage: { show: true }
-          }
+            saveAsImage: { show: true },
+          },
         },
         grid: {
           left: '3%',
           right: '3%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           type: 'category',
-          data: list.map(item => item.name),
+          data: list.map((item) => item.name),
           axisTick: {
-            alignWithLabel: true
+            alignWithLabel: true,
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           axisLine: {
             show: true,
             lineStyle: {
               type: 'solid',
-              color: '#f6ba05' // 刻度线的颜色
-            }
-          }
+              color: '#f6ba05', // 刻度线的颜色
+            },
+          },
         },
         yAxis: {
           name: '单位(天)',
@@ -970,38 +970,38 @@ export default {
           axisLine: {
             lineStyle: {
               type: 'solid', // 刻度线的颜色
-              color: '#f6ba05' // 刻度字的颜色
-            }
+              color: '#f6ba05', // 刻度字的颜色
+            },
           },
           axisLabel: {
             interval: 0,
             textStyle: {
-              color: '#000'
-            }
+              color: '#000',
+            },
           },
           splitLine: {
             lineStyle: {
-              color: '#ebebed'
-            }
-          }
+              color: '#ebebed',
+            },
+          },
         },
         series: [
           {
             name: '总用时',
             type: 'line',
-            data: list.map(item => (item.value / 24).toFixed(1)),
+            data: list.map((item) => (item.value / 24).toFixed(1)),
             barWidth: '60%',
             label: {
               normal: {
-                show: false
-              }
-            }
-          }
-        ]
+                show: false,
+              },
+            },
+          },
+        ],
       }
       return options
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -1,10 +1,10 @@
 import LoadingComponents from './loading.vue'
 
-export default function(Vue) {
+export default function (Vue) {
   let power = false,
     loadingCon,
     instance
-  Vue.prototype.$loading = options => {
+  Vue.prototype.$loading = (options) => {
     if (!power) {
       loadingCon = Vue.extend(LoadingComponents)
       instance = new loadingCon().$mount()

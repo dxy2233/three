@@ -7,7 +7,7 @@ export function deleteUser(id) {
   return request({
     url: '/user/deleteUser',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -23,7 +23,7 @@ export function getUserList(data) {
   return request({
     url: '/user/getUserList',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -34,7 +34,7 @@ export function resetPassword(id) {
   return request({
     url: '/user/resetPassword',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -58,7 +58,7 @@ export function saveUser(data) {
   return request({
     url: '/user/saveUser',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -69,7 +69,7 @@ export function unLockUser(id) {
   return request({
     url: '/user/unLockUser',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -83,6 +83,6 @@ export function updatePassword(data) {
   return request({
     url: '/user/updatePassword',
     method: 'post',
-    data
+    data,
   })
 }

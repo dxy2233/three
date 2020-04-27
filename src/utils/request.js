@@ -4,14 +4,14 @@ import router from '@/router'
 import Vue from 'vue'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API // api 的 base_url
+  baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
   // baseURL: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API : window.g.baseURL,
   // withCredentials: true, // 跨域请求时发送 cookies
   // timeout: 5000
 })
 
 service.interceptors.request.use(
-  config => {
+  (config) => {
     if (store.getters.token) {
       config.headers['Authorization'] = store.getters.token
     }
@@ -26,19 +26,19 @@ service.interceptors.request.use(
     }
     return config
   },
-  error => {
+  (error) => {
     // console.log(error)
     return Promise.reject(error)
   }
 )
 
 service.interceptors.response.use(
-  response => {
+  (response) => {
     Vue.prototype.$loading(false)
     if (response.data.type === 'application/octet-stream') {
       let blob = new Blob([response.data], {
         type:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
       })
       let objectUrl = window.URL.createObjectURL(blob)
       let a = document.createElement('a')
@@ -56,7 +56,7 @@ service.interceptors.response.use(
         Vue.prototype.$message({
           content: '系统异常，请联系管理员!',
           type: 'error',
-          time: 5 * 1000
+          time: 5 * 1000,
         })
       } else if (res.status === 'tokenError') {
         const reStart = async () => {
@@ -68,7 +68,7 @@ service.interceptors.response.use(
         Vue.prototype.$message({
           content: res.message || 'error',
           type: 'error',
-          time: 5 * 1000
+          time: 5 * 1000,
         })
       }
       return Promise.reject(res.message || 'error')
@@ -76,7 +76,7 @@ service.interceptors.response.use(
       return res
     }
   },
-  error => {
+  (error) => {
     Vue.prototype.$loading(false)
     return Promise.reject(error)
   }

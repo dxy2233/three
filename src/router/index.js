@@ -18,8 +18,8 @@ const routes = [
     name: 'Login',
     component: () =>
       import(/* webpackChunkName: 'login' */ '../views/login/index'),
-    hidden: true
-  }
+    hidden: true,
+  },
 ]
 
 export const asyncRouterMap = {
@@ -29,39 +29,39 @@ export const asyncRouterMap = {
     redirect: '/filing',
     alwaysShow: false,
     meta: { title: '项目管控', icon: '' },
-    children: []
+    children: [],
   },
   xmba: {
     path: 'filing',
     component: () =>
       import(/* webpackChunkName: 'filing' */ '../views/control/filing/index'),
     name: 'Filing',
-    meta: { title: '项目备案', icon: 'backups' }
+    meta: { title: '项目备案', icon: 'backups' },
   },
   lcgk: {
     path: 'flow',
     component: () =>
       import(/* webpackChunkName: 'flow' */ '../views/control/flow/index'),
     name: 'Flow',
-    meta: { title: '流程管控', icon: 'process' }
+    meta: { title: '流程管控', icon: 'process' },
   },
   xmgk: {
     path: 'term',
     component: () => import(/* webpackChunkName: 'term' */ '../views/term'),
     name: 'Term',
-    meta: { title: '项目管控', icon: 'project' }
+    meta: { title: '项目管控', icon: 'project' },
   },
   ldlr: {
     path: 'hole',
     component: () => import(/* webpackChunkName: 'hole' */ '../views/hole'),
     name: 'Hole',
-    meta: { title: '漏洞录入', icon: 'loophole' }
+    meta: { title: '漏洞录入', icon: 'loophole' },
   },
   xgbg: {
     path: 'report',
     component: () => import(/* webpackChunkName: 'report' */ '../views/report'),
     name: 'Report',
-    meta: { title: '相关报告', icon: 'report' }
+    meta: { title: '相关报告', icon: 'report' },
   },
   1: {
     path: '/count',
@@ -69,21 +69,21 @@ export const asyncRouterMap = {
     redirect: '/count/chart',
     alwaysShow: false,
     meta: { title: '数据统计', icon: '' },
-    children: []
+    children: [],
   },
   xmtj: {
     path: 'chart',
     component: () =>
       import(/* webpackChunkName: 'chart' */ '../views/count/chart/index'),
     name: 'Chart',
-    meta: { title: '项目统计', icon: 'count' }
+    meta: { title: '项目统计', icon: 'count' },
   },
   lbtj: {
     path: 'list',
     component: () =>
       import(/* webpackChunkName: 'list' */ '../views/count/list/index'),
     name: 'List',
-    meta: { title: '列表统计', icon: 'list' }
+    meta: { title: '列表统计', icon: 'list' },
   },
   2: {
     path: '/audit',
@@ -91,14 +91,14 @@ export const asyncRouterMap = {
     redirect: '/audit/check',
     alwaysShow: false,
     meta: { title: '审计管理', icon: '' },
-    children: []
+    children: [],
   },
   aqjc: {
     path: 'check',
     component: () =>
       import(/* webpackChunkName: 'check' */ '../views/control/check/index'),
     name: 'Check',
-    meta: { title: '安全审计', icon: 'check' }
+    meta: { title: '安全审计', icon: 'check' },
   },
   3: {
     path: '/data',
@@ -106,14 +106,14 @@ export const asyncRouterMap = {
     redirect: '/data/censor',
     alwaysShow: false,
     meta: { title: '数据维护', icon: '' },
-    children: []
+    children: [],
   },
   jcrylr: {
     path: 'censor',
     component: () =>
       import(/* webpackChunkName: 'censor' */ '../views/control/censor/index'),
     name: 'Censor',
-    meta: { title: '审计人员录入', icon: 'expert' }
+    meta: { title: '审计人员录入', icon: 'expert' },
   },
   fwslr: {
     path: 'servicer',
@@ -122,7 +122,7 @@ export const asyncRouterMap = {
         /* webpackChunkName: 'servicer' */ '../views/control/servicer/index'
       ),
     name: 'Servicer',
-    meta: { title: '服务商录入', icon: 'service' }
+    meta: { title: '服务商录入', icon: 'service' },
   },
   4: {
     path: '/setting',
@@ -130,14 +130,14 @@ export const asyncRouterMap = {
     redirect: '/setting/user',
     alwaysShow: false,
     meta: { title: '系统设置', icon: '' },
-    children: []
+    children: [],
   },
   yhgl: {
     path: 'user',
     component: () =>
       import(/* webpackChunkName: 'user' */ '../views/setting/user/index'),
     name: 'User',
-    meta: { title: '用户管理', icon: 'role' }
+    meta: { title: '用户管理', icon: 'role' },
   },
   bmgl: {
     path: 'department',
@@ -146,12 +146,12 @@ export const asyncRouterMap = {
         /* webpackChunkName: 'department' */ '../views/setting/department/index'
       ),
     name: 'Unit',
-    meta: { title: '部门管理', icon: 'department' }
-  }
+    meta: { title: '部门管理', icon: 'department' },
+  },
 }
 
 const router = new VueRouter({
-  routes
+  routes,
 })
 
 export default router

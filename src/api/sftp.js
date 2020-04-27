@@ -8,6 +8,6 @@ export function download(path) {
     url: '/sftp/download',
     method: 'get',
     responseType: 'blob',
-    params: { path }
+    params: { path },
   })
 }

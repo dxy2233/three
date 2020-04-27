@@ -245,7 +245,7 @@ import {
   deleteProjectInfoById,
   getOperator,
   importProject,
-  checkExamineStatus
+  checkExamineStatus,
 } from '@/api/projectInfo'
 import { getSystemOrgNodeTreeById } from '@/api/systemOrgNode'
 import { downloadTemplate } from '@/api/template'
@@ -266,7 +266,7 @@ export default {
         case 2:
           return '未通过'
       }
-    }
+    },
   },
   data() {
     return {
@@ -275,7 +275,7 @@ export default {
         pageSize: 20,
         projectCode: '',
         projectName: '',
-        orgId: ''
+        orgId: '',
       },
       tableData: {},
       dialog: false,
@@ -291,7 +291,7 @@ export default {
         recordLevel: '',
         ipAddressValid: '',
         ipAddressNum: '',
-        orgId: ''
+        orgId: '',
       },
       rules: {
         projectCode: [
@@ -299,33 +299,37 @@ export default {
           {
             validator: projectCode,
             message: '请输入由字母、数字、- 、 _ 或 . 组成的6-32位项目编号',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         projectName: [
-          { required: true, message: '请输入项目名称', trigger: 'blur' }
+          { required: true, message: '请输入项目名称', trigger: 'blur' },
         ],
         dutyDepartment: [
-          { required: true, message: '请输入责任部门', trigger: 'blur' }
+          { required: true, message: '请输入责任部门', trigger: 'blur' },
         ],
         fundsSource: [
-          { required: true, message: '请输入资金来源', trigger: 'blur' }
+          { required: true, message: '请输入资金来源', trigger: 'blur' },
         ],
         recordValid: [
-          { required: true, message: '请选择是否定级备案', trigger: 'change' }
+          { required: true, message: '请选择是否定级备案', trigger: 'change' },
         ],
         recordLevel: [
-          { required: true, message: '请选择备案级别', trigger: 'change' }
+          { required: true, message: '请选择备案级别', trigger: 'change' },
         ],
         ipAddressValid: [
-          { required: true, message: '请选择是否使用公网IP', trigger: 'change' }
+          {
+            required: true,
+            message: '请选择是否使用公网IP',
+            trigger: 'change',
+          },
         ],
         ipAddressNum: [
-          { required: true, message: '请输入公网IP个数', trigger: 'blur' }
+          { required: true, message: '请输入公网IP个数', trigger: 'blur' },
         ],
         orgId: [
-          { required: true, message: '请输入选择运营商', trigger: 'change' }
-        ]
+          { required: true, message: '请输入选择运营商', trigger: 'change' },
+        ],
       },
       dutyDepartmentData: [],
       operatorNameList: [],
@@ -334,20 +338,20 @@ export default {
         name: '',
         id: '',
         examineStatus: '',
-        examineSuggest: ''
+        examineSuggest: '',
       },
       checkRules: {
         examineStatus: [
-          { required: true, message: '请选择审核结果', trigger: 'change' }
+          { required: true, message: '请选择审核结果', trigger: 'change' },
         ],
         examineSuggest: [
-          { required: true, message: '请输入审核建议', trigger: 'blur' }
-        ]
-      }
+          { required: true, message: '请输入审核建议', trigger: 'blur' },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     this.init()
@@ -355,18 +359,18 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getInfoPage(this.tableForm).then(res => {
+      getInfoPage(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
     openDialog(type, info) {
       this.dialogTitle = type
       // 获取运营商列表
-      getOperator().then(res => {
+      getOperator().then((res) => {
         this.operatorNameList = res.data
       })
       if (info) {
-        getSystemOrgNodeTreeById(info.orgId).then(res => {
+        getSystemOrgNodeTreeById(info.orgId).then((res) => {
           this.dutyDepartmentData = res.data
           this.form = JSON.parse(JSON.stringify(info))
         })
@@ -379,7 +383,7 @@ export default {
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteProjectInfoById(id).then(res => {
+        deleteProjectInfoById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -398,7 +402,7 @@ export default {
     },
     check() {
       if (!this.$refs.flowCheckForm.validate()) return
-      checkExamineStatus(this.checkForm).then(res => {
+      checkExamineStatus(this.checkForm).then((res) => {
         this.init()
         this.$message({ content: res.message, type: 'success' })
         this.dialogCheck = false
@@ -406,14 +410,14 @@ export default {
     },
     submit() {
       if (!this.$refs.filingForm.validate()) return
-      saveProjectInfo(this.form).then(res => {
+      saveProjectInfo(this.form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
         this.dialog = false
       })
     },
     changeOrg(id) {
-      getSystemOrgNodeTreeById(id).then(res => {
+      getSystemOrgNodeTreeById(id).then((res) => {
         this.form.dutyDepartment = ''
         this.dutyDepartmentData = res.data
       })
@@ -429,7 +433,7 @@ export default {
     upload(e) {
       let formData = new FormData()
       formData.append('myfile', e.target.files[0])
-      importProject(formData).then(res => {
+      importProject(formData).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
       })
@@ -437,8 +441,8 @@ export default {
     },
     tableRowClassName(row) {
       if (row.examineStatus === 2) return 'prompt'
-    }
-  }
+    },
+  },
 }
 </script>
 

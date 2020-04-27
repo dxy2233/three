@@ -3,7 +3,7 @@
     <img src="../../../assets/img/logo.png" title="三同步管理平台" />
     <div class="navbar-info">
       <div>
-        <span><svg-icon icon-class="user"/></span>{{ info.name }}
+        <span><svg-icon icon-class="user" /></span>{{ info.name }}
       </div>
       欢迎登录 <em>|</em>
       <div @click="openDialog">修改密码</div>
@@ -41,21 +41,21 @@ export default {
       form: {
         userId: '',
         oldPassword: '',
-        newPassword: ''
+        newPassword: '',
       },
       rules: {
         oldPassword: [
-          { required: true, message: '请输入旧密码', trigger: 'blur' }
+          { required: true, message: '请输入旧密码', trigger: 'blur' },
         ],
         newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
           {
             validator: pwd,
             message: '密码只能由字母、数字、特殊符号，长度在 6-32 之间!',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   methods: {
@@ -76,15 +76,15 @@ export default {
       let form = JSON.parse(JSON.stringify(this.form))
       form.oldPassword = sha1(salt(form.oldPassword)).toString()
       form.newPassword = sha1(salt(form.newPassword)).toString()
-      updatePassword(form).then(res => {
+      updatePassword(form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.dialog = false
       })
-    }
+    },
   },
   computed: {
-    ...mapGetters(['info'])
-  }
+    ...mapGetters(['info']),
+  },
 }
 </script>
 

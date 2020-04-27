@@ -53,7 +53,7 @@
               { ready: props.row.initiateStatus === '未开始' },
               { ing: props.row.initiateStatus === '进行中' },
               { finish: props.row.initiateStatus === '完成' },
-              { stop: props.row.initiateStatus === '项目暂停' }
+              { stop: props.row.initiateStatus === '项目暂停' },
             ]"
             >{{ props.row.initiateStatus }}</span
           >
@@ -66,7 +66,7 @@
               { ready: props.row.designStatus === '未开始' },
               { ing: props.row.designStatus === '进行中' },
               { finish: props.row.designStatus === '完成' },
-              { stop: props.row.designStatus === '项目暂停' }
+              { stop: props.row.designStatus === '项目暂停' },
             ]"
             >{{ props.row.designStatus }}</span
           >
@@ -79,7 +79,7 @@
               { ready: props.row.constructionStatus === '未开始' },
               { ing: props.row.constructionStatus === '进行中' },
               { finish: props.row.constructionStatus === '完成' },
-              { stop: props.row.constructionStatus === '项目暂停' }
+              { stop: props.row.constructionStatus === '项目暂停' },
             ]"
             >{{ props.row.constructionStatus }}</span
           >
@@ -92,7 +92,7 @@
               { ready: props.row.acceptFirstStatus === '未开始' },
               { ing: props.row.acceptFirstStatus === '进行中' },
               { finish: props.row.acceptFirstStatus === '完成' },
-              { stop: props.row.acceptFirstStatus === '项目暂停' }
+              { stop: props.row.acceptFirstStatus === '项目暂停' },
             ]"
             >{{ props.row.acceptFirstStatus }}</span
           >
@@ -105,7 +105,7 @@
               { ready: props.row.acceptFinalStatus === '未开始' },
               { ing: props.row.acceptFinalStatus === '进行中' },
               { finish: props.row.acceptFinalStatus === '完成' },
-              { stop: props.row.acceptFinalStatus === '项目暂停' }
+              { stop: props.row.acceptFinalStatus === '项目暂停' },
             ]"
             >{{ props.row.acceptFinalStatus }}</span
           >
@@ -118,7 +118,7 @@
               { ready: props.row.maintainStatus === '未开始' },
               { ing: props.row.maintainStatus === '进行中' },
               { finish: props.row.maintainStatus === '完成' },
-              { stop: props.row.maintainStatus === '项目暂停' }
+              { stop: props.row.maintainStatus === '项目暂停' },
             ]"
             >{{ props.row.maintainStatus }}</span
           >
@@ -178,7 +178,7 @@ export default {
   name: 'Term',
   mixins: [orgTree],
   components: {
-    flowForm
+    flowForm,
   },
   data() {
     return {
@@ -190,16 +190,16 @@ export default {
         projectName: '',
         facilitator: '',
         orgId: '',
-        type: 0
+        type: 0,
       },
       tableData: [],
       facilitatorNameList: [],
       dialog: false,
-      selectedRow: {}
+      selectedRow: {},
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     // // 获取统计数据
@@ -208,14 +208,14 @@ export default {
     // })
     this.init()
     // 获取服务商列表
-    getFacilitatorNameList().then(res => {
+    getFacilitatorNameList().then((res) => {
       this.facilitatorNameList = res.data
     })
   },
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getProcessList(this.tableForm).then(res => {
+      getProcessList(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -236,8 +236,8 @@ export default {
     },
     tableRowClassName(row) {
       if (row.waitExamine) return 'prompt'
-    }
-  }
+    },
+  },
 }
 </script>
 

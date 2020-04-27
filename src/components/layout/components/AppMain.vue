@@ -1,6 +1,6 @@
 <template>
   <section class="app-main">
-    <keep-alive :include="keepRouters.map(item => item.name)">
+    <keep-alive :include="keepRouters.map((item) => item.name)">
       <router-view :key="$route.fullPath" />
     </keep-alive>
   </section>
@@ -12,8 +12,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'AppMain',
   computed: {
-    ...mapGetters(['keepRouters'])
-  }
+    ...mapGetters(['keepRouters']),
+  },
 }
 </script>
 

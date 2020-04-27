@@ -6,7 +6,7 @@ import request from '@/utils/request'
 export function getDictionaryValue() {
   return request({
     url: '/dictionary/getDictionaryValue',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -17,6 +17,6 @@ export function getDictionaryValueByKey(key) {
   return request({
     url: '/dictionary/getDictionaryValueByKey',
     method: 'get',
-    params: { key }
+    params: { key },
   })
 }

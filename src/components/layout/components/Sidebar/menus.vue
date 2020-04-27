@@ -36,16 +36,16 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true
+      required: true,
     },
     basePath: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      toggleData: {}
+      toggleData: {},
     }
   },
   created() {
@@ -62,8 +62,8 @@ export default {
       this.toggleData[this.item.path.slice(1)] = !this.toggleData[
         this.item.path.slice(1)
       ]
-    }
-  }
+    },
+  },
 }
 </script>
 

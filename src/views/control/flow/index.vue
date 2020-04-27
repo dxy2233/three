@@ -135,7 +135,7 @@ export default {
   name: 'Flow',
   mixins: [orgTree],
   components: {
-    flowForm
+    flowForm,
   },
   data() {
     return {
@@ -148,7 +148,7 @@ export default {
         projectName: '',
         facilitator: '',
         orgId: '',
-        type: ''
+        type: '',
       },
       tableData: [],
       facilitatorNameList: [],
@@ -160,30 +160,30 @@ export default {
         id: '',
         pause: false,
         reason: '',
-        name: ''
+        name: '',
       },
       pauseRules: {
-        reason: [{ required: true, message: '请输入理由', trigger: 'blur' }]
-      }
+        reason: [{ required: true, message: '请输入理由', trigger: 'blur' }],
+      },
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     // 获取统计数据
-    getStatisticsByType(3).then(res => {
+    getStatisticsByType(3).then((res) => {
       this.menusData = res.data.chartList
     })
     // 获取服务商列表
-    getFacilitatorNameList().then(res => {
+    getFacilitatorNameList().then((res) => {
       this.facilitatorNameList = res.data
     })
   },
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getProcessList(this.tableForm).then(res => {
+      getProcessList(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -213,7 +213,7 @@ export default {
         this.pauseForm.id,
         this.pauseForm.pause,
         this.pauseForm.reason
-      ).then(res => {
+      ).then((res) => {
         this.init()
         this.$message({ content: res.message, type: 'success' })
         this.dialogPause = false
@@ -225,8 +225,8 @@ export default {
     },
     tableRowClassName(row) {
       if (row.waitExamine) return 'prompt'
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -244,16 +244,16 @@ export default {
   .full {
     // flex-wrap: wrap;
     // justify-content: center;
-    margin: 10px auto 0 auto;
-    width: 600px;
-    height: 600px;
+    margin: 5% auto 0 auto;
+    width: 620px;
+    height: 620px;
     position: relative;
     border-radius: 50%;
     div {
       position: absolute;
-      width: 160px;
-      height: 160px;
-      margin: 0 2% 20px 1%;
+      width: 156px;
+      height: 156px;
+      margin: 0 1%;
       border-radius: 50%;
       box-shadow: 0 0 5px #158ae7;
       span {
@@ -276,32 +276,32 @@ export default {
       }
     }
     div:nth-child(1) {
-      top: 0;
-      left: 210px;
+      top: 0px;
+      left: 225px;
     }
     div:nth-child(2) {
-      top: 90px;
-      left: 35px;
+      top: 95px;
+      left: 40px;
     }
     div:nth-child(3) {
-      top: 270px;
+      top: 285px;
       left: 0px;
     }
     div:nth-child(4) {
-      top: 420px;
-      left: 120px;
+      top: 440px;
+      left: 125px;
     }
     div:nth-child(5) {
-      top: 415px;
-      left: 315px;
+      top: 440px;
+      left: 330px;
     }
     div:nth-child(6) {
-      top: 265px;
-      left: 430px;
+      top: 275px;
+      left: 455px;
     }
     div:nth-child(7) {
-      top: 85px;
-      left: 385px;
+      top: 90px;
+      left: 410px;
     }
   }
   .small {

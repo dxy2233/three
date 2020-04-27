@@ -119,7 +119,7 @@ export default {
         case 0:
           return '女'
       }
-    }
+    },
   },
   data() {
     return {
@@ -128,7 +128,7 @@ export default {
         pageSize: 20,
         name: '',
         phone: '',
-        orgNodeName: ''
+        orgNodeName: '',
       },
       tableData: {},
       dialog: false,
@@ -142,34 +142,34 @@ export default {
         phone: '',
         tel: '',
         qq: '',
-        email: ''
+        email: '',
       },
       relues: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         idCard: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' }
+          { required: true, message: '请输入身份证号', trigger: 'blur' },
           // { validator: idCard, message: '请输入正确的身份证', trigger: 'blur' }
         ],
         orgNodeName: [
-          { required: true, message: '请输入所属单位名称', trigger: 'blur' }
+          { required: true, message: '请输入所属单位名称', trigger: 'blur' },
         ],
         phone: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
           {
             validator: contact,
             message: '请输入正确的联系方式',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         email: [
           { required: true, message: '请输入邮件', trigger: 'blur' },
-          { validator: email, message: '请输入正确的邮件', trigger: 'blur' }
-        ]
-      }
+          { validator: email, message: '请输入正确的邮件', trigger: 'blur' },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapGetters(['info']),
   },
   created() {
     this.init()
@@ -177,7 +177,7 @@ export default {
   methods: {
     init(isSearch) {
       if (isSearch) this.tableForm.startPage = 1
-      getExpertPage(this.tableForm).then(res => {
+      getExpertPage(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -192,7 +192,7 @@ export default {
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteById(id).then(res => {
+        deleteById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -200,13 +200,13 @@ export default {
     },
     submit() {
       if (!this.$refs.censorForm.validate()) return
-      save(this.form).then(res => {
+      save(this.form).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.init()
         this.dialog = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

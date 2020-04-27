@@ -7,7 +7,7 @@ export function deleteReport(fileId) {
   return request({
     url: '/reportcommon/deleteReport',
     method: 'get',
-    params: { fileId }
+    params: { fileId },
   })
 }
 
@@ -18,7 +18,7 @@ export function getPenetrationByProjectId(projectId, status) {
   return request({
     url: '/reportcommon/getPenetrationByProjectId',
     method: 'get',
-    params: { projectId, status }
+    params: { projectId, status },
   })
 }
 
@@ -29,7 +29,7 @@ export function getProjectReport(projectId, status) {
   return request({
     url: '/reportcommon/getProjectReport',
     method: 'get',
-    params: { projectId, status }
+    params: { projectId, status },
   })
 }
 
@@ -45,7 +45,7 @@ export function getReportList(data) {
   return request({
     url: '/reportcommon/getReportList',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -56,7 +56,7 @@ export function reformPenetration(penetrationId) {
   return request({
     url: '/reportcommon/reformPenetration',
     method: 'get',
-    params: { penetrationId }
+    params: { penetrationId },
   })
 }
 
@@ -70,7 +70,7 @@ export function saveBaseline(data) {
   return request({
     url: '/reportcommon/saveBaseline',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -90,7 +90,7 @@ export function savePenetration(data) {
   return request({
     url: '/reportcommon/savePenetration',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -101,6 +101,6 @@ export function uploadReport(data) {
   return request({
     url: '/reportcommon/uploadReport',
     method: 'post',
-    data
+    data,
   })
 }

@@ -144,7 +144,7 @@ import {
   getOrgPersonPage,
   saveSystemOrgNodePerson,
   deleteOrgNodePersonById,
-  deleteSystemOrgNodeById
+  deleteSystemOrgNodeById,
 } from '@/api/systemOrgNode'
 import { contact } from '@/utils/validate'
 import { mapGetters } from 'vuex'
@@ -159,7 +159,7 @@ export default {
         case 0:
           return '女'
       }
-    }
+    },
   },
   data() {
     return {
@@ -167,7 +167,7 @@ export default {
       tableForm: {
         startPage: 1,
         pageSize: 20,
-        orgId: ''
+        orgId: '',
       },
       tableData: {},
       dialog: false,
@@ -177,21 +177,21 @@ export default {
         orgName: '',
         orgCode: '',
         orgType: '',
-        parentId: ''
+        parentId: '',
       },
       rules: {
         orgName: [
-          { required: true, message: '请输入部门名称', trigger: 'blur' }
+          { required: true, message: '请输入部门名称', trigger: 'blur' },
         ],
         orgCode: [
-          { required: true, message: '请输入部门编码', trigger: 'blur' }
+          { required: true, message: '请输入部门编码', trigger: 'blur' },
         ],
         orgType: [
-          { required: true, message: '请输入部门类型', trigger: 'blur' }
+          { required: true, message: '请输入部门类型', trigger: 'blur' },
         ],
         parentId: [
-          { required: true, message: '请输入上级部门ID', trigger: 'change' }
-        ]
+          { required: true, message: '请输入上级部门ID', trigger: 'change' },
+        ],
       },
       dialogStaff: false,
       dialogStaffTitle: '',
@@ -201,13 +201,13 @@ export default {
         name: '',
         sex: '',
         idCard: '',
-        phone: ''
+        phone: '',
       },
       staffRules: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
         idCard: [
-          { required: true, message: '请输入身份号', trigger: 'blur' }
+          { required: true, message: '请输入身份号', trigger: 'blur' },
           // { validator: idCard, message: '请输入正确的身份证', trigger: 'blur' }
         ],
         phone: [
@@ -215,14 +215,14 @@ export default {
           {
             validator: contact,
             message: '请输入正确的联系方式',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
-    ...mapGetters(['systemOrgNodeTree'])
+    ...mapGetters(['systemOrgNodeTree']),
   },
   async mounted() {
     if (this.systemOrgNodeTree.length === 0)
@@ -238,7 +238,7 @@ export default {
     },
     treeNodeRemove(info) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteSystemOrgNodeById(info.id).then(async res => {
+        deleteSystemOrgNodeById(info.id).then(async (res) => {
           this.$message({ content: res.message, type: 'success' })
           await this.$store.dispatch('publicData/getOrgTree')
           this.$refs.departmentTree.nodeClick(this.systemOrgNodeTree[0])
@@ -246,7 +246,7 @@ export default {
       })
     },
     init() {
-      getOrgPersonPage(this.tableForm).then(res => {
+      getOrgPersonPage(this.tableForm).then((res) => {
         this.tableData = res.data
       })
     },
@@ -261,7 +261,7 @@ export default {
     },
     submit() {
       if (!this.$refs.departmentForm.validate()) return
-      saveSystemOrgNode(this.form).then(async res => {
+      saveSystemOrgNode(this.form).then(async (res) => {
         this.$message({ content: res.message, type: 'success' })
         let resData = {}
         function loop(array, id) {
@@ -295,13 +295,13 @@ export default {
     },
     removeStaff(id) {
       this.$confirm('确认删除？', '提示').then(() => {
-        deleteOrgNodePersonById(id).then(res => {
+        deleteOrgNodePersonById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

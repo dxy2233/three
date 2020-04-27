@@ -9,7 +9,7 @@ import {
   baseForm,
   baseFormItem,
   baseCascader,
-  baseTree
+  baseTree,
 } from 'better-three-ui'
 import 'better-three-ui/dist/better-three-ui.css'
 import loading from '@/components/loading'
@@ -22,9 +22,9 @@ const components = [
   baseForm,
   baseFormItem,
   baseCascader,
-  baseTree
+  baseTree,
 ]
-components.forEach(item => {
+components.forEach((item) => {
   Vue.component('base' + item.name, item)
 })
 Vue.use(message)

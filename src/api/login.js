@@ -6,7 +6,7 @@ import request from '@/utils/request'
 export function getUser() {
   return request({
     url: '/loginCtrl/getUser',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -16,6 +16,6 @@ export function getUser() {
 export function getVerify() {
   return request({
     url: '/loginCtrl/getVerify',
-    method: 'get'
+    method: 'get',
   })
 }

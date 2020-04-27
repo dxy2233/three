@@ -7,7 +7,7 @@ export function deleteOrgNodePersonById(personId) {
   return request({
     url: '/systemorgnode/deleteOrgNodePersonById',
     method: 'get',
-    params: { personId }
+    params: { personId },
   })
 }
 
@@ -18,7 +18,7 @@ export function deleteSystemOrgNodeById(id) {
   return request({
     url: '/systemorgnode/deleteSystemOrgNodeById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -30,7 +30,7 @@ export function getOrgPersonByIds(data) {
   return request({
     url: '/systemorgnode/getOrgPersonByIds',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -45,7 +45,7 @@ export function getOrgPersonPage(data) {
   return request({
     url: '/systemorgnode/getOrgPersonPage',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -56,7 +56,7 @@ export function getProcessOrgNodeTree(processId) {
   return request({
     url: '/systemorgnode/getProcessOrgNodeTree',
     method: 'get',
-    params: { processId }
+    params: { processId },
   })
 }
 
@@ -67,7 +67,7 @@ export function getSystemOrgById(id) {
   return request({
     url: '/systemorgnode/getSystemOrgById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -77,7 +77,7 @@ export function getSystemOrgById(id) {
 export function getSystemOrgNodeTree() {
   return request({
     url: '/systemorgnode/getSystemOrgNodeTree',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -88,7 +88,7 @@ export function getSystemOrgNodeTreeById(orgId) {
   return request({
     url: '/systemorgnode/getSystemOrgNodeTreeById',
     method: 'get',
-    params: { orgId }
+    params: { orgId },
   })
 }
 
@@ -104,7 +104,7 @@ export function saveSystemOrgNode(data) {
   return request({
     url: '/systemorgnode/saveSystemOrgNode',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -121,6 +121,6 @@ export function saveSystemOrgNodePerson(data) {
   return request({
     url: '/systemorgnode/saveSystemOrgNodePerson',
     method: 'post',
-    data
+    data,
   })
 }

@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   extends: ['plugin:vue/essential', '@vue/prettier'],
   rules: {
@@ -17,11 +17,11 @@ module.exports = {
         tabWidth: 2,
         useTabs: false,
         bracketSpacing: true,
-        tslintIntegration: false
-      }
-    ]
+        tslintIntegration: false,
+      },
+    ],
   },
   parserOptions: {
-    parser: 'babel-eslint'
-  }
+    parser: 'babel-eslint',
+  },
 }

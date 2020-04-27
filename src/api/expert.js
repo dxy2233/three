@@ -7,7 +7,7 @@ export function deleteById(id) {
   return request({
     url: '/expert/deleteById',
     method: 'get',
-    params: { id }
+    params: { id },
   })
 }
 
@@ -23,7 +23,7 @@ export function getExpertPage(data) {
   return request({
     url: '/expert/getExpertPage',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -43,6 +43,6 @@ export function save(data) {
   return request({
     url: '/expert/save',
     method: 'post',
-    data
+    data,
   })
 }
