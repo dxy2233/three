@@ -20,6 +20,13 @@ const routes = [
       import(/* webpackChunkName: 'login' */ '../views/login/index'),
     hidden: true,
   },
+  {
+    path: '/reportform',
+    name: 'ReportForm',
+    component: () =>
+      import(/* webpackChunkName: 'report-form' */ '../views/reportForm'),
+    hidden: true,
+  },
 ]
 
 export const asyncRouterMap = {

@@ -130,124 +130,29 @@
           </div>
           <!-- 建设 -->
           <div v-else-if="item.key === 'construction'">
-            <!-- <div class="items">
-              <div class="item">
-                <label>设备名称</label>
-                <input type="text" v-model="constructionForm.deviceName" />
-              </div>
-              <div class="item">
-                <label>设备编码</label>
-                <input type="text" v-model="constructionForm.deviceCode" />
-              </div>
-              <div class="item">
-                <label>别名</label>
-                <input type="text" v-model="constructionForm.deviceAlias" />
-              </div>
-              <div class="item">
-                <label>设备类型</label>
-                <select v-model="constructionForm.deviceType">
-                  <option
-                    v-for="(item, index) in constructionData[2]"
-                    :key="index"
-                    :value="item.dictionCode"
-                  >
-                    {{ item.dictionName }}
-                  </option>
-                </select>
-              </div>
-              <div class="item">
-                <label>所属网络</label>
-                <select v-model="constructionForm.network">
-                  <option
-                    v-for="(item, index) in constructionData[3]"
-                    :key="index"
-                    :value="item.dictionCode"
-                  >
-                    {{ item.dictionName }}
-                  </option>
-                </select>
-              </div>
-              <div class="item">
-                <label>机房名称</label>
-                <input type="text" v-model="constructionForm.machineName" />
-              </div>
-              <div class="item">
-                <label>设备型号</label>
-                <input type="text" v-model="constructionForm.deviceModel" />
-              </div>
-              <div class="item">
-                <label>安装详情地址</label>
-                <input type="text" v-model="constructionForm.detailAddress" />
-              </div>
-              <div class="item">
-                <label>局站</label>
-                <input type="text" v-model="constructionForm.bureauStation" />
-              </div>
-              <div class="item">
-                <label>区域</label>
-                <input type="text" v-model="constructionForm.area" />
-              </div>
-              <div class="item">
-                <label>ip地址</label>
-                <input type="text" v-model="constructionForm.ipAddress" />
-              </div>
-              <div class="item">
-                <label>长途本地属性</label>
-                <select v-model="constructionForm.localAttribute">
-                  <option
-                    v-for="(item, index) in constructionData[4]"
-                    :key="index"
-                    :value="item.dictionCode"
-                  >
-                    {{ item.dictionName }}
-                  </option>
-                </select>
-              </div>
-              <div class="item">
-                <label>生产厂商</label>
-                <input type="text" v-model="constructionForm.manufacturer" />
-              </div>
-              <div class="item">
-                <label>录入人员</label>
-                <input
-                  type="text"
-                  v-model="constructionForm.enteringPersonnel"
-                />
-              </div>
-              <div class="item">
-                <label>开始时间</label>
-                <input
-                  type="date"
-                  v-model="constructionForm.enteringStartTime"
-                />
-              </div>
-              <div class="item">
-                <label>结束时间</label>
-                <input type="date" v-model="constructionForm.enteringEndTime" />
-              </div>
-            </div> -->
             <div class="btn">
               <!-- <button @click="initConstruction(true)">
                 <svg-icon icon-class="search" />搜索
               </button> -->
               <button
-                v-if="allData.constructionBO.importVisible"
+                v-if="constructionTable.importVisible"
                 @click="uploadFile(allData.constructionBO, 6)"
               >
                 <svg-icon icon-class="import" />导入资产
               </button>
               <button
-                v-if="allData.constructionBO.importVisible"
+                v-if="constructionTable.importVisible"
                 @click="downloadTem"
               >
                 <svg-icon icon-class="down" />下载模板
               </button>
             </div>
             <div class="assets-wrap">
-              <baseTable :tableData="constructionTable">
+              <baseTable :tableData="constructionTable.deviceList">
                 <baseCol prop="serialNumber" label="序号" />
                 <baseCol prop="importName" label="导入人" />
                 <baseCol prop="deviceName" label="设备名称" />
+                <baseCol prop="deviceSort" label="设备类型" />
                 <baseCol prop="deviceType" label="设备厂家/型号" />
                 <baseCol prop="position" label="机房位置" />
                 <baseCol prop="cabinetNumber" label="机柜编号" />
@@ -279,44 +184,49 @@
                 </baseCol>
               </baseTable>
             </div>
-            <!-- <basePagination
-              :currentPage.sync="constructionTable.startPage"
-              :total="constructionTable.total"
-              :pages="constructionTable.pages"
-              @changeCurrentPage="initConstruction"
-            /> -->
             <!-- 漏洞通过 -->
             <h4>漏洞扫描报告</h4>
             <button
-              v-if="allData.constructionBO.uploadVisible"
+              v-if="FlawTable.uploadVisible"
+              :disabled="stepData[step - 1].lock"
+              @click="toNewPage(row.processId)"
+              class="major"
+              style="margin-right: 5px;"
+            >
+              上传
+            </button>
+            <!-- <button
+              v-if="FlawTable.uploadVisible"
               :disabled="stepData[step - 1].lock"
               @click="uploadFile(allData.constructionBO, 5)"
               class="major"
               style="margin-right: 5px;"
             >
               上传
-            </button>
+            </button> -->
             <button
-              v-if="allData.constructionBO.passVisible"
+              v-if="FlawTable.passVisible"
               :disabled="stepData[step - 1].lock"
               @click="passFlaw(allData[nowKey + 'BO'].processId)"
               class="major"
             >
               通过
             </button>
-            <baseTable :tableData="allData[nowKey + 'BO'].flawBOList">
+            <baseTable :tableData="FlawTable.flawList">
               <baseCol prop="fileName" label="漏洞文件名" />
               <baseCol prop="fileSize" label="文件大小" />
               <baseCol prop="highNum" label="高危数量" />
               <baseCol prop="mediumNum" label="中危数量" />
               <baseCol prop="lowNum" label="低危数量" />
-              <baseCol prop="uploadPersonName" label="上传人" />
+              <baseCol prop="personName" label="上传人" />
+              <baseCol prop="orgName" label="单位名称" />
+              <baseCol prop="tel" label="联系方式" />
               <baseCol prop="uploadTime" label="上传时间" />
               <baseCol label="操作">
                 <template #button="props">
                   <button
                     v-show="props.row.downloadVisible"
-                    @click="download(props.row.fileId, false, true)"
+                    @click="downloadFlaw(props.row.fileId)"
                   >
                     下载
                   </button>
@@ -330,7 +240,7 @@
                   <button
                     v-show="props.row.deleteVisible"
                     class="remove"
-                    @click="removeFile(props.row.fileId)"
+                    @click="removeFlawFile(props.row.fileId)"
                     :disabled="stepData[step - 1].lock"
                   >
                     删除
@@ -656,6 +566,9 @@
         <baseFormItem label="设备名称">
           <input type="text" v-model="buildForm.deviceName" />
         </baseFormItem>
+        <baseFormItem label="设备类型">
+          <input type="text" v-model="buildForm.deviceSort" />
+        </baseFormItem>
         <baseFormItem label="设备厂家/型号">
           <input type="text" v-model="buildForm.deviceType" />
         </baseFormItem>
@@ -708,17 +621,24 @@ import {
   saveDesign,
   saveAcceptFirst,
   saveAcceptFinal,
-  getDeviceList,
   saveMaintain,
   saveConference,
   deleteConference,
   getConferenceById,
-  reviewByFileId,
-  passFlawByProcessId,
-  importDevice,
+} from '@/api/process'
+import {
+  getDeviceList,
   saveDevice,
   deleteDeviceById,
-} from '@/api/process'
+  importDevice,
+} from '@/api/device'
+import {
+  getFlawReportList,
+  downloadFlaw,
+  reviewByFileId,
+  deleteFlaw,
+  passFlawByProcessId,
+} from '@/api/flawCommon'
 import {
   uploadFile,
   deleteFile,
@@ -727,11 +647,7 @@ import {
   confirm,
   downloadFile,
 } from '@/api/file'
-import {
-  // getOrgPersonPage,
-  getOrgPersonByIds,
-  getProcessOrgNodeTree,
-} from '@/api/systemOrgNode'
+import { getOrgPersonByIds, getProcessOrgNodeTree } from '@/api/systemOrgNode'
 import { getDictionaryValue } from '@/api/dictionary'
 import { downloadTemplate } from '@/api/template'
 import { orgTree } from '@/assets/mixin/common'
@@ -797,6 +713,7 @@ export default {
         enteringStartTime: '',
         enteringEndTime: '',
       },
+      FlawTable: [], // 建设页面漏洞表格数据
       meetingDialog: false,
       meetingDialogTitle: '',
       meetingForm: {
@@ -840,6 +757,7 @@ export default {
         processId: '',
         serialNumber: '',
         deviceName: '',
+        deviceSort: '',
         deviceType: '',
         position: '',
         cabinetNumber: '',
@@ -853,45 +771,6 @@ export default {
         port: '',
         remark: '',
       },
-      // buildRules: {
-      //   serialNumber: [
-      //     { required: true, message: '请输入序号', trigger: 'blur' }
-      //   ],
-      //   deviceName: [
-      //     { required: true, message: '请输入设备名称', trigger: 'blur' }
-      //   ],
-      //   deviceType: [
-      //     { required: true, message: '请输入设备厂家/型号', trigger: 'blur' }
-      //   ],
-      //   position: [
-      //     { required: true, message: '请输入机房位置', trigger: 'blur' }
-      //   ],
-      //   cabinetNumber: [
-      //     { required: true, message: '请输入机柜编号', trigger: 'blur' }
-      //   ],
-      //   systemVersion: [
-      //     { required: true, message: '请输入操作系统版本', trigger: 'blur' }
-      //   ],
-      //   midVersion: [
-      //     { required: true, message: '请输入中间件版本', trigger: 'blur' }
-      //   ],
-      //   dbVersion: [
-      //     { required: true, message: '请输入数据库版本', trigger: 'blur' }
-      //   ],
-      //   privateAddress: [
-      //     { required: true, message: '请输入私网IP地址', trigger: 'blur' }
-      //   ],
-      //   dcnAddress: [
-      //     { required: true, message: '请输入DCN网地址', trigger: 'blur' }
-      //   ],
-      //   publicAddress: [
-      //     { required: true, message: '请输入公网IP地址', trigger: 'blur' }
-      //   ],
-      //   url: [
-      //     { required: true, message: '请输入应用WEB URL地址', trigger: 'blur' }
-      //   ],
-      //   port: [{ required: true, message: '请输入端口', trigger: 'blur' }]
-      // }
     }
   },
   computed: {
@@ -907,11 +786,18 @@ export default {
     },
   },
   created() {
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        this.initFlawRepor()
+      }
+    })
     this.init(true)
     getDictionaryValue().then((res) => {
       this.constructionData = res.data
     })
+    // 建设流程数据
     this.initConstruction()
+    this.initFlawRepor()
   },
   methods: {
     init(ifSetStep) {
@@ -1101,10 +987,23 @@ export default {
     downloadTem() {
       downloadTemplate(2)
     },
+    // 下载漏洞文件
+    downloadFlaw(fileId) {
+      downloadFlaw(fileId)
+    },
     // 删除文件
     removeFile(id) {
       this.$confirm('确认删除？', '提示').then(() => {
         deleteFile(id).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.init()
+        })
+      })
+    },
+    // 删除漏洞文件
+    removeFlawFile(id) {
+      this.$confirm('确认删除？', '提示').then(() => {
+        deleteFlaw(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
         })
@@ -1155,6 +1054,22 @@ export default {
         this.constructionTable = res.data
       })
     },
+    // 建设页面漏洞表格
+    initFlawRepor() {
+      getFlawReportList(this.row.processId).then((res) => {
+        this.FlawTable = res.data
+      })
+    },
+    // 跳新页面
+    toNewPage(processId) {
+      const newPage = this.$router.resolve({
+        path: '/reportform',
+        query: {
+          processId: processId,
+        },
+      })
+      window.open(newPage.href, '_blank')
+    },
     // 转维添加ip
     addMaintainIp() {
       this.allData.maintainBO.ipList.push('')
@@ -1193,25 +1108,6 @@ export default {
       this.meetingStaff = []
       this.$refs.mettingForm.clearErr()
     },
-    // 会议记要staff
-    // changeMettingOrg(info) {
-    //   this.meetingForm.perIds = []
-    //   getOrgPersonPage({ orgId: info.id }).then(res => {
-    //     this.meetingStaff = res.data.list
-    //   })
-    // },
-    // changeMettingOrg(e, id) {
-    //   getOrgPersonPage({ orgId: id }).then(res => {
-    //     e.target.checked
-    //       ? (this.meetingStaff = this.meetingStaff.concat(res.data.list))
-    //       : (this.meetingStaff = this.meetingStaff.filter(
-    //           item => !res.data.list.some(item2 => item.id === item2.id)
-    //         ))
-    //     this.meetingForm.perIds = this.meetingForm.perIds.filter(item =>
-    //       this.meetingStaff.map(item2 => item2.id).includes(item)
-    //     )
-    //   })
-    // },
     saveMeeting() {
       if (!this.$refs.mettingForm.validate()) return
       this.meetingForm.processId = this.allData[this.nowKey + 'BO'].processId

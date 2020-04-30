@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * @description 根据ID删除项目备案信息
+ * @description 删除报告
  */
 export function deleteReport(fileId) {
   return request({
@@ -76,15 +76,8 @@ export function saveBaseline(data) {
 
 /**
  * @description 保存渗透
- * @param penetrationId 渗透id
- * @param projectId 项目ID
- * @param leakTitle 漏洞名称
- * @param hazardLevel 危害级别
- * @param cevNum CVE 编号
- * @param leakAddress 漏洞地址
- * @param leakHazardDesc 漏洞危害说明
- * @param reformDesc 整改建议
- * @param imgs 图片地址
+ * @param reportUserBaseBO 用户信息
+ * @param reportPenetrationBO 渗透报告基本信息
  */
 export function savePenetration(data) {
   return request({
@@ -95,7 +88,20 @@ export function savePenetration(data) {
 }
 
 /**
- * @description 上传报告
+ * @description 保存复查渗透
+ * @param processId 流程ID
+ * @param reportUserBaseBO 用户单位基本信息
+ */
+export function saveReviewPenetration(data) {
+  return request({
+    url: '/reportcommon/saveReviewPenetration',
+    method: 'post',
+    data,
+  })
+}
+
+/**
+ * @description 上传报告图片
  */
 export function uploadReport(data) {
   return request({

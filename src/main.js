@@ -22,11 +22,16 @@ router.beforeEach(async (to, from, next) => {
         try {
           const routers = await store.dispatch('user/getInfo')
           router.addRoutes(routers)
-          let resPath =
-            from.path === '/login'
-              ? (resPath = routers[0].path + '/' + routers[0].children[0].path)
-              : (resPath = to.path)
-          next({ path: resPath, replace: true })
+          // 新窗口
+          if (to.path === '/reportform') next()
+          else {
+            let resPath =
+              from.path === '/login'
+                ? (resPath =
+                    routers[0].path + '/' + routers[0].children[0].path)
+                : (resPath = to.path)
+            next({ path: resPath, replace: true })
+          }
         } catch (error) {
           await store.dispatch('user/resetToken')
           next(`/login`)
