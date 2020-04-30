@@ -184,70 +184,251 @@
                 </baseCol>
               </baseTable>
             </div>
+            <!-- 基线 -->
+            <div>
+              <h4>基线检查报告</h4>
+              <button
+                v-if="baseLine.startVisble"
+                @click="toNewPage(1, row.processId, 1)"
+                :disabled="stepData[step - 1].lock"
+                class="major"
+                style="margin-right: 5px;"
+              >
+                初查
+              </button>
+              <baseTable :tableData="baseLine.reportChildBOS">
+                <baseCol prop="assetInfo" label="资产信息" />
+                <baseCol label="初查基线检查报告名称">
+                  <template #button="props">
+                    <span
+                      @click="
+                        downloadBaseSeepFlaw(props.row.reportBasicBO.path)
+                      "
+                      class="link"
+                    >
+                      {{ props.row.reportBasicBO.name }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="mediumNum" label="初查基线检查报告信息">
+                  <template #button="props">
+                    <span>姓名：{{ props.row.reportBasicBO.nickName }} </span>
+                    <span
+                      >单位名称：{{ props.row.reportBasicBO.orgName }}
+                    </span>
+                    <span>联系方式：{{ props.row.reportBasicBO.phone }} </span>
+                    <span
+                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="highNum" label="复查基线检查报告名称">
+                  <template #button="props">
+                    <span
+                      @click="
+                        downloadBaseSeepFlaw(props.row.reviewReportBasicBO.path)
+                      "
+                      class="link"
+                    >
+                      {{ props.row.reviewReportBasicBO.name }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="highNum" label="复查基线检查报告信息">
+                  <template #button="props">
+                    <span
+                      >姓名：{{ props.row.reviewReportBasicBO.nickName }}
+                    </span>
+                    <span
+                      >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
+                    </span>
+                    <span
+                      >联系方式：{{ props.row.reviewReportBasicBO.phone }}
+                    </span>
+                    <span
+                      >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol label="操作">
+                  <template #button="props">
+                    <button
+                      v-if="props.row.editVisble"
+                      :disabled="stepData[step - 1].lock"
+                      @click="
+                        toNewPage(1, row.processId, 1, props.row.deviceId)
+                      "
+                    >
+                      编辑
+                    </button>
+                    <button
+                      v-if="props.row.reviewVisble"
+                      :disabled="stepData[step - 1].lock"
+                      @click="
+                        toNewPage(1, row.processId, 2, props.row.deviceId)
+                      "
+                    >
+                      复查
+                    </button>
+                  </template>
+                </baseCol>
+              </baseTable>
+            </div>
+            <!-- 渗透 -->
+            <div>
+              <h4>渗透测试报告</h4>
+              <button
+                v-if="seep.startVisble"
+                @click="toNewPage(2, row.processId, 1)"
+                :disabled="stepData[step - 1].lock"
+                class="major"
+                style="margin-right: 5px;"
+              >
+                初查
+              </button>
+              <baseTable :tableData="seep.reportChildBOS">
+                <baseCol label="初查渗透测试报告名称">
+                  <template #button="props">
+                    <span
+                      @click="
+                        downloadBaseSeepFlaw(props.row.reportBasicBO.path)
+                      "
+                      class="link"
+                    >
+                      {{ props.row.reportBasicBO.name }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="mediumNum" label="初查渗透测试报告信息">
+                  <template #button="props">
+                    <span>姓名：{{ props.row.reportBasicBO.nickName }} </span>
+                    <span
+                      >单位名称：{{ props.row.reportBasicBO.orgName }}
+                    </span>
+                    <span>联系方式：{{ props.row.reportBasicBO.phone }} </span>
+                    <span
+                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="highNum" label="复查渗透测试报告名称">
+                  <template #button="props">
+                    <span
+                      @click="
+                        downloadBaseSeepFlaw(props.row.reviewReportBasicBO.path)
+                      "
+                      class="link"
+                    >
+                      {{ props.row.reviewReportBasicBO.name }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol prop="highNum" label="复查渗透测试报告信息">
+                  <template #button="props">
+                    <span
+                      >姓名：{{ props.row.reviewReportBasicBO.nickName }}
+                    </span>
+                    <span
+                      >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
+                    </span>
+                    <span
+                      >联系方式：{{ props.row.reviewReportBasicBO.phone }}
+                    </span>
+                    <span
+                      >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
+                    </span>
+                  </template>
+                </baseCol>
+                <baseCol label="操作">
+                  <template #button="props">
+                    <button
+                      v-if="props.row.editVisble"
+                      :disabled="stepData[step - 1].lock"
+                      @click="
+                        toNewPage(2, row.processId, 1, props.row.deviceId)
+                      "
+                    >
+                      编辑
+                    </button>
+                    <button
+                      v-if="props.row.reviewVisble"
+                      :disabled="stepData[step - 1].lock"
+                      @click="
+                        toNewPage(2, row.processId, 2, props.row.deviceId)
+                      "
+                    >
+                      复查
+                    </button>
+                  </template>
+                </baseCol>
+              </baseTable>
+            </div>
             <!-- 漏洞通过 -->
-            <h4>漏洞扫描报告</h4>
-            <button
-              v-if="FlawTable.uploadVisible"
-              :disabled="stepData[step - 1].lock"
-              @click="toNewPage(row.processId)"
-              class="major"
-              style="margin-right: 5px;"
-            >
-              上传
-            </button>
-            <!-- <button
-              v-if="FlawTable.uploadVisible"
-              :disabled="stepData[step - 1].lock"
-              @click="uploadFile(allData.constructionBO, 5)"
-              class="major"
-              style="margin-right: 5px;"
-            >
-              上传
-            </button> -->
-            <button
-              v-if="FlawTable.passVisible"
-              :disabled="stepData[step - 1].lock"
-              @click="passFlaw(allData[nowKey + 'BO'].processId)"
-              class="major"
-            >
-              通过
-            </button>
-            <baseTable :tableData="FlawTable.flawList">
-              <baseCol prop="fileName" label="漏洞文件名" />
-              <baseCol prop="fileSize" label="文件大小" />
-              <baseCol prop="highNum" label="高危数量" />
-              <baseCol prop="mediumNum" label="中危数量" />
-              <baseCol prop="lowNum" label="低危数量" />
-              <baseCol prop="personName" label="上传人" />
-              <baseCol prop="orgName" label="单位名称" />
-              <baseCol prop="tel" label="联系方式" />
-              <baseCol prop="uploadTime" label="上传时间" />
-              <baseCol label="操作">
-                <template #button="props">
-                  <button
-                    v-show="props.row.downloadVisible"
-                    @click="downloadFlaw(props.row.fileId)"
-                  >
-                    下载
-                  </button>
-                  <button
-                    v-show="props.row.reviewVisible"
-                    @click="review(props.row.fileId)"
-                    :disabled="stepData[step - 1].lock"
-                  >
-                    申请复评
-                  </button>
-                  <button
-                    v-show="props.row.deleteVisible"
-                    class="remove"
-                    @click="removeFlawFile(props.row.fileId)"
-                    :disabled="stepData[step - 1].lock"
-                  >
-                    删除
-                  </button>
-                </template>
-              </baseCol>
-            </baseTable>
+            <div>
+              <h4>漏洞扫描报告</h4>
+              <button
+                v-if="FlawTable.uploadVisible"
+                :disabled="stepData[step - 1].lock"
+                @click="toNewPage(3, row.processId)"
+                class="major"
+                style="margin-right: 5px;"
+              >
+                上传
+              </button>
+              <button
+                v-if="FlawTable.passVisible"
+                :disabled="stepData[step - 1].lock"
+                @click="passFlaw(allData[nowKey + 'BO'].processId)"
+                class="major"
+              >
+                通过
+              </button>
+              <baseTable :tableData="FlawTable.flawList">
+                <baseCol prop="fileName" label="漏洞文件名">
+                  <template #button="props">
+                    <span
+                      @click="downloadBaseSeepFlaw(props.row.filePath)"
+                      class="link"
+                    >
+                      {{ props.row.fileName }}</span
+                    >
+                  </template>
+                </baseCol>
+                <baseCol prop="fileSize" label="文件大小" />
+                <baseCol prop="highNum" label="高危数量" />
+                <baseCol prop="mediumNum" label="中危数量" />
+                <baseCol prop="lowNum" label="低危数量" />
+                <baseCol prop="personName" label="上传人" />
+                <baseCol prop="orgName" label="单位名称" />
+                <baseCol prop="tel" label="联系方式" />
+                <baseCol prop="uploadTime" label="上传时间" />
+                <baseCol label="操作">
+                  <template #button="props">
+                    <button
+                      v-show="props.row.downloadVisible"
+                      @click="downloadFlaw(props.row.fileId)"
+                    >
+                      下载
+                    </button>
+                    <button
+                      v-show="props.row.reviewVisible"
+                      @click="review(props.row.fileId)"
+                      :disabled="stepData[step - 1].lock"
+                    >
+                      申请复评
+                    </button>
+                    <button
+                      v-show="props.row.deleteVisible"
+                      class="remove"
+                      @click="removeFlawFile(props.row.fileId)"
+                      :disabled="stepData[step - 1].lock"
+                    >
+                      删除
+                    </button>
+                  </template>
+                </baseCol>
+              </baseTable>
+            </div>
           </div>
           <!-- 初验 -->
           <div v-else-if="item.key === 'acceptFirst'" class="acceptance">
@@ -639,6 +820,7 @@ import {
   deleteFlaw,
   passFlawByProcessId,
 } from '@/api/flawCommon'
+import { getBaseOnlineAndPenetration } from '@/api/reportCommon'
 import {
   uploadFile,
   deleteFile,
@@ -647,6 +829,7 @@ import {
   confirm,
   downloadFile,
 } from '@/api/file'
+import { download } from '@/api/sftp'
 import { getOrgPersonByIds, getProcessOrgNodeTree } from '@/api/systemOrgNode'
 import { getDictionaryValue } from '@/api/dictionary'
 import { downloadTemplate } from '@/api/template'
@@ -714,6 +897,8 @@ export default {
         enteringEndTime: '',
       },
       FlawTable: [], // 建设页面漏洞表格数据
+      baseLine: [], // 建设页面基线数据
+      seep: [], // 建设页面渗透数据
       meetingDialog: false,
       meetingDialogTitle: '',
       meetingForm: {
@@ -789,6 +974,8 @@ export default {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         this.initFlawRepor()
+        this.initBaseLineAndSeep(1)
+        this.initBaseLineAndSeep(2)
       }
     })
     this.init(true)
@@ -798,6 +985,8 @@ export default {
     // 建设流程数据
     this.initConstruction()
     this.initFlawRepor()
+    this.initBaseLineAndSeep(1)
+    this.initBaseLineAndSeep(2)
   },
   methods: {
     init(ifSetStep) {
@@ -991,6 +1180,10 @@ export default {
     downloadFlaw(fileId) {
       downloadFlaw(fileId)
     },
+    // 基线、渗透、漏洞下载
+    downloadBaseSeepFlaw(path) {
+      download(path)
+    },
     // 删除文件
     removeFile(id) {
       this.$confirm('确认删除？', '提示').then(() => {
@@ -1060,12 +1253,22 @@ export default {
         this.FlawTable = res.data
       })
     },
+    // 建设页面基线表格
+    initBaseLineAndSeep(type) {
+      getBaseOnlineAndPenetration(this.row.processId, type).then((res) => {
+        if (type === 1) this.baseLine = res.data
+        else if (type === 2) this.seep = res.data
+      })
+    },
     // 跳新页面
-    toNewPage(processId) {
+    toNewPage(type, processId, status, deviceId) {
       const newPage = this.$router.resolve({
         path: '/reportform',
         query: {
+          type: type,
           processId: processId,
+          status: status,
+          deviceId: deviceId,
         },
       })
       window.open(newPage.href, '_blank')

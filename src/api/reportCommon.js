@@ -12,24 +12,35 @@ export function deleteReport(fileId) {
 }
 
 /**
- * @description 获取渗透测试
+ * @description 通过基线和渗透列表 :type 1 基线 2 渗透
  */
-export function getPenetrationByProjectId(projectId, status) {
+export function getBaseOnlineAndPenetration(processId, type) {
   return request({
-    url: '/reportcommon/getPenetrationByProjectId',
+    url: '/reportcommon/getBaseOnlineAndPenetration',
     method: 'get',
-    params: { projectId, status },
+    params: { processId, type },
   })
 }
 
 /**
- * @description 获取项目基线
+ * @description 根据设备id获取基线获 status : 0 初查 ,1 编辑 2 复查
  */
-export function getProjectReport(projectId, status) {
+export function getBaselineByDeviceId(deviceId, status) {
   return request({
-    url: '/reportcommon/getProjectReport',
+    url: '/reportcommon/getBaselineByDeviceId',
     method: 'get',
-    params: { projectId, status },
+    params: { deviceId, status },
+  })
+}
+
+/**
+ * @description 获取渗透测试 status: 0 初查, 1 编辑 2, 复查
+ */
+export function getPenetrationByProcessId(processId, status) {
+  return request({
+    url: '/reportcommon/getPenetrationByProcessId',
+    method: 'get',
+    params: { processId, status },
   })
 }
 
@@ -50,6 +61,17 @@ export function getReportList(data) {
 }
 
 /**
+ * @description 基线初查初始化
+ */
+export function getReportListData(dataBaseCode, middlewareCode, osCode) {
+  return request({
+    url: '/reportcommon/getReportListData',
+    method: 'get',
+    params: { dataBaseCode, middlewareCode, osCode },
+  })
+}
+
+/**
  * @description 渗透整改完成
  */
 export function reformPenetration(penetrationId) {
@@ -62,8 +84,12 @@ export function reformPenetration(penetrationId) {
 
 /**
  * @description 项目基线保存
- * @param projectId 项目id
- * @param childData 基线数据
+ * @param reportUserBaseBO 用户单位信息
+ * @param deviceId 设备id
+ * @param osCode 操作系统
+ * @param middlewareCode 中间件
+ * @param dataBaseCode 数据库
+ * @param childData 基线数据 Linux
  * @param status 状态 ：初查 1 ， 复查 2
  */
 export function saveBaseline(data) {
@@ -78,6 +104,7 @@ export function saveBaseline(data) {
  * @description 保存渗透
  * @param reportUserBaseBO 用户信息
  * @param reportPenetrationBO 渗透报告基本信息
+ * @param processId 流程id
  */
 export function savePenetration(data) {
   return request({

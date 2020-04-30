@@ -12,13 +12,13 @@ export function deleteDeviceById(id) {
 }
 
 /**
- * @description 根据ID获取设备资产信息列表
+ * @description 根据ID获取设备资产信息列表type:1 基线 2 渗透 0 全部
  */
-export function getDeviceAssetsById(processId) {
+export function getDeviceAssetsById(processId, type) {
   return request({
     url: '/device/getDeviceAssetsById',
     method: 'get',
-    params: { processId },
+    params: { processId, type },
   })
 }
 

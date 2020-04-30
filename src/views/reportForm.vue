@@ -3,8 +3,311 @@
     <!-- 上传文件input -->
     <input type="file" ref="reportFile" @change="upload($event)" />
 
+    <!-- 基线 -->
+    <baseDialog v-if="type === '1'" :visible.sync="dialog" top="0" width="100%">
+      <template #title
+        >{{ `${status === '2' ? '复' : '初'}` }}查安全防护基线配置要求</template
+      >
+      <baseForm ref="reportBaseForm" :form="baseForm" :rules="baseRules">
+        <baseFormItem label="单位名称" prop="orgName" required>
+          <input type="text" v-model="baseForm.orgName" />
+        </baseFormItem>
+        <baseFormItem label="姓名" prop="nickName" required>
+          <input type="text" v-model="baseForm.nickName" />
+        </baseFormItem>
+        <baseFormItem label="联系方式" prop="phone" required>
+          <input type="text" v-model="baseForm.phone" />
+        </baseFormItem>
+        <baseFormItem label="邮箱">
+          <input type="text" v-model="baseForm.email" />
+        </baseFormItem>
+        <baseFormItem v-if="!deviceId" label="选择资产" required>
+          <select v-model="baseForm.deviceId">
+            <option
+              v-for="(item, index) in this.baseSelectData.assets"
+              :key="index"
+              :value="item.deviceId"
+              >{{ item.assets }}</option
+            >
+          </select>
+        </baseFormItem>
+        <baseFormItem v-if="!deviceId" label="操作系统版本" required>
+          <select v-model="baseForm.osCode">
+            <option
+              v-for="(item, index) in this.baseSelectData.system"
+              :key="index"
+              :value="item.dictionId"
+              >{{ item.dictionName }}</option
+            >
+          </select>
+        </baseFormItem>
+        <baseFormItem v-if="!deviceId" label="中间件版本" required>
+          <select v-model="baseForm.middlewareCode">
+            <option
+              v-for="(item, index) in this.baseSelectData.middleware"
+              :key="index"
+              :value="item.dictionId"
+              >{{ item.dictionName }}</option
+            >
+          </select>
+        </baseFormItem>
+        <baseFormItem v-if="!deviceId" label="数据库版本" required>
+          <select v-model="baseForm.dataBaseCode">
+            <option
+              v-for="(item, index) in this.baseSelectData.db"
+              :key="index"
+              :value="item.dictionId"
+              >{{ item.dictionName }}</option
+            >
+          </select>
+        </baseFormItem>
+        <div>
+          <div v-for="(item, index) in baseInfo" :key="index" class="group">
+            <div v-if="!item.childData" class="caption">{{ item.title }}</div>
+            <div v-else class="caption">{{ item.num }}、{{ item.title }}</div>
+            <div
+              v-for="(item2, index2) in item.childData"
+              :key="index2"
+              class="item"
+            >
+              <baseFormItem
+                :label="item.num + '.' + item2.num + item2.title"
+                :required="item2.isCheck"
+                class="radio-box"
+              >
+                <label v-for="(item3, index3) in item2.options" :key="index3">
+                  <input
+                    type="radio"
+                    :value="item3.value"
+                    v-model="item2.value"
+                  />
+                  {{ item3.label }}
+                  <input
+                    v-if="item3.value === 0"
+                    type="text"
+                    v-model="item2.other"
+                  />
+                </label>
+              </baseFormItem>
+              <baseFormItem label="检测图片" class="file-box">
+                <button
+                  v-if="item2.type === 1"
+                  @click="uploadFile(index, index2)"
+                  type="button"
+                  style="margin: 10px 5px 10px 0;"
+                >
+                  点击添加附件
+                </button>
+                <span
+                  v-for="(img, imgIndex) in item2.imgs"
+                  :key="imgIndex"
+                  @click="downloadFile(img.url)"
+                  class="remove-button link"
+                >
+                  {{ img.url | imgName }}
+                  <svg-icon
+                    v-if="item2.type === 1"
+                    icon-class="close"
+                    @click.stop="removeBaseImg('imgs', index, index2, imgIndex)"
+                  />
+                </span>
+              </baseFormItem>
+              <baseFormItem
+                v-if="item2.type === 2"
+                label="整改结果"
+                class="file-box"
+              >
+                <button
+                  @click="uploadFile(index, index2)"
+                  type="button"
+                  style="margin: 10px 5px 10px 0;"
+                >
+                  点击添加附件
+                </button>
+                <span
+                  v-for="(img, imgIndex) in item2.newImgs"
+                  :key="imgIndex"
+                  @click="downloadFile(img.url)"
+                  class="remove-button link"
+                >
+                  {{ img.url | imgName }}
+                  <svg-icon
+                    icon-class="close"
+                    @click.stop="
+                      removeBaseImg('newImgs', index, index2, imgIndex)
+                    "
+                  />
+                </span>
+              </baseFormItem>
+            </div>
+          </div>
+        </div>
+        <button type="button" @click="submitBase" style="margin-right: 10px;">
+          <svg-icon icon-class="save" />保存
+        </button>
+        <button type="button" @click="closePage">
+          <svg-icon icon-class="close" />关闭
+        </button>
+      </baseForm>
+    </baseDialog>
+
+    <!-- 渗透 -->
+    <baseDialog
+      v-else-if="type === '2'"
+      :visible.sync="dialog"
+      top="0"
+      width="100%"
+    >
+      <template #title>
+        {{ `${status === '2' ? '复' : '初'}` }}查渗透测试结果记录
+      </template>
+      <div>
+        <div>填写人相关信息</div>
+        <baseForm ref="reportSeepForm" :form="seepForm" :rules="seepRules">
+          <baseFormItem label="单位名称" prop="orgName" required>
+            <input type="text" v-model="seepForm.orgName" />
+          </baseFormItem>
+          <baseFormItem label="姓名" prop="nickName" required>
+            <input type="text" v-model="seepForm.nickName" />
+          </baseFormItem>
+          <baseFormItem label="联系方式" prop="phone" required>
+            <input type="text" v-model="seepForm.phone" />
+          </baseFormItem>
+          <baseFormItem label="邮箱">
+            <input type="text" v-model="seepForm.email" />
+          </baseFormItem>
+        </baseForm>
+      </div>
+      <div>
+        <div>渗透测试结果记录</div>
+        <baseForm
+          v-if="status === '1'"
+          ref="reportSeepResForm"
+          :form="seepResForm"
+          :rules="seepResRules"
+        >
+          <baseFormItem label="漏洞IP地址" prop="leakIp" required>
+            <select v-model="seepResForm.leakIp">
+              <option
+                v-for="(item, index) in this.baseSelectData.assets"
+                :key="index"
+                :value="item.leakIp"
+                >{{ item.leakIp }}</option
+              >
+            </select>
+          </baseFormItem>
+          <baseFormItem label="漏洞URL地址" prop="url" required>
+            <input type="text" v-model="seepResForm.url" />
+          </baseFormItem>
+          <baseFormItem label="是否存在漏洞" prop="leakStatus" required>
+            <label>
+              <input type="radio" v-model="seepResForm.leakStatus" value="1" />
+              是
+            </label>
+            <label>
+              <input type="radio" v-model="seepResForm.leakStatus" value="0" />
+              否
+            </label>
+          </baseFormItem>
+          <baseFormItem label="漏洞名称" prop="leakTitle" required>
+            <input type="text" v-model="seepResForm.leakTitle" />
+          </baseFormItem>
+          <baseFormItem label="CVE编号" prop="cevNum" required>
+            <input type="text" v-model="seepResForm.cevNum" />
+          </baseFormItem>
+          <baseFormItem label="等级" prop="hazardLevel" required>
+            <select v-model="seepResForm.hazardLevel">
+              <option value="高">高</option>
+              <option value="中">中</option>
+              <option value="低">低</option>
+            </select>
+          </baseFormItem>
+          <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
+            <textarea
+              cols="30"
+              rows="6"
+              v-model="seepResForm.leakHazardDesc"
+            ></textarea>
+          </baseFormItem>
+          <baseFormItem label="整改建议" prop="reformDesc" required>
+            <textarea
+              cols="30"
+              rows="6"
+              v-model="seepResForm.reformDesc"
+            ></textarea>
+          </baseFormItem>
+          <baseFormItem label="漏洞效果及截图" prop="imgs" required>
+            <button type="button" @click="uploadFile">
+              点击上传
+            </button>
+            <span
+              v-for="(img, imgIndex) in seepResForm.imgs"
+              :key="imgIndex"
+              class="remove-button"
+            >
+              {{ img.url | imgName }}
+              <svg-icon icon-class="close" @click="removeSeepImg(imgIndex)" />
+            </span>
+          </baseFormItem>
+          <button type="button" @click="addSeep">
+            新增
+          </button>
+        </baseForm>
+        <baseTable :tableData="seepTable">
+          <baseCol prop="leakIp" label="漏洞IP地址" />
+          <baseCol prop="url" label="漏洞URL地址" />
+          <baseCol prop="leakTitle" label="漏洞名称" />
+          <baseCol prop="hazardLevel" label="等级" />
+          <baseCol prop="cevNum" label="CVE编号" />
+          <!-- <baseCol prop="leakAddress" label="漏洞地址" /> -->
+          <baseCol prop="imgs" label="漏洞效果及截图">
+            <template #button="props">
+              <span v-for="(img, imgIndex) in props.row.imgs" :key="imgIndex">
+                {{ img.url | imgName }}
+              </span>
+            </template>
+          </baseCol>
+          <baseCol prop="leakHazardDesc" label="漏洞危害说明" />
+          <baseCol prop="reformDesc" label="整改建议" />
+          <baseCol v-if="status === '2'" prop="reformStatus" label="当前状态">
+            <template #button="props">
+              {{ props.row.reformStatus | statusFilter }}
+            </template>
+          </baseCol>
+          <baseCol label="操作">
+            <template #button="props">
+              <button
+                v-if="status === '1'"
+                class="remove"
+                @click="seepRemove(props.row.index)"
+              >
+                删除
+              </button>
+              <button
+                v-if="props.row.reformStatus === 0"
+                @click="seepRectification(props.row.uuid)"
+              >
+                整改完成
+              </button>
+            </template>
+          </baseCol>
+        </baseTable>
+        <button type="button" @click="submitSeep" style="margin-right: 10px;">
+          <svg-icon icon-class="save" />生成报告
+        </button>
+        <button type="button" @click="closePage">
+          <svg-icon icon-class="close" />关闭
+        </button>
+      </div>
+    </baseDialog>
+
     <!-- 漏洞 -->
-    <baseDialog :visible.sync="flawDialog" top="0" width="100%">
+    <baseDialog
+      v-else-if="type === '3'"
+      :visible.sync="dialog"
+      top="0"
+      width="100%"
+    >
       <template #title>漏洞扫描报告</template>
       <baseForm ref="reportFlawForm" :form="flawForm" :rules="flawRules">
         <baseFormItem label="单位名称" prop="orgName" required>
@@ -38,14 +341,128 @@
 </template>
 
 <script>
+import {
+  getReportListData,
+  uploadReport,
+  saveBaseline,
+  getBaselineByDeviceId,
+  savePenetration,
+  getPenetrationByProcessId,
+  reformPenetration,
+  saveReviewPenetration,
+} from '@/api/reportCommon'
 import { uploadFlawReport } from '@/api/flawCommon'
+import { getDeviceAssetsById } from '@/api/device'
+import { getDictionaryValue } from '@/api/dictionary'
+import { download } from '@/api/sftp'
 
 export default {
   name: 'ReportForm',
+  filters: {
+    imgName(val) {
+      return val.slice(val.lastIndexOf('/') + 1)
+    },
+    statusFilter(val) {
+      switch (val) {
+        case 0:
+          return '未整改'
+        case 1:
+          return '已整改'
+      }
+    },
+  },
   data() {
     return {
-      processId: '',
-      flawDialog: true,
+      type: null,
+      processId: null,
+      status: null,
+      deviceId: null,
+      currentCell: {},
+      dialog: true,
+      baseForm: {
+        orgName: null,
+        nickName: null,
+        phone: null,
+        email: null,
+        deviceId: null,
+        osCode: null,
+        middlewareCode: null,
+        dataBaseCode: null,
+      },
+      baseSelectData: {
+        assets: [],
+        system: [],
+        middleware: [],
+        db: [],
+      },
+      baseInfo: [],
+      baseRules: {
+        orgName: [
+          { required: true, message: '请输入单位名称', trigger: 'blur' },
+        ],
+        nickName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
+      },
+      seepForm: {
+        orgName: null,
+        nickName: null,
+        phone: null,
+        email: null,
+      },
+      seepRules: {
+        orgName: [
+          { required: true, message: '请输入单位名称', trigger: 'blur' },
+        ],
+        nickName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
+      },
+      seepResForm: {
+        leakIp: null,
+        url: null,
+        leakStatus: null,
+        leakTitle: null,
+        hazardLevel: null,
+        cevNum: null,
+        leakAddress: null,
+        leakHazardDesc: null,
+        reformDesc: null,
+        imgs: [],
+      },
+      seepResRules: {
+        leakIp: [
+          { required: true, message: '请选择漏洞IP地址', trigger: 'change' },
+        ],
+        url: [
+          { required: true, message: '请输入漏洞URL地址', trigger: 'blur' },
+        ],
+        leakStatus: [
+          { required: true, message: '请选择是否存在漏洞', trigger: 'change' },
+        ],
+        leakTitle: [
+          { required: true, message: '请输入漏洞名称', trigger: 'blur' },
+        ],
+        hazardLevel: [
+          { required: true, message: '请选择等级', trigger: 'blur' },
+        ],
+        cevNum: [{ required: true, message: '请输入CVE编号', trigger: 'blur' }],
+        leakAddress: [
+          { required: true, message: '请输入漏洞地址', trigger: 'blur' },
+        ],
+        leakHazardDesc: [
+          { required: true, message: '请输入漏洞危害说明', trigger: 'blur' },
+        ],
+        reformDesc: [
+          { required: true, message: '请输入整改建议', trigger: 'blur' },
+        ],
+        imgs: [
+          {
+            required: true,
+            message: '请上传漏洞效果及截图',
+            trigger: 'blur',
+          },
+        ],
+      },
+      seepTable: [],
       flawForm: {
         orgName: null,
         personName: null,
@@ -65,30 +482,217 @@ export default {
       },
     }
   },
+  watch: {
+    baseForm: {
+      deep: true,
+      handler: function (newVal) {
+        if (
+          this.type === '1' &&
+          !this.deviceId &&
+          newVal.osCode &&
+          newVal.middlewareCode &&
+          newVal.dataBaseCode
+        ) {
+          getReportListData(
+            newVal.dataBaseCode,
+            newVal.middlewareCode,
+            newVal.osCode
+          ).then((res) => {
+            this.baseInfo = res.data
+          })
+        }
+      },
+    },
+  },
   created() {
-    this.processId = this.$route.query.processId
+    for (const key in this.$route.query) {
+      this[key] = this.$route.query[key]
+    }
+    // base
+    if (this.type === '1' && !this.deviceId) {
+      getDeviceAssetsById(this.processId).then((res) => {
+        this.baseSelectData.assets = res.data
+      })
+      getDictionaryValue().then((res) => {
+        this.baseSelectData.system = res.data[1]
+        this.baseSelectData.middleware = res.data[2]
+        this.baseSelectData.db = res.data[3]
+      })
+    } else if (this.type === '1' && this.deviceId) {
+      getBaselineByDeviceId(this.deviceId, this.status).then((res) => {
+        this.baseInfo = res.data.simBaselineReportBOS
+        this.baseForm.orgName = res.data.reportUserBaseBO.orgName
+        this.baseForm.nickName = res.data.reportUserBaseBO.nickName
+        this.baseForm.phone = res.data.reportUserBaseBO.phone
+        this.baseForm.email = res.data.reportUserBaseBO.email
+        this.baseForm.deviceId = res.data.deviceId
+      })
+    }
+    // seep
+    if (this.type === '2') {
+      getDeviceAssetsById(this.processId).then((res) => {
+        this.baseSelectData.assets = res.data
+      })
+      getPenetrationByProcessId(this.processId, this.status).then((res) => {
+        if (this.status === '1') {
+          this.seepForm.orgName = res.data.reportUserBaseBO.orgName
+          this.seepForm.nickName = res.data.reportUserBaseBO.nickName
+          this.seepForm.phone = res.data.reportUserBaseBO.phone
+          this.seepForm.email = res.data.reportUserBaseBO.email
+        }
+        this.seepTable = res.data.simReportPenetrationBOS
+      })
+    }
   },
   methods: {
-    uploadFile() {
+    uploadFile(level1, level2) {
+      this.currentCell.level1 = level1
+      this.currentCell.level2 = level2
       this.$refs.reportFile.dispatchEvent(new MouseEvent('click'))
     },
     upload(e) {
-      this.flawForm.file = e.target.files[0]
+      if (this.type === '1') {
+        let formData = new FormData()
+        formData.append('file', e.target.files[0])
+        formData.append('processId', this.processId)
+        formData.append('type', this.type)
+        formData.append('status', this.status)
+        uploadReport(formData).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          switch (this.status) {
+            case '1':
+              this.baseInfo[this.currentCell.level1].childData[
+                this.currentCell.level2
+              ].imgs.push({ url: res.data })
+              break
+            case '2':
+              this.baseInfo[this.currentCell.level1].childData[
+                this.currentCell.level2
+              ].newImgs.push({ url: res.data })
+              break
+          }
+        })
+      } else if (this.type === '2') {
+        let formData = new FormData()
+        formData.append('file', e.target.files[0])
+        formData.append('processId', this.processId)
+        formData.append('type', this.type)
+        formData.append('status', this.status)
+        uploadReport(formData).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.seepResForm.imgs.push({ url: res.data })
+          this.$refs.reportSeepResForm.validate()
+        })
+      } else if (this.type === '3') {
+        this.flawForm.file = e.target.files[0]
+      }
       this.$refs.reportFile.value = null
     },
     closePage() {
       window.close()
     },
+    downloadFile(path) {
+      download(path)
+    },
+    removeBaseImg(type, index, index2, imgIndex) {
+      this.baseInfo[index].childData[index2][type].splice(imgIndex, 1)
+    },
+    // 基线提交
+    submitBase() {
+      this.$confirm('确认保存？', '提示').then(() => {
+        let res = {
+          reportUserBaseBO: {
+            orgName: this.baseForm.orgName,
+            nickName: this.baseForm.nickName,
+            phone: this.baseForm.phone,
+            email: this.baseForm.email,
+          },
+          deviceId: this.baseForm.deviceId,
+          status: this.status,
+          osCode: this.baseForm.osCode,
+          middlewareCode: this.baseForm.middlewareCode,
+          dataBaseCode: this.baseForm.dataBaseCode,
+          childData: [],
+        }
+        this.baseInfo.forEach((item) => {
+          if (item.childData) {
+            item.childData.forEach((item2) => {
+              res.childData.push({
+                key: item2.key,
+                value: item2.value,
+                other: item2.other,
+                imgs: item2.imgs,
+                newImgs: item2.newImgs,
+                dictionId: item2.dictionId,
+              })
+            })
+          }
+        })
+        saveBaseline(res).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.closePage()
+        })
+      })
+    },
+    // 渗透相关
+    addSeep() {
+      if (!this.$refs.reportSeepResForm.validate()) return
+      this.seepTable.push(JSON.parse(JSON.stringify(this.seepResForm)))
+      Object.assign(this.$data.seepResForm, this.$options.data().seepResForm)
+    },
+    removeSeepImg(index) {
+      this.seepResForm.imgs.splice(index, 1)
+    },
+    seepRemove(index) {
+      this.seepTable.splice(index, 1)
+    },
+    submitSeep() {
+      if (!this.$refs.reportSeepForm.validate()) return
+      let res = {
+        reportUserBaseBO: {
+          orgName: this.seepForm.orgName,
+          nickName: this.seepForm.nickName,
+          phone: this.seepForm.phone,
+          email: this.seepForm.email,
+        },
+        reportPenetrationBO: this.status === '1' ? this.seepTable : null,
+        processId: this.processId,
+      }
+      if (this.status === '1') {
+        savePenetration(res).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.closePage()
+        })
+      } else {
+        saveReviewPenetration(res).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.closePage()
+        })
+      }
+    },
+    seepRectification(uuid) {
+      this.$confirm('确认完成？', '提示').then(() => {
+        reformPenetration(uuid).then((res) => {
+          getPenetrationByProcessId(this.processId, this.status).then((res) => {
+            this.seepTable = res.data.simReportPenetrationBOS
+          })
+          this.$message({ content: res.message, type: 'success' })
+        })
+      })
+    },
+    // 漏洞提交
     submitFlaw() {
       if (!this.$refs.reportFlawForm.validate()) return
-      let formData = new FormData()
-      formData.append('processId ', this.processId)
-      for (const key in this.flawForm) {
-        formData.append(key, this.flawForm[key])
-      }
-      uploadFlawReport(formData).then((res) => {
-        this.$message({ content: res.message, type: 'success' })
-        this.closePage()
+      this.$confirm('确认保存？', '提示').then(() => {
+        let formData = new FormData()
+        formData.append('processId ', this.processId)
+        for (const key in this.flawForm) {
+          formData.append(key, this.flawForm[key])
+        }
+        uploadFlawReport(formData).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.closePage()
+        })
       })
     },
   },
@@ -100,6 +704,49 @@ form {
   text-align: center;
   button {
     display: inline-block;
+  }
+}
+
+.group {
+  text-align: left;
+  .caption {
+    font-weight: bold;
+  }
+  .item {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    /deep/.form-item {
+      flex-flow: column;
+      padding: unset;
+      > label {
+        text-align: left;
+      }
+      > span {
+        width: 100%;
+      }
+    }
+    .radio-box {
+      label {
+        input[type='text'] {
+          width: unset;
+        }
+      }
+    }
+    .file-box {
+      .remove-button {
+        max-width: unset;
+        margin: 0 10px 0 0;
+        svg {
+          position: relative;
+          top: -3px;
+          color: #ff4949;
+          font-size: 10px;
+          background: #fff;
+          border: 1px solid #ff4949;
+          border-radius: 50%;
+        }
+      }
+    }
   }
 }
 </style>
