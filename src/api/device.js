@@ -12,6 +12,17 @@ export function deleteDeviceById(id) {
 }
 
 /**
+ * @description 通过设备deviceId获取当前资产
+ */
+export function getAsstesByDeviceId(deviceId) {
+  return request({
+    url: '/device/getAsstesByDeviceId',
+    method: 'get',
+    params: { deviceId },
+  })
+}
+
+/**
  * @description 根据ID获取设备资产信息列表type:1 基线 2 渗透 0 全部
  */
 export function getDeviceAssetsById(processId, type) {

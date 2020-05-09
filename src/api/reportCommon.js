@@ -23,7 +23,7 @@ export function getBaseOnlineAndPenetration(processId, type) {
 }
 
 /**
- * @description 根据设备id获取基线获 status : 0 初查 ,1 编辑 2 复查
+ * @description 根据设备id获取基线获 status :1 初查 ,  2 复查
  */
 export function getBaselineByDeviceId(deviceId, status) {
   return request({
@@ -34,7 +34,7 @@ export function getBaselineByDeviceId(deviceId, status) {
 }
 
 /**
- * @description 获取渗透测试 status: 0 初查, 1 编辑 2, 复查
+ * @description 获取渗透测试 status: 2, 复查
  */
 export function getPenetrationByProcessId(processId, status) {
   return request({
@@ -62,12 +62,13 @@ export function getReportList(data) {
 
 /**
  * @description 基线初查初始化
+ * @param dictionIds 资产ids
  */
-export function getReportListData(dataBaseCode, middlewareCode, osCode) {
+export function getReportListData(data) {
   return request({
     url: '/reportcommon/getReportListData',
-    method: 'get',
-    params: { dataBaseCode, middlewareCode, osCode },
+    method: 'post',
+    data,
   })
 }
 

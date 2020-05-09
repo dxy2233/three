@@ -36,16 +36,31 @@
               required
               class="f-full"
             >
-              <select v-model="baseForm.deviceId">
+              <select v-model="baseForm.deviceId" @change="changeDeviceId">
                 <option
-                  v-for="(item, index) in this.baseSelectData.assets"
+                  v-for="(item, index) in baseAssetsData"
                   :key="index"
                   :value="item.deviceId"
                   >{{ item.assets }}</option
                 >
               </select>
             </baseFormItem>
-            <baseFormItem v-if="!deviceId" label="操作系统版本">
+            <baseFormItem
+              v-for="(item, index) in baseSelectList"
+              :key="index"
+              :label="item.title"
+              required
+            >
+              <select v-model="baseSelectValue[index]">
+                <option
+                  v-for="(item2, index2) in item.asstesValueBOS"
+                  :key="index2"
+                  :value="item2.dictionId"
+                  >{{ item2.dictionName }}</option
+                >
+              </select>
+            </baseFormItem>
+            <!-- <baseFormItem v-if="!deviceId" label="操作系统版本">
               <select v-model="baseForm.osCode">
                 <option
                   v-for="(item, index) in this.baseSelectData.system"
@@ -74,7 +89,7 @@
                   >{{ item.dictionName }}</option
                 >
               </select>
-            </baseFormItem>
+            </baseFormItem> -->
           </div>
         </div>
         <div class="details">
@@ -212,7 +227,7 @@
             <baseFormItem label="漏洞IP地址" prop="leakIp" required>
               <select v-model="seepResForm.leakIp">
                 <option
-                  v-for="(item, index) in this.baseSelectData.assets"
+                  v-for="(item, index) in baseAssetsDataOptional"
                   :key="index"
                   :value="item.leakIp"
                   >{{ item.leakIp }}</option
@@ -291,7 +306,6 @@
           <baseCol prop="leakTitle" label="漏洞名称" />
           <baseCol prop="hazardLevel" label="等级" />
           <baseCol prop="cevNum" label="CVE编号" />
-          <!-- <baseCol prop="leakAddress" label="漏洞地址" /> -->
           <baseCol prop="imgs" label="漏洞效果及截图">
             <template #button="props">
               <span v-for="(img, imgIndex) in props.row.imgs" :key="imgIndex">
@@ -316,7 +330,7 @@
                 删除
               </button>
               <button
-                v-if="props.row.reformStatus === 0"
+                v-if="status === '2' && props.row.reformStatus === 0"
                 @click="seepRectification(props.row.uuid)"
               >
                 整改完成
@@ -397,8 +411,7 @@ import {
   saveReviewPenetration,
 } from '@/api/reportCommon'
 import { uploadFlawReport } from '@/api/flawCommon'
-import { getDeviceAssetsById } from '@/api/device'
-import { getDictionaryValue } from '@/api/dictionary'
+import { getDeviceAssetsById, getAsstesByDeviceId } from '@/api/device'
 import { download } from '@/api/sftp'
 
 export default {
@@ -430,16 +443,10 @@ export default {
         phone: null,
         email: null,
         deviceId: null,
-        osCode: null,
-        middlewareCode: null,
-        dataBaseCode: null,
       },
-      baseSelectData: {
-        assets: [],
-        system: [],
-        middleware: [],
-        db: [],
-      },
+      baseSelectList: [],
+      baseSelectValue: [],
+      baseAssetsData: [], // 资产信息
       baseInfo: [],
       baseRules: {
         orgName: [
@@ -475,7 +482,7 @@ export default {
       },
       seepResRules: {
         leakIp: [
-          { required: true, message: '请选择漏洞IP地址', trigger: 'change' },
+          { required: true, message: '请选择漏洞IP地址', trigger: 'blur' },
         ],
         url: [
           { required: true, message: '请输入漏洞URL地址', trigger: 'blur' },
@@ -527,22 +534,25 @@ export default {
       },
     }
   },
+  computed: {
+    baseAssetsDataOptional() {
+      let res = []
+      res = this.baseAssetsData.filter(
+        (item) => !this.seepTable.some((item2) => item2.leakIp === item.leakIp)
+      )
+      return res
+    },
+  },
   watch: {
-    baseForm: {
+    baseSelectValue: {
       deep: true,
       handler: function (newVal) {
         if (
           this.type === '1' &&
           !this.deviceId &&
-          newVal.osCode &&
-          newVal.middlewareCode &&
-          newVal.dataBaseCode
+          newVal.every((item) => item)
         ) {
-          getReportListData(
-            newVal.dataBaseCode,
-            newVal.middlewareCode,
-            newVal.osCode
-          ).then((res) => {
+          getReportListData({ dictionIds: newVal }).then((res) => {
             this.baseInfo = res.data
           })
         }
@@ -555,13 +565,8 @@ export default {
     }
     // base
     if (this.type === '1' && !this.deviceId) {
-      getDeviceAssetsById(this.processId).then((res) => {
-        this.baseSelectData.assets = res.data
-      })
-      getDictionaryValue().then((res) => {
-        this.baseSelectData.system = res.data[1]
-        this.baseSelectData.middleware = res.data[2]
-        this.baseSelectData.db = res.data[3]
+      getDeviceAssetsById(this.processId, 1).then((res) => {
+        this.baseAssetsData = res.data
       })
     } else if (this.type === '1' && this.deviceId) {
       getBaselineByDeviceId(this.deviceId, this.status).then((res) => {
@@ -575,8 +580,8 @@ export default {
     }
     // seep
     if (this.type === '2') {
-      getDeviceAssetsById(this.processId).then((res) => {
-        this.baseSelectData.assets = res.data
+      getDeviceAssetsById(this.processId, 2).then((res) => {
+        this.baseAssetsData = res.data
       })
       getPenetrationByProcessId(this.processId, this.status).then((res) => {
         if (this.status === '1') {
@@ -642,6 +647,15 @@ export default {
     removeBaseImg(type, index, index2, imgIndex) {
       this.baseInfo[index].childData[index2][type].splice(imgIndex, 1)
     },
+    changeDeviceId(val) {
+      getAsstesByDeviceId(val.target.value).then((res) => {
+        this.baseSelectList = res.data
+        this.baseSelectValue = []
+        this.baseSelectList.forEach(() => {
+          this.baseSelectValue.push('')
+        })
+      })
+    },
     // 基线提交
     submitBase() {
       this.$confirm('确认保存？', '提示').then(() => {
@@ -654,9 +668,6 @@ export default {
           },
           deviceId: this.baseForm.deviceId,
           status: this.status,
-          osCode: this.baseForm.osCode,
-          middlewareCode: this.baseForm.middlewareCode,
-          dataBaseCode: this.baseForm.dataBaseCode,
           childData: [],
         }
         this.baseInfo.forEach((item) => {
