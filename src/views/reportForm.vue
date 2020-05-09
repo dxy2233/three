@@ -9,59 +9,75 @@
         >{{ `${status === '2' ? '复' : '初'}` }}查安全防护基线配置要求</template
       >
       <baseForm ref="reportBaseForm" :form="baseForm" :rules="baseRules">
-        <baseFormItem label="单位名称" prop="orgName" required>
-          <input type="text" v-model="baseForm.orgName" />
-        </baseFormItem>
-        <baseFormItem label="姓名" prop="nickName" required>
-          <input type="text" v-model="baseForm.nickName" />
-        </baseFormItem>
-        <baseFormItem label="联系方式" prop="phone" required>
-          <input type="text" v-model="baseForm.phone" />
-        </baseFormItem>
-        <baseFormItem label="邮箱">
-          <input type="text" v-model="baseForm.email" />
-        </baseFormItem>
-        <baseFormItem v-if="!deviceId" label="选择资产" required>
-          <select v-model="baseForm.deviceId">
-            <option
-              v-for="(item, index) in this.baseSelectData.assets"
-              :key="index"
-              :value="item.deviceId"
-              >{{ item.assets }}</option
+        <div class="content">
+          <h4>填写人相关信息</h4>
+          <div class="box">
+            <baseFormItem label="单位名称" prop="orgName" required>
+              <input type="text" v-model="baseForm.orgName" />
+            </baseFormItem>
+            <baseFormItem label="姓名" prop="nickName" required>
+              <input type="text" v-model="baseForm.nickName" />
+            </baseFormItem>
+            <baseFormItem label="联系方式" prop="phone" required>
+              <input type="text" v-model="baseForm.phone" />
+            </baseFormItem>
+            <baseFormItem label="邮箱">
+              <input type="text" v-model="baseForm.email" />
+            </baseFormItem>
+          </div>
+        </div>
+        <br />
+        <div class="content">
+          <h4>安全防护基线信息</h4>
+          <div class="box">
+            <baseFormItem
+              v-if="!deviceId"
+              label="选择资产"
+              required
+              class="f-full"
             >
-          </select>
-        </baseFormItem>
-        <baseFormItem v-if="!deviceId" label="操作系统版本" required>
-          <select v-model="baseForm.osCode">
-            <option
-              v-for="(item, index) in this.baseSelectData.system"
-              :key="index"
-              :value="item.dictionId"
-              >{{ item.dictionName }}</option
-            >
-          </select>
-        </baseFormItem>
-        <baseFormItem v-if="!deviceId" label="中间件版本" required>
-          <select v-model="baseForm.middlewareCode">
-            <option
-              v-for="(item, index) in this.baseSelectData.middleware"
-              :key="index"
-              :value="item.dictionId"
-              >{{ item.dictionName }}</option
-            >
-          </select>
-        </baseFormItem>
-        <baseFormItem v-if="!deviceId" label="数据库版本" required>
-          <select v-model="baseForm.dataBaseCode">
-            <option
-              v-for="(item, index) in this.baseSelectData.db"
-              :key="index"
-              :value="item.dictionId"
-              >{{ item.dictionName }}</option
-            >
-          </select>
-        </baseFormItem>
-        <div>
+              <select v-model="baseForm.deviceId">
+                <option
+                  v-for="(item, index) in this.baseSelectData.assets"
+                  :key="index"
+                  :value="item.deviceId"
+                  >{{ item.assets }}</option
+                >
+              </select>
+            </baseFormItem>
+            <baseFormItem v-if="!deviceId" label="操作系统版本">
+              <select v-model="baseForm.osCode">
+                <option
+                  v-for="(item, index) in this.baseSelectData.system"
+                  :key="index"
+                  :value="item.dictionId"
+                  >{{ item.dictionName }}</option
+                >
+              </select>
+            </baseFormItem>
+            <baseFormItem v-if="!deviceId" label="中间件版本">
+              <select v-model="baseForm.middlewareCode">
+                <option
+                  v-for="(item, index) in this.baseSelectData.middleware"
+                  :key="index"
+                  :value="item.dictionId"
+                  >{{ item.dictionName }}</option
+                >
+              </select>
+            </baseFormItem>
+            <baseFormItem v-if="!deviceId" label="数据库版本">
+              <select v-model="baseForm.dataBaseCode">
+                <option
+                  v-for="(item, index) in this.baseSelectData.db"
+                  :key="index"
+                  :value="item.dictionId"
+                  >{{ item.dictionName }}</option
+                >
+              </select>
+            </baseFormItem>
+          </div>
+        </div>
+        <div class="details">
           <div v-for="(item, index) in baseInfo" :key="index" class="group">
             <div v-if="!item.childData" class="caption">{{ item.title }}</div>
             <div v-else class="caption">{{ item.num }}、{{ item.title }}</div>
@@ -142,8 +158,8 @@
             </div>
           </div>
         </div>
-        <button type="button" @click="submitBase" style="margin-right: 10px;">
-          <svg-icon icon-class="save" />保存
+        <button type="button" @click="submitBase">
+          <svg-icon icon-class="word" />生成报告
         </button>
         <button type="button" @click="closePage">
           <svg-icon icon-class="close" />关闭
@@ -161,9 +177,14 @@
       <template #title>
         {{ `${status === '2' ? '复' : '初'}` }}查渗透测试结果记录
       </template>
-      <div>
-        <div>填写人相关信息</div>
-        <baseForm ref="reportSeepForm" :form="seepForm" :rules="seepRules">
+      <div class="content">
+        <h4>填写人相关信息</h4>
+        <baseForm
+          ref="reportSeepForm"
+          :form="seepForm"
+          :rules="seepRules"
+          class="box"
+        >
           <baseFormItem label="单位名称" prop="orgName" required>
             <input type="text" v-model="seepForm.orgName" />
           </baseFormItem>
@@ -178,77 +199,88 @@
           </baseFormItem>
         </baseForm>
       </div>
-      <div>
-        <div>渗透测试结果记录</div>
+      <br />
+      <div class="content">
+        <h4>渗透测试结果记录</h4>
         <baseForm
           v-if="status === '1'"
           ref="reportSeepResForm"
           :form="seepResForm"
           :rules="seepResRules"
         >
-          <baseFormItem label="漏洞IP地址" prop="leakIp" required>
-            <select v-model="seepResForm.leakIp">
-              <option
-                v-for="(item, index) in this.baseSelectData.assets"
-                :key="index"
-                :value="item.leakIp"
-                >{{ item.leakIp }}</option
+          <div class="box">
+            <baseFormItem label="漏洞IP地址" prop="leakIp" required>
+              <select v-model="seepResForm.leakIp">
+                <option
+                  v-for="(item, index) in this.baseSelectData.assets"
+                  :key="index"
+                  :value="item.leakIp"
+                  >{{ item.leakIp }}</option
+                >
+              </select>
+            </baseFormItem>
+            <baseFormItem label="漏洞URL地址" prop="url" required>
+              <input type="text" v-model="seepResForm.url" />
+            </baseFormItem>
+            <baseFormItem label="是否存在漏洞" prop="leakStatus" required>
+              <label>
+                <input
+                  type="radio"
+                  v-model="seepResForm.leakStatus"
+                  value="1"
+                />
+                是
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  v-model="seepResForm.leakStatus"
+                  value="0"
+                />
+                否
+              </label>
+            </baseFormItem>
+            <baseFormItem label="漏洞名称" prop="leakTitle" required>
+              <input type="text" v-model="seepResForm.leakTitle" />
+            </baseFormItem>
+            <baseFormItem label="CVE编号" prop="cevNum" required>
+              <input type="text" v-model="seepResForm.cevNum" />
+            </baseFormItem>
+            <baseFormItem label="等级" prop="hazardLevel" required>
+              <select v-model="seepResForm.hazardLevel">
+                <option value="高">高</option>
+                <option value="中">中</option>
+                <option value="低">低</option>
+              </select>
+            </baseFormItem>
+            <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
+              <textarea
+                cols="30"
+                rows="6"
+                v-model="seepResForm.leakHazardDesc"
+              ></textarea>
+            </baseFormItem>
+            <baseFormItem label="整改建议" prop="reformDesc" required>
+              <textarea
+                cols="30"
+                rows="6"
+                v-model="seepResForm.reformDesc"
+              ></textarea>
+            </baseFormItem>
+            <baseFormItem label="漏洞效果及截图" prop="imgs" required>
+              <button type="button" @click="uploadFile">
+                点击上传
+              </button>
+              <span
+                v-for="(img, imgIndex) in seepResForm.imgs"
+                :key="imgIndex"
+                class="remove-button"
               >
-            </select>
-          </baseFormItem>
-          <baseFormItem label="漏洞URL地址" prop="url" required>
-            <input type="text" v-model="seepResForm.url" />
-          </baseFormItem>
-          <baseFormItem label="是否存在漏洞" prop="leakStatus" required>
-            <label>
-              <input type="radio" v-model="seepResForm.leakStatus" value="1" />
-              是
-            </label>
-            <label>
-              <input type="radio" v-model="seepResForm.leakStatus" value="0" />
-              否
-            </label>
-          </baseFormItem>
-          <baseFormItem label="漏洞名称" prop="leakTitle" required>
-            <input type="text" v-model="seepResForm.leakTitle" />
-          </baseFormItem>
-          <baseFormItem label="CVE编号" prop="cevNum" required>
-            <input type="text" v-model="seepResForm.cevNum" />
-          </baseFormItem>
-          <baseFormItem label="等级" prop="hazardLevel" required>
-            <select v-model="seepResForm.hazardLevel">
-              <option value="高">高</option>
-              <option value="中">中</option>
-              <option value="低">低</option>
-            </select>
-          </baseFormItem>
-          <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
-            <textarea
-              cols="30"
-              rows="6"
-              v-model="seepResForm.leakHazardDesc"
-            ></textarea>
-          </baseFormItem>
-          <baseFormItem label="整改建议" prop="reformDesc" required>
-            <textarea
-              cols="30"
-              rows="6"
-              v-model="seepResForm.reformDesc"
-            ></textarea>
-          </baseFormItem>
-          <baseFormItem label="漏洞效果及截图" prop="imgs" required>
-            <button type="button" @click="uploadFile">
-              点击上传
-            </button>
-            <span
-              v-for="(img, imgIndex) in seepResForm.imgs"
-              :key="imgIndex"
-              class="remove-button"
-            >
-              {{ img.url | imgName }}
-              <svg-icon icon-class="close" @click="removeSeepImg(imgIndex)" />
-            </span>
-          </baseFormItem>
+                {{ img.url | imgName }}
+                <svg-icon icon-class="close" @click="removeSeepImg(imgIndex)" />
+              </span>
+            </baseFormItem>
+          </div>
           <button type="button" @click="addSeep">
             新增
           </button>
@@ -292,12 +324,14 @@
             </template>
           </baseCol>
         </baseTable>
-        <button type="button" @click="submitSeep" style="margin-right: 10px;">
-          <svg-icon icon-class="save" />生成报告
+        <button type="button" @click="submitSeep">
+          <svg-icon icon-class="word" />生成报告
         </button>
         <button type="button" @click="closePage">
           <svg-icon icon-class="close" />关闭
         </button>
+        <br />
+        <br />
       </div>
     </baseDialog>
 
@@ -310,31 +344,42 @@
     >
       <template #title>漏洞扫描报告</template>
       <baseForm ref="reportFlawForm" :form="flawForm" :rules="flawRules">
-        <baseFormItem label="单位名称" prop="orgName" required>
-          <input type="text" v-model="flawForm.orgName" />
-        </baseFormItem>
-        <baseFormItem label="姓名" prop="personName" required>
-          <input type="text" v-model="flawForm.personName" />
-        </baseFormItem>
-        <baseFormItem label="联系方式" prop="tel" required>
-          <input type="text" v-model="flawForm.tel" />
-        </baseFormItem>
-        <baseFormItem label="邮箱">
-          <input type="text" v-model="flawForm.email" />
-        </baseFormItem>
-        <baseFormItem label="上传漏洞文件" prop="file" required>
-          <button type="button" @click="uploadFile">
-            点击上传
+        <div class="content">
+          <h4>填写人相关信息</h4>
+          <div class="box">
+            <baseFormItem label="单位名称" prop="orgName" required>
+              <input type="text" v-model="flawForm.orgName" />
+            </baseFormItem>
+            <baseFormItem label="姓名" prop="personName" required>
+              <input type="text" v-model="flawForm.personName" />
+            </baseFormItem>
+            <baseFormItem label="联系方式" prop="tel" required>
+              <input type="text" v-model="flawForm.tel" />
+            </baseFormItem>
+            <baseFormItem label="邮箱">
+              <input type="text" v-model="flawForm.email" />
+            </baseFormItem>
+          </div>
+        </div>
+        <br />
+        <div class="content">
+          <h4>漏洞文件</h4>
+          <div class="box">
+            <baseFormItem label="上传漏洞文件" prop="file" required>
+              <button type="button" @click="uploadFile">
+                点击上传
+              </button>
+              <span v-if="flawForm.file"> {{ flawForm.file.name }} </span>
+            </baseFormItem>
+            <baseFormItem> </baseFormItem>
+          </div>
+          <button type="button" @click="submitFlaw">
+            <svg-icon icon-class="save" />保存
           </button>
-          <span v-if="flawForm.file"> {{ flawForm.file.name }} </span>
-        </baseFormItem>
-        <baseFormItem> </baseFormItem>
-        <button type="button" @click="submitFlaw" style="margin-right: 10px;">
-          <svg-icon icon-class="save" />保存
-        </button>
-        <button type="button" @click="closePage">
-          <svg-icon icon-class="close" />关闭
-        </button>
+          <button type="button" @click="closePage">
+            <svg-icon icon-class="close" />关闭
+          </button>
+        </div>
       </baseForm>
     </baseDialog>
   </div>
@@ -700,53 +745,126 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dialog {
+  background: #ebebeb;
+  /deep/ .wrap {
+    box-shadow: none;
+    .dialog-title {
+      font-size: 22px;
+      margin: 0 auto;
+      color: #045fc9;
+      background: #ebebeb;
+      padding: 10px 3% 0 3%;
+      span:last-child {
+        display: none;
+      }
+    }
+    .dialog-body {
+      padding: 10px 3%;
+      .content {
+        text-align: center;
+        background: #fff;
+        h4 {
+          background: #0196e0;
+          color: #fff;
+          text-align: left;
+          padding: 8px 15px;
+        }
+        .box {
+          text-align: left;
+          padding: 20px 0;
+          display: flex;
+          flex-wrap: wrap;
+          width: 80%;
+          margin: 0 auto;
+          .form-gound {
+            width: 50%;
+          }
+          .f-full {
+            width: 100%;
+            .form-item > label {
+              flex: 1;
+            }
+            .form-item > span {
+              flex: 8;
+              select {
+                width: 43.4%;
+              }
+            }
+          }
+        }
+        table {
+          width: 96%;
+          margin: 15px auto;
+          border: 1px solid #608ad2;
+          thead > tr {
+            background: #608ad2;
+          }
+        }
+      }
+      .details {
+        padding: 0 20px 20px 20px;
+        background: #fff;
+        .group:first-child {
+          .caption {
+            color: #0196e0;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+          }
+        }
+        .group {
+          text-align: left;
+          .caption {
+            font-weight: bold;
+          }
+          .item {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+            margin-left: 20px;
+            .form-item {
+              flex-flow: column;
+              padding: unset;
+              > label {
+                text-align: left;
+              }
+              > span {
+                width: 100%;
+              }
+            }
+            .radio-box {
+              label {
+                input[type='text'] {
+                  width: unset;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 form {
+  width: 100%;
   text-align: center;
   button {
     display: inline-block;
+    margin: 10px;
   }
 }
-
-.group {
-  text-align: left;
-  .caption {
-    font-weight: bold;
-  }
-  .item {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 10px;
-    /deep/.form-item {
-      flex-flow: column;
-      padding: unset;
-      > label {
-        text-align: left;
-      }
-      > span {
-        width: 100%;
-      }
-    }
-    .radio-box {
-      label {
-        input[type='text'] {
-          width: unset;
-        }
-      }
-    }
-    .file-box {
-      .remove-button {
-        max-width: unset;
-        margin: 0 10px 0 0;
-        svg {
-          position: relative;
-          top: -3px;
-          color: #ff4949;
-          font-size: 10px;
-          background: #fff;
-          border: 1px solid #ff4949;
-          border-radius: 50%;
-        }
-      }
-    }
+.remove-button {
+  max-width: unset;
+  margin: 0 10px 0 0;
+  svg {
+    position: relative;
+    top: -3px;
+    color: #ff4949;
+    font-size: 10px;
+    background: #fff;
+    border: 1px solid #ff4949;
+    border-radius: 50%;
   }
 }
 </style>

@@ -185,8 +185,8 @@
               </baseTable>
             </div>
             <!-- 基线 -->
-            <div>
-              <h4>基线检查报告</h4>
+            <div class="baseline report-wrap">
+              <h5>基线检查报告</h5>
               <button
                 v-if="baseLine.startVisble"
                 @click="toNewPage(1, row.processId, 1)"
@@ -212,14 +212,18 @@
                 </baseCol>
                 <baseCol prop="mediumNum" label="初查基线检查报告信息">
                   <template #button="props">
-                    <span>姓名：{{ props.row.reportBasicBO.nickName }} </span>
-                    <span
-                      >单位名称：{{ props.row.reportBasicBO.orgName }}
+                    <span class="info"
+                      >姓名：{{ props.row.reportBasicBO.nickName }}
                     </span>
-                    <span>联系方式：{{ props.row.reportBasicBO.phone }} </span>
-                    <span
-                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}
+                    <span class="info"
+                      >单位名称：{{ props.row.reportBasicBO.orgName }}</span
+                    >
+                    <span class="info"
+                      >联系方式：{{ props.row.reportBasicBO.phone }}
                     </span>
+                    <span class="info"
+                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}</span
+                    >
                   </template>
                 </baseCol>
                 <baseCol prop="highNum" label="复查基线检查报告名称">
@@ -236,16 +240,16 @@
                 </baseCol>
                 <baseCol prop="highNum" label="复查基线检查报告信息">
                   <template #button="props">
-                    <span
+                    <span class="info"
                       >姓名：{{ props.row.reviewReportBasicBO.nickName }}
                     </span>
-                    <span
+                    <span class="info"
                       >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
                     </span>
-                    <span
+                    <span class="info"
                       >联系方式：{{ props.row.reviewReportBasicBO.phone }}
                     </span>
-                    <span
+                    <span class="info"
                       >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
                     </span>
                   </template>
@@ -275,8 +279,8 @@
               </baseTable>
             </div>
             <!-- 渗透 -->
-            <div>
-              <h4>渗透测试报告</h4>
+            <div class="report-wrap infiltration">
+              <h5>渗透测试报告</h5>
               <button
                 v-if="seep.startVisble"
                 @click="toNewPage(2, row.processId, 1)"
@@ -301,12 +305,16 @@
                 </baseCol>
                 <baseCol prop="mediumNum" label="初查渗透测试报告信息">
                   <template #button="props">
-                    <span>姓名：{{ props.row.reportBasicBO.nickName }} </span>
-                    <span
+                    <span class="info"
+                      >姓名：{{ props.row.reportBasicBO.nickName }}
+                    </span>
+                    <span class="info"
                       >单位名称：{{ props.row.reportBasicBO.orgName }}
                     </span>
-                    <span>联系方式：{{ props.row.reportBasicBO.phone }} </span>
-                    <span
+                    <span class="info"
+                      >联系方式：{{ props.row.reportBasicBO.phone }}
+                    </span>
+                    <span class="info"
                       >填写时间：{{ props.row.reportBasicBO.uploadTime }}
                     </span>
                   </template>
@@ -325,16 +333,16 @@
                 </baseCol>
                 <baseCol prop="highNum" label="复查渗透测试报告信息">
                   <template #button="props">
-                    <span
+                    <span class="info"
                       >姓名：{{ props.row.reviewReportBasicBO.nickName }}
                     </span>
-                    <span
+                    <span class="info"
                       >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
                     </span>
-                    <span
+                    <span class="info"
                       >联系方式：{{ props.row.reviewReportBasicBO.phone }}
                     </span>
-                    <span
+                    <span class="info"
                       >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
                     </span>
                   </template>
@@ -364,14 +372,13 @@
               </baseTable>
             </div>
             <!-- 漏洞通过 -->
-            <div>
-              <h4>漏洞扫描报告</h4>
+            <div class="report-wrap loophole">
+              <h5>漏洞扫描报告</h5>
               <button
                 v-if="FlawTable.uploadVisible"
                 :disabled="stepData[step - 1].lock"
                 @click="toNewPage(3, row.processId)"
                 class="major"
-                style="margin-right: 5px;"
               >
                 上传
               </button>
@@ -1509,9 +1516,47 @@ export default {
             }
           }
         }
+        div > .baseline {
+          background: #f7fcfd;
+          border: 1px solid #66cbd1;
+          h5 {
+            background: #66cbd1;
+          }
+        }
+        div > .infiltration {
+          background: #f3fdfa;
+          border: 1px solid #6ce1bf;
+          h5 {
+            background: #6ce1bf;
+          }
+        }
+        div > .loophole {
+          background: #f9feff;
+          border: 1px solid #5ce3f3;
+          h5 {
+            background: #5ce3f3;
+          }
+        }
+        div > .report-wrap {
+          margin: 20px 0;
+          h5 {
+            padding: 5px 10px;
+          }
+          button {
+            margin: 10px 5px 0 1%;
+          }
+          table {
+            width: 98%;
+            margin: 10px auto 15px auto;
+            .info {
+              margin: 2px 10px;
+              display: block;
+            }
+          }
+        }
         div > .assets-wrap {
           width: 100%;
-          max-height: 200px;
+          max-height: 500px;
           overflow: scroll;
           table {
             width: 2000px;
