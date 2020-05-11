@@ -255,34 +255,64 @@
                 否
               </label>
             </baseFormItem>
-            <baseFormItem label="漏洞名称" prop="leakTitle" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="漏洞名称"
+              prop="leakTitle"
+              required
+            >
               <input type="text" v-model="seepResForm.leakTitle" />
             </baseFormItem>
-            <baseFormItem label="CVE编号" prop="cevNum" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="CVE编号"
+              prop="cevNum"
+              required
+            >
               <input type="text" v-model="seepResForm.cevNum" />
             </baseFormItem>
-            <baseFormItem label="等级" prop="hazardLevel" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="等级"
+              prop="hazardLevel"
+              required
+            >
               <select v-model="seepResForm.hazardLevel">
                 <option value="高">高</option>
                 <option value="中">中</option>
                 <option value="低">低</option>
               </select>
             </baseFormItem>
-            <baseFormItem label="漏洞危害说明" prop="leakHazardDesc" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="漏洞危害说明"
+              prop="leakHazardDesc"
+              required
+            >
               <textarea
                 cols="30"
                 rows="6"
                 v-model="seepResForm.leakHazardDesc"
               ></textarea>
             </baseFormItem>
-            <baseFormItem label="整改建议" prop="reformDesc" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="整改建议"
+              prop="reformDesc"
+              required
+            >
               <textarea
                 cols="30"
                 rows="6"
                 v-model="seepResForm.reformDesc"
               ></textarea>
             </baseFormItem>
-            <baseFormItem label="漏洞效果及截图" prop="imgs" required>
+            <baseFormItem
+              v-if="seepResForm.leakStatus === '1'"
+              label="漏洞效果及截图"
+              prop="imgs"
+              required
+            >
               <button type="button" @click="uploadFile">
                 点击上传
               </button>
@@ -300,7 +330,7 @@
             新增
           </button>
         </baseForm>
-        <baseTable :tableData="seepTable">
+        <baseTable :tableData="seepTableIndex">
           <baseCol prop="leakIp" label="漏洞IP地址" />
           <baseCol prop="url" label="漏洞URL地址" />
           <baseCol prop="leakTitle" label="漏洞名称" />
@@ -542,6 +572,13 @@ export default {
       )
       return res
     },
+    seepTableIndex() {
+      let res = this.seepTable
+      res.forEach((item, index) => {
+        item['index'] = index
+      })
+      return res
+    },
   },
   watch: {
     baseSelectValue: {
@@ -693,6 +730,13 @@ export default {
     // 渗透相关
     addSeep() {
       if (!this.$refs.reportSeepResForm.validate()) return
+      if (this.seepResForm.leakStatus === '0') {
+        this.seepResForm.leakTitle = '无'
+        this.seepResForm.cevNum = '无'
+        this.seepResForm.hazardLevel = '无'
+        this.seepResForm.leakHazardDesc = '无'
+        this.seepResForm.reformDesc = '无'
+      }
       this.seepTable.push(JSON.parse(JSON.stringify(this.seepResForm)))
       Object.assign(this.$data.seepResForm, this.$options.data().seepResForm)
     },
