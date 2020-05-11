@@ -224,17 +224,17 @@
           :rules="seepResRules"
         >
           <div class="box">
-            <baseFormItem label="漏洞IP地址" prop="leakIp" required>
+            <baseFormItem label="IP地址" prop="leakIp" required>
               <select v-model="seepResForm.leakIp">
                 <option
                   v-for="(item, index) in baseAssetsDataOptional"
                   :key="index"
                   :value="item.leakIp"
-                  >{{ item.assets }}</option
+                  >{{ item.leakIp }}</option
                 >
               </select>
             </baseFormItem>
-            <baseFormItem label="漏洞URL地址" prop="url" required>
+            <baseFormItem label="URL地址">
               <input type="text" v-model="seepResForm.url" />
             </baseFormItem>
             <baseFormItem label="是否存在漏洞" prop="leakStatus" required>
