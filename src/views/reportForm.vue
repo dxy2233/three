@@ -230,7 +230,7 @@
                   v-for="(item, index) in baseAssetsDataOptional"
                   :key="index"
                   :value="item.leakIp"
-                  >{{ item.leakIp }}</option
+                  >{{ item.assets }}</option
                 >
               </select>
             </baseFormItem>
