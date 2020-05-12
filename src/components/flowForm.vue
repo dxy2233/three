@@ -212,22 +212,24 @@
                 </baseCol>
                 <baseCol prop="mediumNum" label="初查基线检查报告信息">
                   <template #button="props">
-                    <span class="info"
-                      ><i>姓名：</i
-                      ><i>{{ props.row.reportBasicBO.nickName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>单位名称：</i
-                      ><i>{{ props.row.reportBasicBO.orgName }}</i></span
-                    >
-                    <span class="info"
-                      ><i>联系方式：</i
-                      ><i>{{ props.row.reportBasicBO.phone }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>填写时间：</i
-                      ><i>{{ props.row.reportBasicBO.uploadTime }}</i></span
-                    >
+                    <div v-if="props.row.reportBasicBO.name">
+                      <span class="info"
+                        ><i>姓名：</i
+                        ><i>{{ props.row.reportBasicBO.nickName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>单位名称：</i
+                        ><i>{{ props.row.reportBasicBO.orgName }}</i></span
+                      >
+                      <span class="info"
+                        ><i>联系方式：</i
+                        ><i>{{ props.row.reportBasicBO.phone }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>填写时间：</i
+                        ><i>{{ props.row.reportBasicBO.uploadTime }}</i></span
+                      >
+                    </div>
                   </template>
                 </baseCol>
                 <baseCol prop="highNum" label="复查基线检查报告名称">
@@ -244,22 +246,24 @@
                 </baseCol>
                 <baseCol prop="highNum" label="复查基线检查报告信息">
                   <template #button="props">
-                    <span class="info"
-                      ><i>姓名：</i
-                      ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>单位名称：</i
-                      ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>联系方式：</i
-                      ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>填写时间：</i
-                      ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
-                    </span>
+                    <div v-if="props.row.reviewReportBasicBO.name">
+                      <span class="info"
+                        ><i>姓名：</i
+                        ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>单位名称：</i
+                        ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>联系方式：</i
+                        ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>填写时间：</i
+                        ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
+                      </span>
+                    </div>
                   </template>
                 </baseCol>
                 <baseCol label="操作">
@@ -313,22 +317,24 @@
                 </baseCol>
                 <baseCol prop="mediumNum" label="初查渗透测试报告信息">
                   <template #button="props">
-                    <span class="info"
-                      ><i>姓名：</i
-                      ><i>{{ props.row.reportBasicBO.nickName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>单位名称：</i
-                      ><i>{{ props.row.reportBasicBO.orgName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>联系方式：</i
-                      ><i>{{ props.row.reportBasicBO.phone }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>填写时间：</i
-                      ><i>{{ props.row.reportBasicBO.uploadTime }}</i>
-                    </span>
+                    <div v-if="props.row.reportBasicBO.name">
+                      <span class="info"
+                        ><i>姓名：</i
+                        ><i>{{ props.row.reportBasicBO.nickName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>单位名称：</i
+                        ><i>{{ props.row.reportBasicBO.orgName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>联系方式：</i
+                        ><i>{{ props.row.reportBasicBO.phone }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>填写时间：</i
+                        ><i>{{ props.row.reportBasicBO.uploadTime }}</i>
+                      </span>
+                    </div>
                   </template>
                 </baseCol>
                 <baseCol prop="highNum" label="复查渗透测试报告名称">
@@ -345,22 +351,24 @@
                 </baseCol>
                 <baseCol prop="highNum" label="复查渗透测试报告信息">
                   <template #button="props">
-                    <span class="info"
-                      ><i>姓名：</i
-                      ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>单位名称：</i
-                      ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>联系方式：</i
-                      ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
-                    </span>
-                    <span class="info"
-                      ><i>填写时间：</i
-                      ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
-                    </span>
+                    <div v-if="props.row.reviewReportBasicBO.name">
+                      <span class="info"
+                        ><i>姓名：</i
+                        ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>单位名称：</i
+                        ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>联系方式：</i
+                        ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
+                      </span>
+                      <span class="info"
+                        ><i>填写时间：</i
+                        ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
+                      </span>
+                    </div>
                   </template>
                 </baseCol>
                 <baseCol label="操作">
