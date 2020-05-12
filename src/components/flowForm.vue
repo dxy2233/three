@@ -213,16 +213,20 @@
                 <baseCol prop="mediumNum" label="初查基线检查报告信息">
                   <template #button="props">
                     <span class="info"
-                      >姓名：{{ props.row.reportBasicBO.nickName }}
+                      ><i>姓名：</i
+                      ><i>{{ props.row.reportBasicBO.nickName }}</i>
                     </span>
                     <span class="info"
-                      >单位名称：{{ props.row.reportBasicBO.orgName }}</span
+                      ><i>单位名称：</i
+                      ><i>{{ props.row.reportBasicBO.orgName }}</i></span
                     >
                     <span class="info"
-                      >联系方式：{{ props.row.reportBasicBO.phone }}
+                      ><i>联系方式：</i
+                      ><i>{{ props.row.reportBasicBO.phone }}</i>
                     </span>
                     <span class="info"
-                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}</span
+                      ><i>填写时间：</i
+                      ><i>{{ props.row.reportBasicBO.uploadTime }}</i></span
                     >
                   </template>
                 </baseCol>
@@ -241,16 +245,20 @@
                 <baseCol prop="highNum" label="复查基线检查报告信息">
                   <template #button="props">
                     <span class="info"
-                      >姓名：{{ props.row.reviewReportBasicBO.nickName }}
+                      ><i>姓名：</i
+                      ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
                     </span>
                     <span class="info"
-                      >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
+                      ><i>单位名称：</i
+                      ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
                     </span>
                     <span class="info"
-                      >联系方式：{{ props.row.reviewReportBasicBO.phone }}
+                      ><i>联系方式：</i
+                      ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
                     </span>
                     <span class="info"
-                      >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
+                      ><i>填写时间：</i
+                      ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
                     </span>
                   </template>
                 </baseCol>
@@ -306,16 +314,20 @@
                 <baseCol prop="mediumNum" label="初查渗透测试报告信息">
                   <template #button="props">
                     <span class="info"
-                      >姓名：{{ props.row.reportBasicBO.nickName }}
+                      ><i>姓名：</i
+                      ><i>{{ props.row.reportBasicBO.nickName }}</i>
                     </span>
                     <span class="info"
-                      >单位名称：{{ props.row.reportBasicBO.orgName }}
+                      ><i>单位名称：</i
+                      ><i>{{ props.row.reportBasicBO.orgName }}</i>
                     </span>
                     <span class="info"
-                      >联系方式：{{ props.row.reportBasicBO.phone }}
+                      ><i>联系方式：</i
+                      ><i>{{ props.row.reportBasicBO.phone }}</i>
                     </span>
                     <span class="info"
-                      >填写时间：{{ props.row.reportBasicBO.uploadTime }}
+                      ><i>填写时间：</i
+                      ><i>{{ props.row.reportBasicBO.uploadTime }}</i>
                     </span>
                   </template>
                 </baseCol>
@@ -334,16 +346,20 @@
                 <baseCol prop="highNum" label="复查渗透测试报告信息">
                   <template #button="props">
                     <span class="info"
-                      >姓名：{{ props.row.reviewReportBasicBO.nickName }}
+                      ><i>姓名：</i
+                      ><i>{{ props.row.reviewReportBasicBO.nickName }}</i>
                     </span>
                     <span class="info"
-                      >单位名称：{{ props.row.reviewReportBasicBO.orgName }}
+                      ><i>单位名称：</i
+                      ><i>{{ props.row.reviewReportBasicBO.orgName }}</i>
                     </span>
                     <span class="info"
-                      >联系方式：{{ props.row.reviewReportBasicBO.phone }}
+                      ><i>联系方式：</i
+                      ><i>{{ props.row.reviewReportBasicBO.phone }}</i>
                     </span>
                     <span class="info"
-                      >填写时间：{{ props.row.reviewReportBasicBO.uploadTime }}
+                      ><i>填写时间：</i
+                      ><i>{{ props.row.reviewReportBasicBO.uploadTime }}</i>
                     </span>
                   </template>
                 </baseCol>
@@ -1550,7 +1566,17 @@ export default {
             margin: 10px auto 15px auto;
             .info {
               margin: 2px 10px;
-              display: block;
+              display: flex;
+              i {
+                font-style: normal;
+                width: 50%;
+                &:first-child {
+                  text-align: right;
+                }
+                &:last-child {
+                  text-align: left;
+                }
+              }
             }
           }
         }
