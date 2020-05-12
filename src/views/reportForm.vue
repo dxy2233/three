@@ -338,7 +338,13 @@
           <baseCol prop="cevNum" label="CVE编号" />
           <baseCol prop="imgs" label="漏洞效果及截图">
             <template #button="props">
-              <span v-for="(img, imgIndex) in props.row.imgs" :key="imgIndex">
+              <span
+                v-for="(img, imgIndex) in props.row.imgs"
+                :key="imgIndex"
+                @click="downloadFile(img.url)"
+                class="link"
+                style="max-width: unset;"
+              >
                 {{ img.url | imgName }}
               </span>
             </template>
