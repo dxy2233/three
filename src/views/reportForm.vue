@@ -546,11 +546,11 @@ export default {
       },
       seepTable: [],
       flawForm: {
-        orgName: null,
-        personName: null,
-        tel: null,
-        email: null,
-        file: null,
+        orgName: '',
+        personName: '',
+        tel: '',
+        email: '',
+        file: '',
       },
       flawRules: {
         orgName: [
