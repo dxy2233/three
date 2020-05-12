@@ -227,7 +227,7 @@
             <baseFormItem label="IP地址" prop="leakIp" required>
               <select v-model="seepResForm.leakIp">
                 <option
-                  v-for="(item, index) in baseAssetsDataOptional"
+                  v-for="(item, index) in baseAssetsData"
                   :key="index"
                   :value="item.leakIp"
                   >{{ item.leakIp }}</option
@@ -565,13 +565,13 @@ export default {
     }
   },
   computed: {
-    baseAssetsDataOptional() {
-      let res = []
-      res = this.baseAssetsData.filter(
-        (item) => !this.seepTable.some((item2) => item2.leakIp === item.leakIp)
-      )
-      return res
-    },
+    // baseAssetsDataOptional() {
+    //   let res = []
+    //   res = this.baseAssetsData.filter(
+    //     (item) => !this.seepTable.some((item2) => item2.leakIp === item.leakIp)
+    //   )
+    //   return res
+    // },
     seepTableIndex() {
       let res = this.seepTable
       res.forEach((item, index) => {
