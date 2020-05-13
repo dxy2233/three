@@ -1209,7 +1209,9 @@ export default {
     },
     // 下载漏洞文件
     downloadFlaw(fileId) {
-      downloadFlaw(fileId)
+      downloadFlaw(fileId).then(() => {
+        this.initFlawRepor()
+      })
     },
     // 基线、渗透、漏洞下载
     downloadBaseSeepFlaw(path) {
@@ -1229,7 +1231,7 @@ export default {
       this.$confirm('确认删除？', '提示').then(() => {
         deleteFlaw(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
-          this.init()
+          this.initFlawRepor()
         })
       })
     },
@@ -1365,7 +1367,7 @@ export default {
     review(id) {
       reviewByFileId(id).then((res) => {
         this.$message({ content: res.message, type: 'success' })
-        this.init()
+        this.initFlawRepor()
       })
     },
     // 漏洞通过
@@ -1373,7 +1375,7 @@ export default {
       this.$confirm('确认通过？', '提示').then(() => {
         passFlawByProcessId(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
-          this.init()
+          this.initFlawRepor()
         })
       })
     },
