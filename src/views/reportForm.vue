@@ -694,8 +694,10 @@ export default {
       getAsstesByDeviceId(val.target.value).then((res) => {
         this.baseSelectList = res.data
         this.baseSelectValue = []
-        this.baseSelectList.forEach(() => {
+        this.baseSelectList.forEach((item, index) => {
           this.baseSelectValue.push('')
+          if (item.asstesValueBOS.length === 1)
+            this.baseSelectValue[index] = item.asstesValueBOS[0].dictionId
         })
       })
     },
