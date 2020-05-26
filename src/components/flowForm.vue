@@ -272,7 +272,13 @@
                       v-if="props.row.editVisble"
                       :disabled="stepData[step - 1].lock"
                       @click="
-                        toNewPage(1, row.processId, 1, props.row.deviceId)
+                        toNewPage(
+                          1,
+                          row.processId,
+                          1,
+                          props.row.deviceId,
+                          props.row.assetInfo
+                        )
                       "
                     >
                       编辑
@@ -281,7 +287,13 @@
                       v-if="props.row.reviewVisble"
                       :disabled="stepData[step - 1].lock"
                       @click="
-                        toNewPage(1, row.processId, 2, props.row.deviceId)
+                        toNewPage(
+                          1,
+                          row.processId,
+                          2,
+                          props.row.deviceId,
+                          props.row.assetInfo
+                        )
                       "
                     >
                       复查
@@ -1294,7 +1306,7 @@ export default {
       })
     },
     // 跳新页面
-    toNewPage(type, processId, status, deviceId) {
+    toNewPage(type, processId, status, deviceId, assetInfo) {
       const newPage = this.$router.resolve({
         path: '/reportform',
         query: {
@@ -1302,6 +1314,7 @@ export default {
           processId: processId,
           status: status,
           deviceId: deviceId,
+          assetInfo: assetInfo,
         },
       })
       window.open(newPage.href, '_blank')

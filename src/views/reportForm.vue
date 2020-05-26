@@ -5,9 +5,10 @@
 
     <!-- 基线 -->
     <baseDialog v-if="type === '1'" :visible.sync="dialog" top="0" width="100%">
-      <template #title
-        >{{ `${status === '2' ? '复' : '初'}` }}查安全防护基线配置要求</template
-      >
+      <template #title>
+        【{{ assetInfo }}】
+        {{ `${status === '2' ? '复' : '初'}` }}查安全防护基线配置要求
+      </template>
       <baseForm ref="reportBaseForm" :form="baseForm" :rules="baseRules">
         <div class="content">
           <h4>填写人相关信息</h4>
@@ -94,7 +95,7 @@
         </div>
         <div class="details">
           <div v-for="(item, index) in baseInfo" :key="index" class="group">
-            <div v-if="!item.childData" class="caption">{{ item.title }}</div>
+            <div v-if="!item.childData" class="title">{{ item.title }}</div>
             <div v-else class="caption">{{ item.num }}、{{ item.title }}</div>
             <div
               v-for="(item2, index2) in item.childData"
@@ -471,6 +472,7 @@ export default {
       processId: null,
       status: null,
       deviceId: null,
+      assetInfo: null,
       currentCell: {},
       dialog: true,
       baseForm: {
@@ -868,14 +870,13 @@ export default {
       .details {
         padding: 0 20px 20px 20px;
         background: #fff;
-        .group:first-child {
-          .caption {
-            color: #0196e0;
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-          }
+        .group > .title {
+          color: #0196e0;
+          font-weight: bold;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+          font-size: 16px;
         }
         .group {
           text-align: left;
