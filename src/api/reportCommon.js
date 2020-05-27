@@ -1,6 +1,17 @@
 import request from '@/utils/request'
 
 /**
+ * @description 删除单个文件
+ */
+export function deleteFile(path) {
+  return request({
+    url: '/reportcommon/deleteFile',
+    method: 'get',
+    params: { path },
+  })
+}
+
+/**
  * @description 删除报告
  */
 export function deleteReport(fileId) {

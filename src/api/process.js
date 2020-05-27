@@ -146,6 +146,7 @@ export function saveConference(data) {
  * @param fileBOList 相关资料
  * @param principal 责任人
  * @param tel 联系方式
+ * @param address 通信地址
  * @param email 邮箱
  * @param visa 变更签证
  * @param conferenceBOList 会议纪要

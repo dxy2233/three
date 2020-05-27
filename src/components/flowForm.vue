@@ -111,7 +111,7 @@
                   :disabled="item.lock"
                 />
               </div>
-              <div class="item" style="flex: 2;">
+              <div class="item" style="width: 66.6%;">
                 <label style="width: 15%;">变更签证</label>
                 <button
                   v-if="allData.designBO.visa.uploadVisible"
@@ -125,6 +125,14 @@
                 >
                   {{ allData.designBO.visa.name }}
                 </span>
+              </div>
+              <div class="item">
+                <label>通信地址</label>
+                <input
+                  type="text"
+                  v-model="allData.designBO.address"
+                  :disabled="item.lock"
+                />
               </div>
             </div>
           </div>
@@ -1047,6 +1055,7 @@ export default {
               principal: this.allData.designBO.principal,
               tel: this.allData.designBO.tel,
               email: this.allData.designBO.email,
+              address: this.allData.designBO.address,
             },
             // constructionBO: {},
             acceptFirstBO: {
