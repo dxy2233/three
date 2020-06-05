@@ -660,6 +660,7 @@
         <button v-show="allData[nowKey + 'BO'].archiveVisible" @click="finish">
           <svg-icon icon-class="sure" />归档
         </button>
+        <button @click="openDialogReckon">安全评估</button>
       </div>
     </footer>
 
@@ -842,6 +843,183 @@
         </button>
       </baseForm>
     </baseDialog>
+    <!-- 安全评估 -->
+    <baseDialog :visible.sync="dialogReckon" top="0" width="80%">
+      <template #title>工程项目概况</template>
+      <baseForm
+        ref="reckonForm"
+        :form="reckonForm"
+        :rules="reckonRules"
+        class="reckon-form"
+      >
+        <div class="piece">
+          <b>归属的网络单元名称</b>
+          <div
+            v-for="(item, index) in reckonForm.netItemBOList"
+            :key="index"
+            class="reckon-on-row"
+          >
+            <baseFormItem label="网络单元名称" required>
+              <input
+                type="text"
+                v-model="reckonForm.netItemBOList[index].systemName"
+              />
+            </baseFormItem>
+            <baseFormItem label="安全保护等级标准" required>
+              <input
+                type="text"
+                v-model="reckonForm.netItemBOList[index].level"
+              />
+            </baseFormItem>
+            <svg-icon
+              icon-class="close"
+              @click="removeList('netItemBOList', index)"
+            />
+          </div>
+          <button
+            type="button"
+            @click="addList('netItemBOList', { systemName: '', level: '' })"
+            style="margin-left: 12%;"
+          >
+            新增
+          </button>
+        </div>
+        <div class="piece pan">
+          <baseFormItem label="网络/系统类型" prop="type" required>
+            <input type="text" v-model="reckonForm.type" />
+          </baseFormItem>
+        </div>
+        <div class="piece pan">
+          <b>受评估项目建设情况</b>
+          <baseFormItem label="主体建设规模" prop="mainScale" required>
+            <textarea
+              cols="30"
+              rows="5"
+              v-model="reckonForm.mainScale"
+            ></textarea>
+          </baseFormItem>
+          <baseFormItem label="网络安全配套建设规模" prop="netScale" required>
+            <textarea
+              cols="30"
+              rows="5"
+              v-model="reckonForm.netScale"
+            ></textarea>
+          </baseFormItem>
+        </div>
+        <div class="piece reckon-on-row">
+          <b>工程建设部门</b>
+          <baseFormItem label="部门名称" required>
+            <input type="text" v-model="reckonForm.buildOrg.orgName" />
+          </baseFormItem>
+          <baseFormItem label="项目负责人" required>
+            <input type="text" v-model="reckonForm.buildOrg.personName" />
+          </baseFormItem>
+          <baseFormItem label="通信地址">
+            <input type="text" v-model="reckonForm.buildOrg.address" />
+          </baseFormItem>
+          <baseFormItem label="联系电话" required>
+            <input type="text" v-model="reckonForm.buildOrg.tel" />
+          </baseFormItem>
+          <baseFormItem label="电子邮件">
+            <input type="text" v-model="reckonForm.buildOrg.email" />
+          </baseFormItem>
+        </div>
+        <div class="piece reckon-on-row">
+          <b>工程服务单位</b>
+          <baseFormItem label="部门名称" required>
+            <input type="text" v-model="reckonForm.serviceOrg.orgName" />
+          </baseFormItem>
+          <baseFormItem label="项目负责人" required>
+            <input type="text" v-model="reckonForm.serviceOrg.personName" />
+          </baseFormItem>
+          <baseFormItem label="通信地址">
+            <input type="text" v-model="reckonForm.serviceOrg.address" />
+          </baseFormItem>
+          <baseFormItem label="联系电话" required>
+            <input type="text" v-model="reckonForm.serviceOrg.tel" />
+          </baseFormItem>
+          <baseFormItem label="电子邮件">
+            <input type="text" v-model="reckonForm.serviceOrg.email" />
+          </baseFormItem>
+        </div>
+        <div class="piece">
+          <b>评估单位基本情况</b>
+          <div
+            v-for="(item, index) in reckonForm.personBOList"
+            :key="index"
+            class="reckon-on-row"
+          >
+            <baseFormItem label="姓名" required>
+              <input
+                type="text"
+                v-model="reckonForm.personBOList[index].name"
+              />
+            </baseFormItem>
+            <baseFormItem label="职务(岗位)" required>
+              <input
+                type="text"
+                v-model="reckonForm.personBOList[index].post"
+              />
+            </baseFormItem>
+            <svg-icon
+              icon-class="close"
+              @click="removeList('personBOList', index)"
+            />
+          </div>
+          <button
+            type="button"
+            @click="addList('personBOList', { name: '', post: '' })"
+            style="margin-left: 12%;"
+          >
+            新增
+          </button>
+        </div>
+        <div class="piece reckon-on-row">
+          <b>系统日志安全检查</b>
+          <baseFormItem label="日志是否完善" required>
+            <label>
+              <input type="radio" v-model="reckonForm.logState" value="是" />
+              是
+            </label>
+            <label>
+              <input type="radio" v-model="reckonForm.logState" value="否" />
+              否
+            </label>
+          </baseFormItem>
+        </div>
+        <div class="piece reckon-on-row">
+          <b>账号安全检查情况</b>
+          <baseFormItem label="弱口令账号数">
+            <input type="text" v-model="reckonForm.psdNumber" />
+          </baseFormItem>
+          <baseFormItem label="无主账号">
+            <input type="text" v-model="reckonForm.hostNumber" />
+          </baseFormItem>
+        </div>
+        <div class="piece pan">
+          <baseFormItem label="安全保障设施防护能力评估情况">
+            <textarea
+              cols="30"
+              rows="5"
+              v-model="reckonForm.securityState"
+            ></textarea>
+          </baseFormItem>
+        </div>
+        <baseFormItem label="漏洞扫描情况">
+          <button type="button" @click="uploadFile(null, 7)">
+            点击上传
+          </button>
+          <span v-if="reckonForm.imgPath">
+            {{
+              reckonForm.imgPath.slice(reckonForm.imgPath.lastIndexOf('\\') + 1)
+            }}
+          </span>
+        </baseFormItem>
+        <button type="button" @click="saveReckon">
+          <svg-icon icon-class="save" />保存
+        </button>
+      </baseForm>
+    </baseDialog>
   </div>
 </template>
 
@@ -884,6 +1062,7 @@ import { download } from '@/api/sftp'
 import { getOrgPersonByIds, getProcessOrgNodeTree } from '@/api/systemOrgNode'
 import { getDictionaryValue } from '@/api/dictionary'
 import { downloadTemplate } from '@/api/template'
+import { createReportEvaluation, uploadImg } from '@/api/reportEvaluation'
 import { orgTree } from '@/assets/mixin/common'
 
 export default {
@@ -1006,6 +1185,47 @@ export default {
         url: '',
         port: '',
         remark: '',
+      },
+      dialogReckon: false,
+      reckonForm: {
+        netItemBOList: [{ systemName: '', level: '' }],
+        type: '',
+        mainScale: '',
+        netScale: '',
+        buildOrg: {
+          address: '',
+          email: '',
+          orgName: '',
+          personName: '',
+          tel: '',
+        },
+        serviceOrg: {
+          address: '',
+          email: '',
+          orgName: '',
+          personName: '',
+          tel: '',
+        },
+        personBOList: [{ name: '', post: '' }],
+        psdNumber: '',
+        hostNumber: '',
+        securityState: '',
+        imgPath: '',
+      },
+      reckonRules: {
+        type: [
+          { required: true, message: '请输入网络/系统类型', trigger: 'blur' },
+        ],
+        mainScale: [
+          { required: true, message: '请输入主体建设规模', trigger: 'blur' },
+        ],
+        netScale: [
+          {
+            required: true,
+            message: '请输入网络安全配套建设规模',
+            trigger: 'blur',
+          },
+        ],
       },
     }
   },
@@ -1177,6 +1397,9 @@ export default {
         case 6:
           this.rowInfo.type = '导入资产'
           break
+        case 7:
+          this.rowInfo.type = '安全评估'
+          break
       }
       this.$refs.flowFile.dispatchEvent(new MouseEvent('click'))
     },
@@ -1188,6 +1411,14 @@ export default {
         importDevice(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
+        })
+      } else if (this.rowInfo.type === '安全评估') {
+        let formData = new FormData()
+        formData.append('file', e.target.files[0])
+        formData.append('processId', this.row.processId)
+        uploadImg(formData).then((res) => {
+          this.$message({ content: res.message, type: 'success' })
+          this.reckonForm.imgPath = res.data
         })
       } else {
         let formData = new FormData()
@@ -1419,6 +1650,23 @@ export default {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
         })
+      })
+    },
+    openDialogReckon() {
+      this.dialogReckon = true
+    },
+    addList(key, obj) {
+      this.reckonForm[key].push(obj)
+    },
+    removeList(key, index) {
+      this.reckonForm[key].splice(index, 1)
+    },
+    saveReckon() {
+      if (!this.$refs.reckonForm.validate()) return
+      this.reckonForm.processId = this.row.processId
+      createReportEvaluation(this.reckonForm).then((res) => {
+        this.$message({ content: res.message, type: 'success' })
+        this.dialogReckon = false
       })
     },
   },
@@ -1800,6 +2048,36 @@ export default {
     span {
       margin-right: 10px;
       display: inline-block;
+    }
+  }
+  .reckon-form {
+    .piece {
+      border-bottom: 1px solid #cbcbcb;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+    .pan {
+      .form-gound {
+        width: 109.7%;
+        margin-left: -13.7%;
+      }
+    }
+    b {
+      width: 100%;
+    }
+    .reckon-on-row {
+      display: flex;
+      align-items: center;
+      flex-flow: wrap;
+      .form-gound {
+        width: 48%;
+      }
+      svg {
+        border: 1px solid #ff4949;
+        border-radius: 50%;
+        color: #ff4949;
+        margin-left: 5px;
+      }
     }
   }
 }
