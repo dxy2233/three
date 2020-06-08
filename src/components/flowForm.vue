@@ -1005,7 +1005,10 @@
             ></textarea>
           </baseFormItem>
         </div>
-        <baseFormItem label="漏洞扫描情况">
+        <baseFormItem
+          label="漏洞扫描情况"
+          style="margin-left: -13.7%; width: 109.7%;"
+        >
           <button type="button" @click="uploadFile(null, 7)">
             点击上传
           </button>
