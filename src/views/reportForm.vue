@@ -424,7 +424,55 @@
             </baseFormItem>
             <baseFormItem> </baseFormItem>
           </div>
-          <button type="button" @click="submitFlaw">
+          <button type="button" @click="submitFlaw(1)">
+            <svg-icon icon-class="save" />保存
+          </button>
+          <button type="button" @click="closePage">
+            <svg-icon icon-class="close" />关闭
+          </button>
+        </div>
+      </baseForm>
+    </baseDialog>
+
+    <!-- 漏洞整改附件 -->
+    <baseDialog
+      v-else-if="type === '4'"
+      :visible.sync="dialog"
+      top="0"
+      width="100%"
+    >
+      <template #title>漏洞整改附件</template>
+      <baseForm ref="reportFlawForm" :form="flawForm" :rules="flawRules">
+        <div class="content">
+          <h4>填写人相关信息</h4>
+          <div class="box">
+            <baseFormItem label="单位名称" prop="orgName" required>
+              <input type="text" v-model="flawForm.orgName" />
+            </baseFormItem>
+            <baseFormItem label="姓名" prop="personName" required>
+              <input type="text" v-model="flawForm.personName" />
+            </baseFormItem>
+            <baseFormItem label="联系方式" prop="tel" required>
+              <input type="text" v-model="flawForm.tel" />
+            </baseFormItem>
+            <baseFormItem label="邮箱">
+              <input type="text" v-model="flawForm.email" />
+            </baseFormItem>
+          </div>
+        </div>
+        <br />
+        <div class="content">
+          <h4>整改附件</h4>
+          <div class="box">
+            <baseFormItem label="上传整改附件" prop="file" required>
+              <button type="button" @click="uploadFile">
+                点击上传
+              </button>
+              <span v-if="flawForm.file"> {{ flawForm.file.name }} </span>
+            </baseFormItem>
+            <baseFormItem> </baseFormItem>
+          </div>
+          <button type="button" @click="submitFlaw(2)">
             <svg-icon icon-class="save" />保存
           </button>
           <button type="button" @click="closePage">
@@ -678,7 +726,7 @@ export default {
           this.seepResForm.imgs.push({ url: res.data })
           this.$refs.reportSeepResForm.validate()
         })
-      } else if (this.type === '3') {
+      } else if (this.type === '3' || this.type === '4') {
         this.flawForm.file = e.target.files[0]
       }
       this.$refs.reportFile.value = null
@@ -791,11 +839,12 @@ export default {
       })
     },
     // 漏洞提交
-    submitFlaw() {
+    submitFlaw(fileType) {
       if (!this.$refs.reportFlawForm.validate()) return
       this.$confirm('确认保存？', '提示').then(() => {
         let formData = new FormData()
         formData.append('processId ', this.processId)
+        formData.append('fileType ', fileType)
         for (const key in this.flawForm) {
           formData.append(key, this.flawForm[key])
         }

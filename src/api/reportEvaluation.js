@@ -11,7 +11,7 @@ import request from '@/utils/request'
  * @param onlineTime 计划上线时间
  * @param buildOrg 工程建设部门信息
  * @param serviceOrg 工程服务部门信息
- * @param personBOList 安全人员信息
+ * @param personBOList 评估单位：安全人员信息
  * @param imgPath 扫描结果图片路径
  * @param logState 日志检查结果
  * @param hostNumber 无主账号
@@ -23,6 +23,16 @@ export function createReportEvaluation(data) {
     url: '/reportevaluation/createReportEvaluation',
     method: 'post',
     data,
+  })
+}
+
+/**
+ * @description 获取安全评估报告相关的枚举值集合
+ */
+export function getEnumList() {
+  return request({
+    url: '/reportevaluation/getEnumList',
+    method: 'get',
   })
 }
 

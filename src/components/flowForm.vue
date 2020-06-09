@@ -427,6 +427,14 @@
                 上传
               </button>
               <button
+                v-if="FlawTable.attachmentVisible"
+                :disabled="stepData[step - 1].lock"
+                @click="toNewPage(4, row.processId)"
+                class="major"
+              >
+                上传整改说明附件
+              </button>
+              <button
                 v-if="FlawTable.passVisible"
                 :disabled="stepData[step - 1].lock"
                 @click="passFlaw(allData[nowKey + 'BO'].processId)"
@@ -448,7 +456,6 @@
                 <baseCol prop="fileSize" label="文件大小" />
                 <baseCol prop="highNum" label="高危数量" />
                 <baseCol prop="mediumNum" label="中危数量" />
-                <baseCol prop="lowNum" label="低危数量" />
                 <baseCol prop="personName" label="上传人" />
                 <baseCol prop="orgName" label="单位名称" />
                 <baseCol prop="tel" label="联系方式" />
@@ -468,6 +475,35 @@
                     >
                       申请复评
                     </button>
+                    <button
+                      v-show="props.row.deleteVisible"
+                      class="remove"
+                      @click="removeFlawFile(props.row.fileId)"
+                      :disabled="stepData[step - 1].lock"
+                    >
+                      删除
+                    </button>
+                  </template>
+                </baseCol>
+              </baseTable>
+              <baseTable :tableData="FlawTable.attachmentList">
+                <baseCol prop="fileName" label="漏洞整改说明附件">
+                  <template #button="props">
+                    <span
+                      @click="downloadBaseSeepFlaw(props.row.filePath)"
+                      class="link"
+                    >
+                      {{ props.row.fileName }}</span
+                    >
+                  </template>
+                </baseCol>
+                <baseCol prop="fileSize" label="文件大小" />
+                <baseCol prop="personName" label="上传人" />
+                <baseCol prop="orgName" label="单位名称" />
+                <baseCol prop="tel" label="联系方式" />
+                <baseCol prop="uploadTime" label="上传时间" />
+                <baseCol label="操作">
+                  <template #button="props">
                     <button
                       v-show="props.row.deleteVisible"
                       class="remove"
@@ -660,7 +696,12 @@
         <button v-show="allData[nowKey + 'BO'].archiveVisible" @click="finish">
           <svg-icon icon-class="sure" />归档
         </button>
-        <button @click="openDialogReckon">安全评估</button>
+        <button
+          v-if="step === 3 && allData.constructionBO.evaluatVisible"
+          @click="openDialogReckon"
+        >
+          安全评估
+        </button>
       </div>
     </footer>
 
@@ -859,17 +900,43 @@
             :key="index"
             class="reckon-on-row"
           >
-            <baseFormItem label="网络单元名称" required>
+            <baseFormItem
+              label="网络单元名称"
+              :prop="'netItemBOList.' + index + '.systemName'"
+              :rule="[
+                {
+                  required: true,
+                  message: '请输入网络单元名称',
+                  trigger: 'blur',
+                },
+              ]"
+              required
+            >
               <input
                 type="text"
                 v-model="reckonForm.netItemBOList[index].systemName"
               />
             </baseFormItem>
-            <baseFormItem label="安全保护等级标准" required>
-              <input
-                type="text"
-                v-model="reckonForm.netItemBOList[index].level"
-              />
+            <baseFormItem
+              label="安全保护等级标准"
+              :prop="'netItemBOList.' + index + '.level'"
+              :rule="[
+                {
+                  required: true,
+                  message: '请选择安全保护等级标准',
+                  trigger: 'change',
+                },
+              ]"
+              required
+            >
+              <select v-model="reckonForm.netItemBOList[index].level">
+                <option
+                  v-for="(item, index) in enumList['安全保护等级标准']"
+                  :key="index"
+                  :value="item"
+                  >{{ item }}</option
+                >
+              </select>
             </baseFormItem>
             <svg-icon
               icon-class="close"
@@ -886,7 +953,14 @@
         </div>
         <div class="piece pan">
           <baseFormItem label="网络/系统类型" prop="type" required>
-            <input type="text" v-model="reckonForm.type" />
+            <select v-model="reckonForm.type">
+              <option
+                v-for="(item, index) in enumList['网络/系统类型']"
+                :key="index"
+                :value="item"
+                >{{ item }}</option
+              >
+            </select>
           </baseFormItem>
         </div>
         <div class="piece pan">
@@ -908,16 +982,49 @@
         </div>
         <div class="piece reckon-on-row">
           <b>工程建设部门</b>
-          <baseFormItem label="部门名称" required>
+          <baseFormItem
+            label="部门名称"
+            :prop="'buildOrg.orgName'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入部门名称',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.buildOrg.orgName" />
           </baseFormItem>
-          <baseFormItem label="项目负责人" required>
+          <baseFormItem
+            label="项目负责人"
+            :prop="'buildOrg.personName'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入项目负责人',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.buildOrg.personName" />
           </baseFormItem>
           <baseFormItem label="通信地址">
             <input type="text" v-model="reckonForm.buildOrg.address" />
           </baseFormItem>
-          <baseFormItem label="联系电话" required>
+          <baseFormItem
+            label="联系电话"
+            :prop="'buildOrg.tel'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入联系电话',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.buildOrg.tel" />
           </baseFormItem>
           <baseFormItem label="电子邮件">
@@ -926,16 +1033,49 @@
         </div>
         <div class="piece reckon-on-row">
           <b>工程服务单位</b>
-          <baseFormItem label="部门名称" required>
+          <baseFormItem
+            label="部门名称"
+            :prop="'serviceOrg.orgName'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入部门名称',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.serviceOrg.orgName" />
           </baseFormItem>
-          <baseFormItem label="项目负责人" required>
+          <baseFormItem
+            label="项目负责人"
+            :prop="'serviceOrg.personName'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入项目负责人',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.serviceOrg.personName" />
           </baseFormItem>
           <baseFormItem label="通信地址">
             <input type="text" v-model="reckonForm.serviceOrg.address" />
           </baseFormItem>
-          <baseFormItem label="联系电话" required>
+          <baseFormItem
+            label="联系电话"
+            :prop="'serviceOrg.tel'"
+            :rule="[
+              {
+                required: true,
+                message: '请输入联系电话',
+                trigger: 'blur',
+              },
+            ]"
+            required
+          >
             <input type="text" v-model="reckonForm.serviceOrg.tel" />
           </baseFormItem>
           <baseFormItem label="电子邮件">
@@ -949,13 +1089,35 @@
             :key="index"
             class="reckon-on-row"
           >
-            <baseFormItem label="姓名" required>
+            <baseFormItem
+              label="姓名"
+              :prop="'personBOList.' + index + '.name'"
+              :rule="[
+                {
+                  required: true,
+                  message: '请输入姓名',
+                  trigger: 'blur',
+                },
+              ]"
+              required
+            >
               <input
                 type="text"
                 v-model="reckonForm.personBOList[index].name"
               />
             </baseFormItem>
-            <baseFormItem label="职务(岗位)" required>
+            <baseFormItem
+              label="职务(岗位)"
+              :prop="'personBOList.' + index + '.post'"
+              :rule="[
+                {
+                  required: true,
+                  message: '请输入职务(岗位)',
+                  trigger: 'blur',
+                },
+              ]"
+              required
+            >
               <input
                 type="text"
                 v-model="reckonForm.personBOList[index].post"
@@ -976,7 +1138,7 @@
         </div>
         <div class="piece reckon-on-row">
           <b>系统日志安全检查</b>
-          <baseFormItem label="日志是否完善" required>
+          <baseFormItem label="日志是否完善" prop="logState" required>
             <label>
               <input type="radio" v-model="reckonForm.logState" value="是" />
               是
@@ -989,15 +1151,19 @@
         </div>
         <div class="piece reckon-on-row">
           <b>账号安全检查情况</b>
-          <baseFormItem label="弱口令账号数">
+          <baseFormItem label="弱口令账号数" prop="psdNumber" required>
             <input type="text" v-model="reckonForm.psdNumber" />
           </baseFormItem>
-          <baseFormItem label="无主账号">
+          <baseFormItem label="无主账号" prop="hostNumber" required>
             <input type="text" v-model="reckonForm.hostNumber" />
           </baseFormItem>
         </div>
         <div class="piece pan">
-          <baseFormItem label="安全保障设施防护能力评估情况">
+          <baseFormItem
+            label="安全保障设施防护能力评估情况"
+            prop="securityState"
+            required
+          >
             <textarea
               cols="30"
               rows="5"
@@ -1007,6 +1173,8 @@
         </div>
         <baseFormItem
           label="漏洞扫描情况"
+          prop="imgPath"
+          required
           style="margin-left: -13.7%; width: 109.7%;"
         >
           <button type="button" @click="uploadFile(null, 7)">
@@ -1065,7 +1233,11 @@ import { download } from '@/api/sftp'
 import { getOrgPersonByIds, getProcessOrgNodeTree } from '@/api/systemOrgNode'
 import { getDictionaryValue } from '@/api/dictionary'
 import { downloadTemplate } from '@/api/template'
-import { createReportEvaluation, uploadImg } from '@/api/reportEvaluation'
+import {
+  createReportEvaluation,
+  uploadImg,
+  getEnumList,
+} from '@/api/reportEvaluation'
 import { orgTree } from '@/assets/mixin/common'
 
 export default {
@@ -1190,6 +1362,7 @@ export default {
         remark: '',
       },
       dialogReckon: false,
+      enumList: {}, // 网络/系统类型，安全保护等级标准
       reckonForm: {
         netItemBOList: [{ systemName: '', level: '' }],
         type: '',
@@ -1227,6 +1400,41 @@ export default {
             required: true,
             message: '请输入网络安全配套建设规模',
             trigger: 'blur',
+          },
+        ],
+        logState: [
+          {
+            required: true,
+            message: '请选择日志是否完善',
+            trigger: 'change',
+          },
+        ],
+        psdNumber: [
+          {
+            required: true,
+            message: '请输入弱口令账号数',
+            trigger: 'blur',
+          },
+        ],
+        hostNumber: [
+          {
+            required: true,
+            message: '请输入无主账号',
+            trigger: 'blur',
+          },
+        ],
+        securityState: [
+          {
+            required: true,
+            message: '请输入安全保障设施防护能力评估情况',
+            trigger: 'blur',
+          },
+        ],
+        imgPath: [
+          {
+            required: true,
+            message: '请上传漏洞扫描情况',
+            trigger: 'change',
           },
         ],
       },
@@ -1422,6 +1630,7 @@ export default {
         uploadImg(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.reckonForm.imgPath = res.data
+          this.$refs.reckonForm.validate()
         })
       } else {
         let formData = new FormData()
@@ -1656,6 +1865,9 @@ export default {
       })
     },
     openDialogReckon() {
+      getEnumList().then((res) => {
+        this.enumList = res.data
+      })
       this.dialogReckon = true
     },
     addList(key, obj) {
@@ -2070,7 +2282,6 @@ export default {
     }
     .reckon-on-row {
       display: flex;
-      align-items: center;
       flex-flow: wrap;
       .form-gound {
         width: 48%;
@@ -2080,6 +2291,7 @@ export default {
         border-radius: 50%;
         color: #ff4949;
         margin-left: 5px;
+        margin-top: 13px;
       }
     }
   }
