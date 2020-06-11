@@ -1,6 +1,17 @@
 import request from '@/utils/request'
 
 /**
+ * @description 校验建设节点：基线检查完成情况、渗透测试完成情况、漏洞扫描完成情况
+ */
+export function checkConstruction(processId) {
+  return request({
+    url: '/reportevaluation/checkConstruction',
+    method: 'get',
+    params: { processId },
+  })
+}
+
+/**
  * @description 创建上线前安全风险评估报告
  * @param netItemBOList 网络单元
  * @param processId 流程ID

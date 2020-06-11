@@ -22,6 +22,16 @@ export function 10(data) {
 }
 
 /**
+ * @description test11
+ */
+export function 11() {
+  return request({
+    url: '/test/11',
+    method: 'get',
+  })
+}
+
+/**
  * @description test3
  */
 export function 3() {
@@ -85,6 +95,17 @@ export function c() {
 }
 
 /**
+ * @description testFile
+ */
+export function file(type) {
+  return request({
+    url: '/test/file',
+    method: 'get',
+    params: { type },
+  })
+}
+
+/**
  * @description testhtml
  */
 export function html(data) {
@@ -102,6 +123,17 @@ export function securityReport() {
   return request({
     url: '/test/securityReport',
     method: 'get',
+  })
+}
+
+/**
+ * @description testStream
+ */
+export function stream(data) {
+  return request({
+    url: '/test/stream',
+    method: 'post',
+    data,
   })
 }
 

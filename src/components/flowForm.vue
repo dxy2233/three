@@ -1237,6 +1237,7 @@ import {
   createReportEvaluation,
   uploadImg,
   getEnumList,
+  checkConstruction,
 } from '@/api/reportEvaluation'
 import { orgTree } from '@/assets/mixin/common'
 
@@ -1865,10 +1866,12 @@ export default {
       })
     },
     openDialogReckon() {
-      getEnumList().then((res) => {
-        this.enumList = res.data
+      checkConstruction(this.row.processId).then(() => {
+        getEnumList().then((res) => {
+          this.enumList = res.data
+          this.dialogReckon = true
+        })
       })
-      this.dialogReckon = true
     },
     addList(key, obj) {
       this.reckonForm[key].push(obj)
