@@ -833,14 +833,14 @@
     <!-- 建设流程中编辑的弹出框 -->
     <baseDialog :visible.sync="buildDialog">
       <template #title>编辑</template>
-      <baseForm ref="flowBuildForm" :form="buildForm">
+      <baseForm ref="flowBuildForm" :form="buildForm" :rules="buildRules">
         <baseFormItem label="序号">
           <input type="text" v-model="buildForm.serialNumber" />
         </baseFormItem>
-        <baseFormItem label="设备名称">
+        <baseFormItem label="设备名称" prop="deviceName" required>
           <input type="text" v-model="buildForm.deviceName" />
         </baseFormItem>
-        <baseFormItem label="设备类型">
+        <baseFormItem label="设备类型" prop="deviceSort" required>
           <select v-model="buildForm.deviceSort">
             <option value="服务器">服务器</option>
             <option value="网络设备">网络设备</option>
@@ -858,7 +858,16 @@
         <baseFormItem label="机柜编号">
           <input type="text" v-model="buildForm.cabinetNumber" />
         </baseFormItem>
-        <baseFormItem label="操作系统版本">
+        <baseFormItem
+          v-if="buildForm.deviceSort === '服务器'"
+          key="systemVersion1"
+          label="操作系统版本"
+          prop="systemVersion"
+          required
+        >
+          <input type="text" v-model="buildForm.systemVersion" />
+        </baseFormItem>
+        <baseFormItem v-else key="systemVersion2" label="操作系统版本">
           <input type="text" v-model="buildForm.systemVersion" />
         </baseFormItem>
         <baseFormItem label="中间件版本">
@@ -1367,6 +1376,17 @@ export default {
         url: '',
         port: '',
         remark: '',
+      },
+      buildRules: {
+        deviceName: [
+          { required: true, message: '请输入设备名称', trigger: 'blur' },
+        ],
+        deviceSort: [
+          { required: true, message: '请选择设备类型', trigger: 'change' },
+        ],
+        systemVersion: [
+          { required: true, message: '请输入操作系统版本', trigger: 'change' },
+        ],
       },
       dialogReckon: false,
       enumList: {}, // 网络/系统类型，安全保护等级标准
