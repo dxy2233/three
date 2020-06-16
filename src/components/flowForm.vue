@@ -841,7 +841,13 @@
           <input type="text" v-model="buildForm.deviceName" />
         </baseFormItem>
         <baseFormItem label="设备类型">
-          <input type="text" v-model="buildForm.deviceSort" />
+          <select v-model="buildForm.deviceSort">
+            <option value="服务器">服务器</option>
+            <option value="网络设备">网络设备</option>
+            <option value="安全设备">安全设备</option>
+            <option value="web应用系统">web应用系统</option>
+            <option value="其他">其他</option>
+          </select>
         </baseFormItem>
         <baseFormItem label="设备厂家/型号">
           <input type="text" v-model="buildForm.deviceType" />
