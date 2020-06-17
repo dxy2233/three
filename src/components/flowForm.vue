@@ -877,13 +877,13 @@
           <input type="text" v-model="buildForm.dbVersion" />
         </baseFormItem>
         <baseFormItem label="私网IP地址">
-          <input type="text" v-model="buildForm.privateAddress" />
+          <input type="text" v-model="buildForm.privateAddress" disabled />
         </baseFormItem>
         <baseFormItem label="DCN网地址">
-          <input type="text" v-model="buildForm.dcnAddress" />
+          <input type="text" v-model="buildForm.dcnAddress" disabled />
         </baseFormItem>
         <baseFormItem label="公网IP地址">
-          <input type="text" v-model="buildForm.publicAddress" />
+          <input type="text" v-model="buildForm.publicAddress" disabled />
         </baseFormItem>
         <baseFormItem label="应用WEB URL地址">
           <input type="text" v-model="buildForm.url" />
@@ -954,6 +954,7 @@
               </select>
             </baseFormItem>
             <svg-icon
+              v-if="reckonForm.netItemBOList.length > 1"
               icon-class="close"
               @click="removeList('netItemBOList', index)"
             />
@@ -1139,6 +1140,7 @@
               />
             </baseFormItem>
             <svg-icon
+              v-if="reckonForm.personBOList.length > 1"
               icon-class="close"
               @click="removeList('personBOList', index)"
             />
@@ -1649,6 +1651,7 @@ export default {
         importDevice(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
+          this.initBaseLineAndSeep()
         })
       } else if (this.rowInfo.type === '安全评估') {
         let formData = new FormData()
