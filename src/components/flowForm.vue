@@ -1651,7 +1651,9 @@ export default {
         importDevice(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
-          this.initBaseLineAndSeep()
+          this.initFlawRepor()
+          this.initBaseLineAndSeep(1)
+          this.initBaseLineAndSeep(2)
         })
       } else if (this.rowInfo.type === '安全评估') {
         let formData = new FormData()
@@ -1891,6 +1893,9 @@ export default {
         deleteDeviceById(id).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.initConstruction()
+          this.initFlawRepor()
+          this.initBaseLineAndSeep(1)
+          this.initBaseLineAndSeep(2)
         })
       })
     },
@@ -1914,6 +1919,7 @@ export default {
       createReportEvaluation(this.reckonForm).then((res) => {
         this.$message({ content: res.message, type: 'success' })
         this.dialogReckon = false
+        this.init()
       })
     },
   },

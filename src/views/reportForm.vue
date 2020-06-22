@@ -6,7 +6,7 @@
     <!-- 基线 -->
     <baseDialog v-if="type === '1'" :visible.sync="dialog" top="0" width="100%">
       <template #title>
-        【{{ assetInfo }}】
+        <span v-if="assetInfo">【{{ assetInfo }}】</span>
         {{ `${status === '2' ? '复' : '初'}` }}查安全防护基线配置要求
       </template>
       <baseForm ref="reportBaseForm" :form="baseForm" :rules="baseRules">
