@@ -869,7 +869,7 @@ export default {
       color: #045fc9;
       background: #ebebeb;
       padding: 10px 3% 0 3%;
-      span:last-child {
+      > span:last-child {
         display: none;
       }
     }

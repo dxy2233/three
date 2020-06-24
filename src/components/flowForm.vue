@@ -1612,6 +1612,13 @@ export default {
         ).then((res) => {
           this.$message({ content: res.message, type: 'success' })
           this.init()
+          // 设计流程归档时刷新
+          if (this.step === 2) {
+            this.initConstruction()
+            this.initFlawRepor()
+            this.initBaseLineAndSeep(1)
+            this.initBaseLineAndSeep(2)
+          }
         })
       })
     },
