@@ -1482,13 +1482,7 @@ export default {
     },
   },
   created() {
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        this.initFlawRepor()
-        this.initBaseLineAndSeep(1)
-        this.initBaseLineAndSeep(2)
-      }
-    })
+    document.addEventListener('visibilitychange', this.visibilityFun)
     this.init(true)
     getDictionaryValue().then((res) => {
       this.constructionData = res.data
@@ -1498,6 +1492,9 @@ export default {
     this.initFlawRepor()
     this.initBaseLineAndSeep(1)
     this.initBaseLineAndSeep(2)
+  },
+  beforeDestroy() {
+    document.removeEventListener('visibilitychange', this.visibilityFun)
   },
   methods: {
     init(ifSetStep) {
@@ -1795,6 +1792,13 @@ export default {
         if (type === 1) this.baseLine = res.data
         else if (type === 2) this.seep = res.data
       })
+    },
+    visibilityFun() {
+      if (!document.hidden) {
+        this.initFlawRepor()
+        this.initBaseLineAndSeep(1)
+        this.initBaseLineAndSeep(2)
+      }
     },
     // 跳新页面
     toNewPage(type, processId, status, deviceId, assetInfo) {
