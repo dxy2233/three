@@ -61,7 +61,7 @@ export function getPenetrationByProcessId(processId, status) {
  * @param pageSize 页面大小
  * @param projectCode 项目编号
  * @param projectName 项目名称
- * @param processNode 当前节点:0 全部 1 立项 2 设计 3 建设 4 初验 5 终验 6 转维 7 暂停 8 完成
+ * @param processNode 当前节点:0 全部 1 立项 2 设计 3 建设 4 初验 5 终验 6 运维 7 暂停 8 完成
  */
 export function getReportList(data) {
   return request({

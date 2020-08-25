@@ -42,8 +42,9 @@
             v-for="item in facilitatorNameList"
             :key="item.facilitatorId"
             :value="item.facilitatorId"
-            >{{ item.facilitatorName }}</option
           >
+            {{ item.facilitatorName }}
+          </option>
         </select>
       </label>
       <label v-if="info.visibleMap.orgTree">
@@ -67,7 +68,7 @@
       <baseCol prop="budget" label="项目预算(万)" />
       <baseCol prop="orgName" label="所属单位" />
       <baseCol prop="facilitator" label="服务商" />
-      <baseCol v-if="tableForm.type === 7" prop="reason" label="暂停原因" />
+      <baseCol v-if="tableForm.type === 6" prop="reason" label="暂停原因" />
       <baseCol
         v-if="info.visibleMap.waitExamine"
         prop="waitExamine"
@@ -124,9 +125,9 @@
 </template>
 
 <script>
-import { getProcessList, pauseProcess } from '@/api/process'
-import { getFacilitatorNameList } from '@/api/facilitator'
-import { getStatisticsByType } from '@/api/statistics'
+import { getProcessList, pauseProcess } from '@api/process'
+import { getFacilitatorNameList } from '@api/facilitator'
+import { getStatisticsByType } from '@api/statistics'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 import flowForm from '@/components/flowForm'
@@ -194,7 +195,7 @@ export default {
       //   this.amCount++
       // }, 3000)
       this.tableForm.type = type
-      this.init()
+      this.init(true)
     },
     openDialog(row) {
       this.selectedRow = row
@@ -233,7 +234,6 @@ export default {
 <style lang="scss" scoped>
 .flow {
   .menus {
-    // display: flex;
     div {
       background-image: linear-gradient(#158ae7, #158ae7, #43acff);
       text-align: center;
@@ -242,25 +242,24 @@ export default {
     }
   }
   .full {
-    // flex-wrap: wrap;
-    // justify-content: center;
-    margin: 5% auto 0 auto;
-    width: 620px;
-    height: 620px;
+    margin: 140px auto 0 auto;
+    width: 500px;
+    height: 500px;
     position: relative;
     border-radius: 50%;
     div {
       position: absolute;
-      width: 156px;
-      height: 156px;
-      margin: 0 1%;
+      width: 180px;
+      height: 180px;
+      top: calc(250px - 90px);
+      right: calc(250px - 90px);
       border-radius: 50%;
       box-shadow: 0 0 5px #158ae7;
       span {
         display: block;
       }
       span:first-child {
-        margin-top: 40px;
+        margin-top: 50px;
         font-size: 22px;
       }
       span:nth-child(2) {
@@ -276,32 +275,22 @@ export default {
       }
     }
     div:nth-child(1) {
-      top: 0px;
-      left: 225px;
+      transform: translate(0, -250px);
     }
     div:nth-child(2) {
-      top: 95px;
-      left: 40px;
+      transform: translate(216px, -125px);
     }
     div:nth-child(3) {
-      top: 285px;
-      left: 0px;
+      transform: translate(216px, 125px);
     }
     div:nth-child(4) {
-      top: 440px;
-      left: 125px;
+      transform: translate(0, 250px);
     }
     div:nth-child(5) {
-      top: 440px;
-      left: 330px;
+      transform: translate(-216px, 125px);
     }
     div:nth-child(6) {
-      top: 275px;
-      left: 455px;
-    }
-    div:nth-child(7) {
-      top: 90px;
-      left: 410px;
+      transform: translate(-216px, -125px);
     }
   }
   .small {

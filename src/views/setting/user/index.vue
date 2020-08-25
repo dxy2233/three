@@ -110,8 +110,9 @@
               v-for="(item, index) in facilitatorList"
               :key="index"
               :value="item.id"
-              >{{ item.name }}</option
             >
+              {{ item.name }}
+            </option>
           </select>
           <input v-else type="text" v-model="form.orgName" disabled />
         </baseFormItem>
@@ -134,8 +135,9 @@
               v-for="(item, index) in selectedFacilitator.personBOS"
               :key="index"
               :value="item.name"
-              >{{ item.name }}</option
             >
+              {{ item.name }}
+            </option>
           </select>
           <input v-else type="text" v-model="form.name" disabled />
         </baseFormItem>
@@ -210,9 +212,9 @@ import {
   resetPassword,
   saveUser,
   unLockUser,
-} from '@/api/user'
-import { getRoles } from '@/api/role'
-import { getFacilitatorAndPerson } from '@/api/facilitator'
+} from '@api/user'
+import { getRoles } from '@api/role'
+import { getFacilitatorAndPerson } from '@api/facilitator'
 import { contact } from '@/utils/validate'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
@@ -384,4 +386,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>>
+<style lang="scss" scoped></style>
+>

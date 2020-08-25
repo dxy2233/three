@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { getSystemOrgNodeTree, saveSystemOrgNode } from '@/api/systemOrgNode'
+import { getSystemOrgNodeTree, saveSystemOrgNode } from '@api/systemOrgNode'
 import { mapGetters } from 'vuex'
 
 export default {

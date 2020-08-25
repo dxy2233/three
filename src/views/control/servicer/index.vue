@@ -32,8 +32,8 @@
       <button @click="init(true)"><svg-icon icon-class="search" />搜索</button>
     </div>
 
-    <baseTable :tableData="tableData.list">
-      <baseCol prop="id" label="编号" />
+    <baseTable :tableData="tableData.list" class="serve-table">
+      <baseCol prop="code" label="编号" />
       <baseCol prop="name" label="服务商名称" />
       <baseCol prop="startTime" label="服务开始时间" />
       <baseCol prop="endTime" label="服务结束时间" />
@@ -107,7 +107,7 @@
           </label>
         </baseFormItem>
         <baseFormItem label="资质证明" required>
-          <button type="button" style="margin-left: 5px;" @click="uploadFile">
+          <button type="button" style="margin-left: 5px" @click="uploadFile">
             点击上传
           </button>
           {{ form.qualificationName }}
@@ -118,7 +118,7 @@
       </baseForm>
     </baseDialog>
     <!-- 人员管理 -->
-    <baseDialog :visible.sync="dialogStaff">
+    <baseDialog :visible.sync="dialogStaff" class="staff-dialog">
       <template #title>人员管理</template>
       <button
         v-if="info.visibleMap.addFacilitator"
@@ -126,7 +126,7 @@
       >
         <svg-icon icon-class="add" />新增人员
       </button>
-      <baseTable :tableData="staffTable">
+      <baseTable :tableData="staffTable.list">
         <baseCol prop="name" label="姓名" />
         <baseCol prop="sex" label="性别">
           <template #button="props">
@@ -153,6 +153,13 @@
           </template>
         </baseCol>
       </baseTable>
+
+      <basePagination
+        :currentPage.sync="staffTableForm.startPage"
+        :total="staffTable.total"
+        :pages="staffTable.pages"
+        @changeCurrentPage="staffTableInit"
+      />
     </baseDialog>
     <!-- 增加/编辑人员 -->
     <baseDialog :visible.sync="dialogStaffOne" @closed="closedStaffOne">
@@ -194,8 +201,8 @@ import {
   getPersonByFacilitatorId,
   saveFacilitatorPerson,
   deleteFacilitatorPersonById,
-} from '@/api/facilitator'
-import { download } from '@/api/sftp'
+} from '@api/facilitator'
+import { preview } from '@api/sftp'
 import { contact } from '@/utils/validate'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
@@ -261,6 +268,10 @@ export default {
         ],
       },
       dialogStaff: false,
+      staffTableForm: {
+        startPage: 1,
+        pageSize: 20,
+      },
       staffTable: [],
       dialogStaffOne: false,
       dialogStaffOneTitle: '',
@@ -275,10 +286,7 @@ export default {
       rulesStaffOne: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请输入性别', trigger: 'change' }],
-        idCard: [
-          { required: true, message: '请输入身份证', trigger: 'blur' },
-          // { validator: idCard, message: '请输入正确的身份证', trigger: 'blur' }
-        ],
+        idCard: [{ required: true, message: '请输入身份证', trigger: 'blur' }],
         practiceMode: [
           { required: true, message: '请输入联系方式', trigger: 'blur' },
           {
@@ -304,7 +312,7 @@ export default {
       })
     },
     downloadQualification(path) {
-      download(path)
+      preview(path)
     },
     openDialog(type, info) {
       this.dialogTitle = type
@@ -338,10 +346,24 @@ export default {
     },
     // 打开人员管理
     openStaffDialog(type, info) {
-      getPersonByFacilitatorId(info.id).then((res) => {
+      this.staffTableForm.startPage = 1
+      getPersonByFacilitatorId(
+        info.id,
+        this.staffTableForm.pageSize,
+        this.staffTableForm.startPage
+      ).then((res) => {
         this.staffTable = res.data
         this.staffOneForm.facilitatorId = info.id // 添加服务商id
         this.dialogStaff = true
+      })
+    },
+    staffTableInit() {
+      getPersonByFacilitatorId(
+        this.staffOneForm.facilitatorId,
+        this.staffTableForm.pageSize,
+        this.staffTableForm.startPage
+      ).then((res) => {
+        this.staffTable = res.data
       })
     },
     // 新增||编辑人员个人信息
@@ -404,4 +426,27 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.serve-table {
+  /deep/tbody tr td:nth-child(5) {
+    width: 30%;
+  }
+}
+.staff-dialog {
+  /deep/.dialog-body {
+    max-height: calc(100vh - 35vh);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-track-piece {
+      background-color: #fafafa;
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:vertical {
+      background-color: #ccc;
+      border-radius: 3px;
+    }
+  }
+}
+</style>

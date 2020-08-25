@@ -12,6 +12,18 @@ export function deleteDeviceById(id) {
 }
 
 /**
+ * @description 建设节点：导出设备
+ */
+export function downloadDevice(processId) {
+  return request({
+    url: '/device/downloadDevice',
+    method: 'get',
+    responseType: 'blob',
+    params: { processId },
+  })
+}
+
+/**
  * @description 通过设备deviceId获取当前资产
  */
 export function getAsstesByDeviceId(deviceId) {

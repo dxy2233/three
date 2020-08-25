@@ -31,11 +31,7 @@
       </label>
       <label v-if="info.visibleMap.orgTree">
         所属单位
-        <baseCascader
-          v-if="info.visibleMap.orgTree"
-          v-model="tableForm.orgId"
-          :data="systemOrgNodeTree"
-        />
+        <baseCascader v-model="tableForm.orgId" :data="systemOrgNodeTree" />
       </label>
       <button @click="init(true)"><svg-icon icon-class="search" />搜索</button>
     </div>
@@ -43,7 +39,11 @@
     <!-- 上传文件input -->
     <input type="file" ref="filingFile" @change="upload($event)" />
 
-    <baseTable :tableData="tableData.list" :rowClass="tableRowClassName">
+    <baseTable
+      :tableData="tableData.list"
+      @rowClick="clickTable"
+      :rowClass="tableRowClassName"
+    >
       <baseCol prop="projectCode" label="项目编号" />
       <baseCol prop="projectName" label="项目名称" />
       <baseCol prop="projectBudget" label="项目预算(万)" />
@@ -64,14 +64,14 @@
         <template #button="props">
           <button
             v-if="props.row.editVisble"
-            @click="openDialog('编辑备案', props.row)"
+            @click.stop="openDialog('编辑备案', props.row)"
           >
             编辑
           </button>
           <button
             v-if="props.row.deleteVisble"
             class="remove"
-            @click="remove(props.row.id)"
+            @click.stop="remove(props.row.id)"
           >
             删除
           </button>
@@ -106,7 +106,7 @@
             placeholder="请输入项目名称"
           />
         </baseFormItem>
-        <baseFormItem label="项目预算(万)">
+        <baseFormItem label="项目预算(万)" prop="projectBudget" required>
           <input
             type="text"
             v-model="form.projectBudget"
@@ -119,8 +119,9 @@
               v-for="(item, index) in operatorNameList"
               :key="index"
               :value="item.id"
-              >{{ item.orgName }}</option
             >
+              {{ item.orgName }}
+            </option>
           </select>
         </baseFormItem>
         <baseFormItem label="责任部门" prop="dutyDepartment" required>
@@ -128,6 +129,7 @@
             v-model="form.dutyDepartment"
             :data="dutyDepartmentData"
             placeholder="请输入责任部门"
+            :disabled="dialogTitle === '备案详情'"
           />
         </baseFormItem>
         <baseFormItem label="资金来源" prop="fundsSource" required>
@@ -202,7 +204,7 @@
         >
           <input type="number" v-model="form.ipAddressNum" />
         </baseFormItem>
-        <button type="button" @click="submit">
+        <button v-if="dialogTitle !== '备案详情'" type="button" @click="submit">
           <svg-icon icon-class="save" />保存
         </button>
       </baseForm>
@@ -246,9 +248,9 @@ import {
   getOperator,
   importProject,
   checkExamineStatus,
-} from '@/api/projectInfo'
-import { getSystemOrgNodeTreeById } from '@/api/systemOrgNode'
-import { downloadTemplate } from '@/api/template'
+} from '@api/projectInfo'
+import { getSystemOrgNodeTreeById } from '@api/systemOrgNode'
+import { downloadTemplate } from '@api/template'
 import { projectCode } from '@/utils/validate'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
@@ -304,6 +306,9 @@ export default {
         ],
         projectName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
+        ],
+        projectBudget: [
+          { required: true, message: '请输入项目预算', trigger: 'blur' },
         ],
         dutyDepartment: [
           { required: true, message: '请输入责任部门', trigger: 'blur' },
@@ -363,16 +368,27 @@ export default {
         this.tableData = res.data
       })
     },
+    clickTable(item) {
+      this.openDialog('备案详情', item)
+    },
     openDialog(type, info) {
       this.dialogTitle = type
       // 获取运营商列表
       getOperator().then((res) => {
         this.operatorNameList = res.data
       })
+      // 获取责任部门
       if (info) {
         getSystemOrgNodeTreeById(info.orgId).then((res) => {
           this.dutyDepartmentData = res.data
           this.form = JSON.parse(JSON.stringify(info))
+          if (type === '备案详情') {
+            this.$nextTick(() => {
+              this.$refs.filingForm.$el
+                .querySelectorAll('input, select')
+                .forEach((item) => (item.disabled = true))
+            })
+          }
         })
       }
       this.dialog = true
@@ -380,6 +396,11 @@ export default {
     closedDialog() {
       for (const i in this.form) this.form[i] = ''
       this.$refs.filingForm.clearErr()
+      this.$nextTick(() => {
+        this.$refs.filingForm.$el
+          .querySelectorAll('input, select')
+          .forEach((item) => (item.disabled = false))
+      })
     },
     remove(id) {
       this.$confirm('确认删除？', '提示').then(() => {
@@ -447,6 +468,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+table {
+  cursor: pointer;
+}
+
 .filing {
   /deep/ .prompt {
     background: #ffecec;

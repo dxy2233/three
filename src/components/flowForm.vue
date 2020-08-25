@@ -74,6 +74,38 @@
                   <option value="2">资本</option>
                 </select>
               </div>
+              <div class="item">
+                <label><em>*</em>立项单位</label>
+                <input
+                  type="text"
+                  v-model="allData.initiateBO.resOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.initiateBO.resOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.initiateBO.resOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.initiateBO.resOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
             </div>
           </div>
 
@@ -111,8 +143,16 @@
                   :disabled="item.lock"
                 />
               </div>
-              <div class="item" style="width: 66.6%;">
-                <label style="width: 15%;">变更签证</label>
+              <div class="item">
+                <label>通信地址</label>
+                <input
+                  type="text"
+                  v-model="allData.designBO.address"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item" style="width: 66.6%">
+                <label style="width: 15%">变更签证</label>
                 <button
                   v-if="allData.designBO.visa.uploadVisible"
                   @click="uploadFile(null, 4)"
@@ -126,18 +166,92 @@
                   {{ allData.designBO.visa.name }}
                 </span>
               </div>
-              <div class="item">
-                <label>通信地址</label>
-                <input
-                  type="text"
-                  v-model="allData.designBO.address"
-                  :disabled="item.lock"
-                />
-              </div>
             </div>
           </div>
           <!-- 建设 -->
           <div v-else-if="item.key === 'construction'">
+            <div class="items">
+              <div class="item item-w">
+                <label><em>*</em>选择项目厂商</label>
+                <select
+                  v-model="allData.constructionBO.firmId"
+                  :disabled="item.lock"
+                >
+                  <option
+                    v-for="(item2, index2) in constructionVendor"
+                    :key="index2"
+                    :value="item2.id"
+                  >
+                    {{ item2.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="item item-w"></div>
+              <div class="item item-w">
+                <label><em>*</em>建设单位</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.buildOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.buildOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.buildOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.buildOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>承建单位</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.contractOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.contractOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.contractOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.constructionBO.contractOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
+            </div>
             <div class="btn">
               <!-- <button @click="initConstruction(true)">
                 <svg-icon icon-class="search" />搜索
@@ -198,9 +312,8 @@
               <button
                 v-if="baseLine.startVisble"
                 @click="toNewPage(1, row.processId, 1)"
-                :disabled="stepData[step - 1].lock"
                 class="major"
-                style="margin-right: 5px;"
+                style="margin-right: 5px"
               >
                 初查
               </button>
@@ -278,7 +391,6 @@
                   <template #button="props">
                     <button
                       v-if="props.row.editVisble"
-                      :disabled="stepData[step - 1].lock"
                       @click="
                         toNewPage(
                           1,
@@ -293,7 +405,6 @@
                     </button>
                     <button
                       v-if="props.row.reviewVisble"
-                      :disabled="stepData[step - 1].lock"
                       @click="
                         toNewPage(
                           1,
@@ -316,9 +427,8 @@
               <button
                 v-if="seep.startVisble"
                 @click="toNewPage(2, row.processId, 1)"
-                :disabled="stepData[step - 1].lock"
                 class="major"
-                style="margin-right: 5px;"
+                style="margin-right: 5px"
               >
                 初查
               </button>
@@ -395,7 +505,6 @@
                   <template #button="props">
                     <button
                       v-if="props.row.editVisble"
-                      :disabled="stepData[step - 1].lock"
                       @click="
                         toNewPage(2, row.processId, 1, props.row.deviceId)
                       "
@@ -404,7 +513,6 @@
                     </button>
                     <button
                       v-if="props.row.reviewVisble"
-                      :disabled="stepData[step - 1].lock"
                       @click="
                         toNewPage(2, row.processId, 2, props.row.deviceId)
                       "
@@ -420,7 +528,6 @@
               <h5>漏洞扫描报告</h5>
               <button
                 v-if="FlawTable.uploadVisible"
-                :disabled="stepData[step - 1].lock"
                 @click="toNewPage(3, row.processId)"
                 class="major"
               >
@@ -428,7 +535,6 @@
               </button>
               <button
                 v-if="FlawTable.attachmentVisible"
-                :disabled="stepData[step - 1].lock"
                 @click="toNewPage(4, row.processId)"
                 class="major"
               >
@@ -436,7 +542,6 @@
               </button>
               <button
                 v-if="FlawTable.passVisible"
-                :disabled="stepData[step - 1].lock"
                 @click="passFlaw(allData[nowKey + 'BO'].processId)"
                 class="major"
               >
@@ -445,10 +550,7 @@
               <baseTable :tableData="FlawTable.flawList">
                 <baseCol prop="fileName" label="漏洞文件名">
                   <template #button="props">
-                    <span
-                      @click="downloadBaseSeepFlaw(props.row.filePath)"
-                      class="link"
-                    >
+                    <span @click="downloadFlaw(props.row.fileId)" class="link">
                       {{ props.row.fileName }}</span
                     >
                   </template>
@@ -464,6 +566,14 @@
                   <template #button="props">
                     <button
                       v-show="props.row.downloadVisible"
+                      @click="
+                        toNewPage(5, null, null, null, null, props.row.fileId)
+                      "
+                    >
+                      查看
+                    </button>
+                    <button
+                      v-show="props.row.downloadVisible"
                       @click="downloadFlaw(props.row.fileId)"
                     >
                       下载
@@ -471,7 +581,6 @@
                     <button
                       v-show="props.row.reviewVisible"
                       @click="review(props.row.fileId)"
-                      :disabled="stepData[step - 1].lock"
                     >
                       申请复评
                     </button>
@@ -479,7 +588,6 @@
                       v-show="props.row.deleteVisible"
                       class="remove"
                       @click="removeFlawFile(props.row.fileId)"
-                      :disabled="stepData[step - 1].lock"
                     >
                       删除
                     </button>
@@ -489,10 +597,7 @@
               <baseTable :tableData="FlawTable.attachmentList">
                 <baseCol prop="fileName" label="漏洞整改说明附件">
                   <template #button="props">
-                    <span
-                      @click="downloadBaseSeepFlaw(props.row.filePath)"
-                      class="link"
-                    >
+                    <span @click="downloadFlaw(props.row.fileId)" class="link">
                       {{ props.row.fileName }}</span
                     >
                   </template>
@@ -508,7 +613,6 @@
                       v-show="props.row.deleteVisible"
                       class="remove"
                       @click="removeFlawFile(props.row.fileId)"
-                      :disabled="stepData[step - 1].lock"
                     >
                       删除
                     </button>
@@ -517,55 +621,718 @@
               </baseTable>
             </div>
           </div>
-          <!-- 初验 -->
-          <div v-else-if="item.key === 'acceptFirst'" class="acceptance">
-            <div>
-              <label><em>*</em>验收结论</label>
-              <textarea
-                v-model="allData.acceptFirstBO.summary"
-                rows="10"
-                :disabled="item.lock"
-              ></textarea>
-            </div>
-          </div>
-          <!-- 终验 -->
-          <div v-else-if="item.key === 'acceptFinal'" class="acceptance">
-            <div>
-              <label><em>*</em>验收结论</label>
-              <textarea
-                v-model="allData.acceptFinalBO.summary"
-                rows="10"
-                :disabled="item.lock"
-              ></textarea>
+          <!-- 验收 -->
+          <div v-else-if="item.key === 'accept'">
+            <div class="items">
+              <div class="item item-w">
+                <label><em>*</em>建设单位</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.buildOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.buildOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.buildOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.buildOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>承建单位</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.contractOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.contractOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.contractOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.acceptBO.contractOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item" style="width: 97%; margin-bottom: 5px">
+                <label style="width: 11.8%; margin-right: 1%">
+                  <em>*</em>验收结论
+                </label>
+                <textarea
+                  v-model="allData.acceptBO.summary"
+                  rows="8"
+                  :disabled="item.lock"
+                ></textarea>
+              </div>
             </div>
           </div>
           <!-- 转维 -->
-          <div v-else-if="item.key === 'maintain'" class="transformation">
+          <div v-else-if="item.key === 'maintain'">
+            <div class="items">
+              <div class="item item-w">
+                <label><em>*</em>维护单位</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainOrg.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainOrg.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainOrg.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainOrg.email"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>第三方维护商</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainTrader.org"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>责任人</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainTrader.principal"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>联系方式</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainTrader.tel"
+                  :disabled="item.lock"
+                />
+              </div>
+              <div class="item item-w">
+                <label><em>*</em>邮箱</label>
+                <input
+                  type="text"
+                  v-model="allData.maintainBO.maintainTrader.email"
+                  :disabled="item.lock"
+                />
+              </div>
+            </div>
             <h4>IP地址</h4>
             {{ allData.maintainBO.ipList.join('，') }}
-            <!-- <div
-              v-for="(item2, index2) in allData.maintainBO.ipList"
-              :key="index2"
+            <h4>
+              <input type="checkbox" v-model="allData.maintainBO.isSaveTable" />
+              系统平台第三方使用管理情况统计表
+            </h4>
+            <div
+              v-if="allData.maintainBO.isSaveTable"
+              class="report-wrap baseline"
             >
-              <input
-                type="text"
-                v-model="allData.maintainBO.ipList[index2]"
-                :disabled="item.lock"
-              />
-              <button
-                @click="allData.maintainBO.ipList.splice(index2, 1)"
-                :disabled="item.lock"
-                class="remove"
-              >
-                删除
-              </button>
-            </div> -->
-            <!-- <button @click="addMaintainIp" :disabled="item.lock">添加</button> -->
+              <br />
+              <baseForm class="big-label">
+                <baseFormItem label="系统/平台名称" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.platformName"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem
+                  label="系统/平台主管单位名称（账号管理单位）"
+                  required
+                >
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.supervisorOrgName"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem
+                  label="系统/平台运营单位名称（运行维护单位）"
+                  required
+                >
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.maintainOrgName"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem
+                  label="系统/平台内存储或可查询用户个人信息或重要信息类型"
+                  required
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    身份信息
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    业务/合作信息
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="3"
+                      :disabled="item.lock"
+                    />
+                    通信信息
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="4"
+                      :disabled="item.lock"
+                    />
+                    消费信息
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="5"
+                      :disabled="item.lock"
+                    />
+                    用户账号密码信息
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.infoTypeList"
+                      :value="0"
+                      :disabled="item.lock"
+                    />
+                    其它
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  label="系统/平台内存储或可查询用户个人信息最高等级"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.infoLevel"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    1
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.infoLevel"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    2
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.infoLevel"
+                      :value="3"
+                      :disabled="item.lock"
+                    />
+                    3
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="系统/平台影响范围" required>
+                  <baseCascader
+                    v-model="allData.maintainBO.table.cityId"
+                    :data="cityData"
+                    :childrenName="'cityBOList'"
+                    label="name"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="系统/平台账号实名制管理" required>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.realName"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.realName"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="系统/平台登陆日志保存时间(月)" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.loginRecord"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="系统/平台操作日志保存时间(月)" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.operateRecord"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="系统/平台默认口令复杂度" required>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.complexity"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    1级
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.complexity"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    2级
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.complexity"
+                      :value="3"
+                      :disabled="item.lock"
+                    />
+                    3级
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.complexity"
+                      :value="4"
+                      :disabled="item.lock"
+                    />
+                    4级
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="系统/平台默认口令有效期(天)" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.expiration"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="定期审计账号/操作周期(月)" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.auditCycle"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem
+                  label="系统/平台是否开设了第三方账号（包括把内部账号授予第三方使用）"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.thirdAccount"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.thirdAccount"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  label="有无决定引入第三方的程序和决策审核流程"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.useThird"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    有
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.useThird"
+                      :value="1"
+                      @change="allData.maintainBO.table.policyPersonName = ''"
+                      :disabled="item.lock"
+                    />
+                    无
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  v-show="allData.maintainBO.table.useThird === 2"
+                  label="决定引入第三方的程序和决策审核流程具体决策人"
+                  required
+                >
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.policyPersonName"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem
+                  label="有分配、授权第三方人员使用系统/平台账号相关审批管理规定"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.regulation"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.regulation"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  label="第三方账号是否具有批量信息导出权限"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.export"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.export"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  label="第三方账号是否有系统/平台关闭、重启权限"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.reboot"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.reboot"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  label="第三方账号权限是否可查看用户个人信息及重要信息"
+                  required
+                >
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.importantInfo"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.importantInfo"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="第三方单位名称" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.thirdOrgName"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="第三方项目类型" required>
+                  <select
+                    v-model="allData.maintainBO.table.projectType"
+                    :disabled="item.lock"
+                  >
+                    <option :value="1">系统/平台集成</option>
+                    <option :value="2">外包、代维、维保、业务合作</option>
+                    <option :value="3">技术支撑、赠送</option>
+                  </select>
+                </baseFormItem>
+                <baseFormItem label="第三方项目来源方式" required>
+                  <select
+                    v-model="allData.maintainBO.table.sourceType"
+                    :disabled="item.lock"
+                  >
+                    <option :value="0">其它</option>
+                    <option :value="1">招标</option>
+                    <option :value="2">比选</option>
+                    <option :value="3">定向谈判</option>
+                    <option :value="4">免费服务</option>
+                  </select>
+                </baseFormItem>
+                <baseFormItem label="第三方人员数量" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.thirdNumber"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="第三方人员参与模式" required>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.modeList"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    现场
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="allData.maintainBO.table.modeList"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    远程
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="第三方合同中明确网信安职责" required>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.respon"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.respon"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="是否明确第三方违约责任/罚则" required>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.penalty"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.penalty"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem label="第三方人员全部签订安全及保密协议" required>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.protocol"
+                      :value="2"
+                      :disabled="item.lock"
+                    />
+                    是
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      v-model="allData.maintainBO.table.protocol"
+                      :value="1"
+                      :disabled="item.lock"
+                    />
+                    否
+                  </label>
+                </baseFormItem>
+                <baseFormItem
+                  v-if="allData.maintainBO.table.protocol === 2"
+                  label="附件"
+                  required
+                >
+                  <button
+                    type="button"
+                    @click="
+                      uploadFile(
+                        {
+                          processId: allData.maintainBO.processId,
+                          schedule: allData.maintainBO.schedule,
+                        },
+                        8
+                      )
+                    "
+                    :disabled="item.lock"
+                    style="margin: 0 10px 0 0"
+                  >
+                    上传文件
+                  </button>
+                  <span
+                    @click="
+                      download(
+                        allData.maintainBO.table.protocolFileBO.fileId,
+                        false
+                      )
+                    "
+                    class="link"
+                    style="margin: 0"
+                    >{{
+                      allData.maintainBO.table.protocolFileBO.fileName
+                    }}</span
+                  >
+                </baseFormItem>
+                <baseFormItem
+                  label="定期检查第三方网络安全责任落实情况周期(月)"
+                  required
+                >
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.checkCycle"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="第三方网信安措施效果评估周期(月)" required>
+                  <input
+                    type="text"
+                    v-model="allData.maintainBO.table.evaluateCycle"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="第三方网信安措施效果评估结果 " required>
+                  <textarea
+                    rows="5"
+                    v-model="allData.maintainBO.table.evaluateResult"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+                <baseFormItem label="备注" required>
+                  <textarea
+                    rows="5"
+                    v-model="allData.maintainBO.table.remark"
+                    :disabled="item.lock"
+                  />
+                </baseFormItem>
+              </baseForm>
+            </div>
           </div>
         </div>
 
         <h4>会议记要</h4>
         <button
+          v-show="allData[nowKey + 'BO'].archiveVisible"
           :disabled="stepData[step - 1].lock"
           @click="openMettingDialog('新增会议记要')"
           class="major"
@@ -619,51 +1386,139 @@
           </baseCol>
         </baseTable>
 
-        <h4>相关文件</h4>
-        <baseTable :tableData="allData[nowKey + 'BO'].fileBOList">
-          <baseCol prop="type" label="类型" />
-          <baseCol prop="name" label="附件名">
-            <template #button="props">
-              <span @click="download(props.row.fileId, false)" class="link">
-                {{ props.row.name }}
-              </span>
-            </template>
-          </baseCol>
-          <baseCol prop="size" label="文件大小" />
-          <baseCol prop="status" label="评审状态">
-            <template #button="props">
-              {{ props.row.status | statusFilter }}
-            </template>
-          </baseCol>
-          <baseCol prop="examineName" label="评审人" />
-          <baseCol prop="uploadName" label="上传人" />
-          <baseCol prop="uploadTime" label="上传时间" />
-          <baseCol label="操作">
-            <template #button="props">
-              <button
-                v-show="props.row.uploadVisible"
-                @click="uploadFile(props.row, 1)"
-                :disabled="stepData[step - 1].lock"
-              >
-                上传
-              </button>
-              <button
-                v-show="props.row.examineVisible"
-                @click="openExamine(props.row)"
-              >
-                评审
-              </button>
-              <button
-                v-show="props.row.deleteVisible"
-                class="remove"
-                @click="removeFile(props.row.fileId)"
-                :disabled="stepData[step - 1].lock"
-              >
-                删除文档
-              </button>
-            </template>
-          </baseCol>
-        </baseTable>
+        <template v-if="allData[nowKey + 'BO'].fileBOList">
+          <h4>相关文件</h4>
+          <baseTable :tableData="allData[nowKey + 'BO'].fileBOList">
+            <baseCol prop="type" label="类型" />
+            <baseCol prop="name" label="附件名">
+              <template #button="props">
+                <span @click="download(props.row.fileId, false)" class="link">
+                  {{ props.row.name }}
+                </span>
+              </template>
+            </baseCol>
+            <baseCol prop="size" label="文件大小" />
+            <baseCol prop="status" label="评审状态">
+              <template #button="props">
+                {{ props.row.status | statusFilter }}
+              </template>
+            </baseCol>
+            <baseCol prop="examineName" label="评审人" />
+            <baseCol prop="uploadName" label="上传人" />
+            <baseCol prop="uploadTime" label="上传时间" />
+            <baseCol label="操作">
+              <template #button="props">
+                <button
+                  v-show="props.row.uploadVisible"
+                  @click="uploadFile(props.row, 1)"
+                >
+                  上传
+                </button>
+                <button
+                  v-show="props.row.examineVisible"
+                  @click="openExamine(props.row)"
+                >
+                  评审
+                </button>
+                <button
+                  v-show="props.row.deleteVisible"
+                  class="remove"
+                  @click="removeFile(props.row.fileId)"
+                >
+                  删除文档
+                </button>
+              </template>
+            </baseCol>
+          </baseTable>
+        </template>
+        <template v-else>
+          <h4>初验相关文件</h4>
+          <baseTable :tableData="allData[nowKey + 'BO'].firstFileBOList">
+            <baseCol prop="type" label="类型" />
+            <baseCol prop="name" label="附件名">
+              <template #button="props">
+                <span @click="download(props.row.fileId, false)" class="link">
+                  {{ props.row.name }}
+                </span>
+              </template>
+            </baseCol>
+            <baseCol prop="size" label="文件大小" />
+            <baseCol prop="status" label="评审状态">
+              <template #button="props">
+                {{ props.row.status | statusFilter }}
+              </template>
+            </baseCol>
+            <baseCol prop="examineName" label="评审人" />
+            <baseCol prop="uploadName" label="上传人" />
+            <baseCol prop="uploadTime" label="上传时间" />
+            <baseCol label="操作">
+              <template #button="props">
+                <button
+                  v-show="props.row.uploadVisible"
+                  @click="uploadFile(props.row, 1)"
+                >
+                  上传
+                </button>
+                <button
+                  v-show="props.row.examineVisible"
+                  @click="openExamine(props.row)"
+                >
+                  评审
+                </button>
+                <button
+                  v-show="props.row.deleteVisible"
+                  class="remove"
+                  @click="removeFile(props.row.fileId)"
+                >
+                  删除文档
+                </button>
+              </template>
+            </baseCol>
+          </baseTable>
+          <h4>终验相关文件</h4>
+          <baseTable :tableData="allData[nowKey + 'BO'].finalFileBOList">
+            <baseCol prop="type" label="类型" />
+            <baseCol prop="name" label="附件名">
+              <template #button="props">
+                <span @click="download(props.row.fileId, false)" class="link">
+                  {{ props.row.name }}
+                </span>
+              </template>
+            </baseCol>
+            <baseCol prop="size" label="文件大小" />
+            <baseCol prop="status" label="评审状态">
+              <template #button="props">
+                {{ props.row.status | statusFilter }}
+              </template>
+            </baseCol>
+            <baseCol prop="examineName" label="评审人" />
+            <baseCol prop="uploadName" label="上传人" />
+            <baseCol prop="uploadTime" label="上传时间" />
+            <baseCol label="操作">
+              <template #button="props">
+                <button
+                  v-show="props.row.uploadVisible"
+                  @click="uploadFile(props.row, 1)"
+                >
+                  上传
+                </button>
+                <button
+                  v-show="props.row.examineVisible"
+                  @click="openExamine(props.row)"
+                >
+                  评审
+                </button>
+                <button
+                  v-show="props.row.deleteVisible"
+                  class="remove"
+                  @click="removeFile(props.row.fileId)"
+                >
+                  删除文档
+                </button>
+              </template>
+            </baseCol>
+          </baseTable>
+        </template>
       </article>
     </main>
 
@@ -739,7 +1594,7 @@
       <template #title>新增评审</template>
       <div class="review-item">
         <label><em>*</em>评审报告</label>
-        <button @click="uploadFile(null, 2)" style="margin-right: 5px;">
+        <button @click="uploadFile(null, 2)" style="margin-right: 5px">
           点击上传评审报告
         </button>
         {{ rowInfo.examineFileName }}
@@ -781,43 +1636,11 @@
             />
             {{ item.orgName }}
           </label>
-          <!-- <label v-for="(item, index) in meetingDepartment" :key="index">
-            <input
-              type="checkbox"
-              v-model="meetingForm.orgId"
-              :id="item.id"
-              :value="item.id"
-              @change="changeMettingOrg($event, item.id)"
-            />
-            {{ item.orgName }}
-          </label> -->
         </baseFormItem>
-        <!-- <baseFormItem label="参会人员" prop="perIds" required>
-          <input type="text" v-model="meetingStaffSearch" />
-          <div class="metting-staff-checkbox">
-            <label
-              v-show="item.name.includes(meetingStaffSearch)"
-              v-for="(item, index) in meetingStaff"
-              :key="index"
-            >
-              <input
-                type="checkbox"
-                v-model="meetingForm.perIds"
-                :id="item.id"
-                :value="item.id"
-              />
-              {{ item.name }}
-            </label>
-          </div>
-          <div class="metting-staff-checked">
-            <span v-for="(item, index) in meetingStaffChecked" :key="index">{{
-              item.name
-            }}</span>
-          </div>
-        </baseFormItem> -->
+
         <baseFormItem label="参会人员" prop="perString" required>
           <textarea rows="5" v-model="meetingForm.perString"></textarea>
-          <div style="color: #ff4949;">*以顿号(、)进行分隔</div>
+          <div style="color: #ff4949">*以顿号(、)进行分隔</div>
         </baseFormItem>
         <baseFormItem label="会议文件" prop="fileName" required>
           <button type="button" @click="uploadFile(allData[nowKey + 'BO'], 3)">
@@ -949,8 +1772,9 @@
                   v-for="(item, index) in enumList['安全保护等级标准']"
                   :key="index"
                   :value="item"
-                  >{{ item }}</option
                 >
+                  {{ item }}
+                </option>
               </select>
             </baseFormItem>
             <svg-icon
@@ -962,7 +1786,7 @@
           <button
             type="button"
             @click="addList('netItemBOList', { systemName: '', level: '' })"
-            style="margin-left: 12%;"
+            style="margin-left: 12%"
           >
             新增
           </button>
@@ -974,8 +1798,9 @@
                 v-for="(item, index) in enumList['网络/系统类型']"
                 :key="index"
                 :value="item"
-                >{{ item }}</option
               >
+                {{ item }}
+              </option>
             </select>
           </baseFormItem>
         </div>
@@ -1148,7 +1973,7 @@
           <button
             type="button"
             @click="addList('personBOList', { name: '', post: '' })"
-            style="margin-left: 12%;"
+            style="margin-left: 12%"
           >
             新增
           </button>
@@ -1192,11 +2017,9 @@
           label="漏洞扫描情况"
           prop="imgPath"
           required
-          style="margin-left: -13.7%; width: 109.7%;"
+          style="margin-left: -13.7%; width: 109.7%"
         >
-          <button type="button" @click="uploadFile(null, 7)">
-            点击上传
-          </button>
+          <button type="button" @click="uploadFile(null, 7)">点击上传</button>
           <span v-if="reckonForm.imgPath">
             {{
               reckonForm.imgPath.slice(reckonForm.imgPath.lastIndexOf('\\') + 1)
@@ -1217,45 +2040,47 @@ import {
   saveInitiate,
   archiveSchedule,
   saveDesign,
-  saveAcceptFirst,
-  saveAcceptFinal,
+  saveAccept,
   saveMaintain,
   saveConference,
   deleteConference,
   getConferenceById,
-} from '@/api/process'
+  saveConstruction,
+  getCity,
+} from '@api/process'
 import {
   getDeviceList,
   saveDevice,
   deleteDeviceById,
   importDevice,
-} from '@/api/device'
+} from '@api/device'
 import {
   getFlawReportList,
-  downloadFlaw,
+  previewFlaw,
   reviewByFileId,
   deleteFlaw,
   passFlawByProcessId,
-} from '@/api/flawCommon'
-import { getBaseOnlineAndPenetration } from '@/api/reportCommon'
+} from '@api/flawCommon'
+import { getBaseOnlineAndPenetration } from '@api/reportCommon'
 import {
   uploadFile,
   deleteFile,
   getExamineList,
   saveSuggestion,
   confirm,
-  downloadFile,
-} from '@/api/file'
-import { download } from '@/api/sftp'
-import { getOrgPersonByIds, getProcessOrgNodeTree } from '@/api/systemOrgNode'
-import { getDictionaryValue } from '@/api/dictionary'
-import { downloadTemplate } from '@/api/template'
+  previewFile,
+} from '@api/file'
+import { preview } from '@api/sftp'
+import { getOrgPersonByIds, getProcessOrgNodeTree } from '@api/systemOrgNode'
+import { getDictionaryValue } from '@api/dictionary'
+import { downloadTemplate } from '@api/template'
+import { getFirmManageAll } from '@api/firmManage'
 import {
   createReportEvaluation,
   uploadImg,
   getEnumList,
   checkConstruction,
-} from '@/api/reportEvaluation'
+} from '@api/reportEvaluation'
 import { orgTree } from '@/assets/mixin/common'
 
 export default {
@@ -1289,36 +2114,18 @@ export default {
         { txt: '', status: '', visible: '', lock: true, key: 'initiate' },
         { txt: '', status: '', visible: '', lock: true, key: 'design' },
         { txt: '', status: '', visible: '', lock: true, key: 'construction' },
-        { txt: '', status: '', visible: '', lock: true, key: 'acceptFirst' },
-        { txt: '', status: '', visible: '', lock: true, key: 'acceptFinal' },
+        { txt: '', status: '', visible: '', lock: true, key: 'accept' },
         { txt: '', status: '', visible: '', lock: true, key: 'maintain' },
       ],
       allData: {},
       rowInfo: {}, // table当前row的数据
+      cityData: {}, // 转维的城市数据
       examineDialog: false,
       examineTabelData: [],
       examineFileDialog: false,
       examineSummary: '', // 评审结论
       constructionData: {}, // 建设流程字典数据
       constructionTable: [], // 建设页面表格数据
-      constructionForm: {
-        deviceName: '',
-        deviceCode: '',
-        deviceAlias: '',
-        deviceType: '',
-        network: '',
-        machineName: '',
-        deviceModel: '',
-        detailAddress: '',
-        bureauStation: '',
-        area: '',
-        ipAddress: '',
-        localAttribute: '',
-        manufacturer: '',
-        enteringPersonnel: '',
-        enteringStartTime: '',
-        enteringEndTime: '',
-      },
       FlawTable: [], // 建设页面漏洞表格数据
       baseLine: [], // 建设页面基线数据
       seep: [], // 建设页面渗透数据
@@ -1492,6 +2299,14 @@ export default {
     this.initFlawRepor()
     this.initBaseLineAndSeep(1)
     this.initBaseLineAndSeep(2)
+    // 获取所有厂商列表
+    getFirmManageAll().then((res) => {
+      this.constructionVendor = res.data
+    })
+    // 获取转维节点影响范围的城市信息
+    getCity().then((res) => {
+      this.cityData = res.data
+    })
   },
   beforeDestroy() {
     document.removeEventListener('visibilitychange', this.visibilityFun)
@@ -1500,12 +2315,12 @@ export default {
     init(ifSetStep) {
       getProcessById(this.row.processId).then((res) => {
         // 缓存数据
-        let cachData
         if (this.allData.initiateBO) {
-          cachData = {
+          let cachData = {
             initiateBO: {
               org: this.allData.initiateBO.org,
               type: this.allData.initiateBO.type,
+              resOrg: this.allData.initiateBO.resOrg,
             },
             designBO: {
               org: this.allData.designBO.org,
@@ -1514,18 +2329,22 @@ export default {
               email: this.allData.designBO.email,
               address: this.allData.designBO.address,
             },
-            // constructionBO: {},
-            acceptFirstBO: {
-              summary: this.allData.acceptFirstBO.summary,
+            constructionBO: {
+              firmId: this.allData.constructionBO.firmId,
+              buildOrg: this.allData.constructionBO.buildOrg,
+              contractOrg: this.allData.constructionBO.contractOrg,
             },
-            acceptFinalBO: {
-              summary: this.allData.acceptFinalBO.summary,
+            acceptBO: {
+              buildOrg: this.allData.acceptBO.buildOrg,
+              contractOrg: this.allData.acceptBO.contractOrg,
+              summary: this.allData.acceptBO.summary,
             },
-            // maintainBO: {}
+            maintainBO: {
+              maintainOrg: this.allData.maintainBO.maintainOrg,
+              maintainTrader: this.allData.maintainBO.maintainTrader,
+            },
           }
-        }
-        this.allData = res.data
-        if (cachData) {
+          this.allData = res.data
           for (const key in cachData) {
             this.allData[key] = Object.assign(
               {},
@@ -1533,7 +2352,7 @@ export default {
               cachData[key]
             )
           }
-        }
+        } else this.allData = res.data
         // 组合数据
         this.stepData.map((item) => {
           item.txt = this.allData[item.key + 'BO'].schedule
@@ -1579,14 +2398,14 @@ export default {
             this.init()
           })
           break
-        case 'acceptFirst':
-          saveAcceptFirst(this.allData.acceptFirstBO).then((res) => {
+        case 'construction':
+          saveConstruction(this.allData.constructionBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
           break
-        case 'acceptFinal':
-          saveAcceptFinal(this.allData.acceptFinalBO).then((res) => {
+        case 'accept':
+          saveAccept(this.allData.acceptBO).then((res) => {
             this.$message({ content: res.message, type: 'success' })
             this.init()
           })
@@ -1644,6 +2463,9 @@ export default {
         case 7:
           this.rowInfo.type = '安全评估'
           break
+        case 8:
+          this.rowInfo.type = '保密协议'
+          break
       }
       this.$refs.flowFile.dispatchEvent(new MouseEvent('click'))
     },
@@ -1680,7 +2502,8 @@ export default {
         let temSize = e.target.files[0].size
         uploadFile(formData).then((res) => {
           this.$message({ content: res.message, type: 'success' })
-          if (!this.rowInfo.isExamineFile) this.init()
+          if (!this.rowInfo.isExamineFile && this.rowInfo.type !== '保密协议')
+            this.init()
           else {
             this.rowInfo.examineFilePath = res.data
             this.rowInfo.examineFileName = temName
@@ -1693,13 +2516,19 @@ export default {
             this.meetingForm.filePath = res.data
             this.meetingForm.fileSize = temSize
           }
+          // 保密协议
+          if (this.rowInfo.type === '保密协议') {
+            this.allData.maintainBO.table.protocolFileBO.fileName = temName
+            this.allData.maintainBO.table.protocolFileBO.filePath = res.data
+            this.allData.maintainBO.table.protocolFileBO.fileSize = temSize
+          }
         })
       }
       this.$refs.flowFile.value = null
     },
     // 下载文件
     download(id, isExamineFile, ifInit) {
-      downloadFile(id, isExamineFile).then(() => {
+      previewFile(id, isExamineFile).then(() => {
         if (ifInit) this.init()
       })
     },
@@ -1709,13 +2538,13 @@ export default {
     },
     // 下载漏洞文件
     downloadFlaw(fileId) {
-      downloadFlaw(fileId).then(() => {
+      previewFlaw(fileId).then(() => {
         this.initFlawRepor()
       })
     },
-    // 基线、渗透、漏洞下载
+    // 基线、渗透
     downloadBaseSeepFlaw(path) {
-      download(path)
+      preview(path)
     },
     // 删除文件
     removeFile(id) {
@@ -1801,7 +2630,7 @@ export default {
       }
     },
     // 跳新页面
-    toNewPage(type, processId, status, deviceId, assetInfo) {
+    toNewPage(type, processId, status, deviceId, assetInfo, fileId) {
       const newPage = this.$router.resolve({
         path: '/reportform',
         query: {
@@ -1810,6 +2639,7 @@ export default {
           status: status,
           deviceId: deviceId,
           assetInfo: assetInfo,
+          fileId: fileId,
         },
       })
       window.open(newPage.href, '_blank')
@@ -2045,8 +2875,7 @@ export default {
             label {
               text-align: right;
               width: 30%;
-              margin-right: 3%;
-              white-space: nowrap;
+              margin-right: 2%;
               em {
                 color: #ff4949;
                 margin-right: 5px;
@@ -2054,7 +2883,7 @@ export default {
             }
             input,
             select {
-              width: 67%;
+              width: 65%;
             }
             button {
               height: 30px;
@@ -2073,6 +2902,16 @@ export default {
               &:hover {
                 text-decoration: underline;
               }
+            }
+          }
+          .item-w {
+            width: 50%;
+            label {
+              width: 20%;
+            }
+            input,
+            select {
+              width: 72%;
             }
           }
         }
@@ -2099,6 +2938,7 @@ export default {
         }
         div > .report-wrap {
           margin: 20px 0;
+          padding-bottom: 10px;
           h5 {
             padding: 5px 10px;
           }
@@ -2121,6 +2961,11 @@ export default {
                   text-align: left;
                 }
               }
+            }
+          }
+          .big-label {
+            /deep/ .form-item > label {
+              flex: 3;
             }
           }
         }
@@ -2176,50 +3021,6 @@ export default {
             }
           }
         }
-        .transformation {
-          div {
-            margin-bottom: 5px;
-            input {
-              position: relative;
-              top: -2px;
-              width: 30%;
-            }
-            button.remove {
-              height: 30px;
-              margin-left: 5px;
-              color: #ff4949;
-              border: 1px solid #ff4949;
-              &:hover {
-                background: #ff4949;
-                color: #fff;
-              }
-            }
-          }
-          > button {
-            border: 1px solid #0196e0;
-            color: #0196e0;
-            &:hover {
-              background-color: #0196e0;
-              color: #fff;
-            }
-          }
-        }
-        .acceptance > div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 20px 0;
-          label > em {
-            margin-right: 5px;
-            color: #ff4949;
-          }
-          textarea {
-            border-radius: 3px;
-            margin-left: 10px;
-            width: 60%;
-            border: 1px solid #ccc;
-          }
-        }
       }
       h4 {
         color: #045fc9;
@@ -2227,9 +3028,6 @@ export default {
       }
       button {
         margin-bottom: 10px;
-      }
-      table {
-        padding: 10px 30px;
       }
     }
   }

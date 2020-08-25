@@ -42,8 +42,9 @@
                   v-for="(item, index) in baseAssetsData"
                   :key="index"
                   :value="item.deviceId"
-                  >{{ item.assets }}</option
                 >
+                  {{ item.assets }}
+                </option>
               </select>
             </baseFormItem>
             <baseFormItem
@@ -57,8 +58,9 @@
                   v-for="(item2, index2) in item.asstesValueBOS"
                   :key="index2"
                   :value="item2.dictionId"
-                  >{{ item2.dictionName }}</option
                 >
+                  {{ item2.dictionName }}
+                </option>
               </select>
             </baseFormItem>
             <!-- <baseFormItem v-if="!deviceId" label="操作系统版本">
@@ -126,7 +128,7 @@
                   v-if="item2.type === 1"
                   @click="uploadFile(index, index2)"
                   type="button"
-                  style="margin: 10px 5px 10px 0;"
+                  style="margin: 10px 5px 10px 0"
                 >
                   点击添加附件
                 </button>
@@ -152,7 +154,7 @@
                 <button
                   @click="uploadFile(index, index2)"
                   type="button"
-                  style="margin: 10px 5px 10px 0;"
+                  style="margin: 10px 5px 10px 0"
                 >
                   点击添加附件
                 </button>
@@ -231,8 +233,9 @@
                   v-for="(item, index) in baseAssetsData"
                   :key="index"
                   :value="item.leakIp"
-                  >{{ item.leakIp }}</option
                 >
+                  {{ item.leakIp }}
+                </option>
               </select>
             </baseFormItem>
             <baseFormItem label="URL地址">
@@ -314,9 +317,7 @@
               prop="imgs"
               required
             >
-              <button type="button" @click="uploadFile">
-                点击上传
-              </button>
+              <button type="button" @click="uploadFile">点击上传</button>
               <span
                 v-for="(img, imgIndex) in seepResForm.imgs"
                 :key="imgIndex"
@@ -327,9 +328,7 @@
               </span>
             </baseFormItem>
           </div>
-          <button type="button" @click="addSeep">
-            新增
-          </button>
+          <button type="button" @click="addSeep">新增</button>
         </baseForm>
         <baseTable :tableData="seepTableIndex">
           <baseCol prop="leakIp" label="漏洞IP地址" />
@@ -344,7 +343,7 @@
                 :key="imgIndex"
                 @click="downloadFile(img.url)"
                 class="link"
-                style="max-width: unset;"
+                style="max-width: unset"
               >
                 {{ img.url | imgName }}
               </span>
@@ -417,9 +416,7 @@
           <h4>漏洞文件</h4>
           <div class="box">
             <baseFormItem label="上传漏洞文件" prop="file" required>
-              <button type="button" @click="uploadFile">
-                点击上传
-              </button>
+              <button type="button" @click="uploadFile">点击上传</button>
               <span v-if="flawForm.file"> {{ flawForm.file.name }} </span>
             </baseFormItem>
             <baseFormItem> </baseFormItem>
@@ -465,9 +462,7 @@
           <h4>整改附件</h4>
           <div class="box">
             <baseFormItem label="上传整改附件" prop="file" required>
-              <button type="button" @click="uploadFile">
-                点击上传
-              </button>
+              <button type="button" @click="uploadFile">点击上传</button>
               <span v-if="flawForm.file"> {{ flawForm.file.name }} </span>
             </baseFormItem>
             <baseFormItem> </baseFormItem>
@@ -481,6 +476,11 @@
         </div>
       </baseForm>
     </baseDialog>
+
+    <!-- 漏洞文件查看 -->
+    <div v-else-if="type === '5'">
+      <holeFile :tableForm="tableForm" :tableData="tableData" @init="init" />
+    </div>
   </div>
 </template>
 
@@ -494,13 +494,17 @@ import {
   getPenetrationByProcessId,
   reformPenetration,
   saveReviewPenetration,
-} from '@/api/reportCommon'
-import { uploadFlawReport } from '@/api/flawCommon'
-import { getDeviceAssetsById, getAsstesByDeviceId } from '@/api/device'
-import { download } from '@/api/sftp'
+} from '@api/reportCommon'
+import { uploadFlawReport, getFlawListByFileId } from '@api/flawCommon'
+import { getDeviceAssetsById, getAsstesByDeviceId } from '@api/device'
+import { preview } from '@api/sftp'
+import holeFile from '@/components/holeFile'
 
 export default {
   name: 'ReportForm',
+  components: {
+    holeFile,
+  },
   filters: {
     imgName(val) {
       return val.slice(val.lastIndexOf('/') + 1)
@@ -521,6 +525,7 @@ export default {
       status: null,
       deviceId: null,
       assetInfo: null,
+      fileId: null,
       currentCell: {},
       dialog: true,
       baseForm: {
@@ -618,16 +623,16 @@ export default {
         tel: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
         file: [{ required: true, message: '请上传文件', trigger: 'change' }],
       },
+      tableForm: {
+        startPage: 1,
+        pageSize: 20,
+      },
+      tableData: {},
+      dialogFlawFiles: false,
+      flawFileForm: {},
     }
   },
   computed: {
-    // baseAssetsDataOptional() {
-    //   let res = []
-    //   res = this.baseAssetsData.filter(
-    //     (item) => !this.seepTable.some((item2) => item2.leakIp === item.leakIp)
-    //   )
-    //   return res
-    // },
     seepTableIndex() {
       let res = this.seepTable
       res.forEach((item, index) => {
@@ -686,6 +691,10 @@ export default {
         this.seepTable = res.data.simReportPenetrationBOS
       })
     }
+    // 漏洞文件列表
+    if (this.type === '5') {
+      this.init()
+    }
   },
   methods: {
     uploadFile(level1, level2) {
@@ -735,7 +744,7 @@ export default {
       window.close()
     },
     downloadFile(path) {
-      download(path)
+      preview(path)
     },
     removeBaseImg(type, index, index2, imgIndex) {
       this.baseInfo[index].childData[index2][type].splice(imgIndex, 1)
@@ -854,102 +863,113 @@ export default {
         })
       })
     },
+    init() {
+      getFlawListByFileId(
+        this.fileId,
+        this.tableForm.pageSize,
+        this.tableForm.startPage
+      ).then((res) => {
+        this.tableData = res.data
+      })
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.dialog {
-  background: #ebebeb;
-  /deep/ .wrap {
-    box-shadow: none;
-    .dialog-title {
-      font-size: 22px;
-      margin: 0 auto;
-      color: #045fc9;
-      background: #ebebeb;
-      padding: 10px 3% 0 3%;
-      > span:last-child {
-        display: none;
-      }
-    }
-    .dialog-body {
-      padding: 10px 3%;
-      .content {
-        text-align: center;
-        background: #fff;
-        h4 {
-          background: #0196e0;
-          color: #fff;
-          text-align: left;
-          padding: 8px 15px;
+.report-form {
+  > .dialog {
+    background: #ebebeb;
+    /deep/ .wrap {
+      box-shadow: none;
+      .dialog-title {
+        font-size: 22px;
+        margin: 0 auto;
+        color: #045fc9;
+        background: #ebebeb;
+        padding: 10px 3% 0 3%;
+        > span:last-child {
+          display: none;
         }
-        .box {
-          text-align: left;
-          padding: 20px 0;
-          display: flex;
-          flex-wrap: wrap;
-          width: 80%;
-          margin: 0 auto;
-          .form-gound {
-            width: 50%;
+      }
+      .dialog-body {
+        padding: 10px 3%;
+        .content {
+          text-align: center;
+          background: #fff;
+          h4 {
+            background: #0196e0;
+            color: #fff;
+            text-align: left;
+            padding: 8px 15px;
           }
-          .f-full {
-            width: 100%;
-            .form-item > label {
-              flex: 1;
+          .box {
+            text-align: left;
+            padding: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            width: 80%;
+            margin: 0 auto;
+            .form-gound {
+              width: 50%;
             }
-            .form-item > span {
-              flex: 8;
-              select {
-                width: 43.4%;
+            .f-full {
+              width: 100%;
+              .form-item > label {
+                flex: 1;
+              }
+              .form-item > span {
+                flex: 8;
+                select {
+                  width: 43.4%;
+                }
               }
             }
           }
-        }
-        table {
-          width: 96%;
-          margin: 15px auto;
-          border: 1px solid #608ad2;
-          thead > tr {
-            background: #608ad2;
+          table {
+            width: 96%;
+            margin: 15px auto;
+            border: 1px solid #608ad2;
+            thead > tr {
+              background: #608ad2;
+            }
           }
         }
-      }
-      .details {
-        padding: 0 20px 20px 20px;
-        background: #fff;
-        .group > .title {
-          color: #0196e0;
-          font-weight: bold;
-          border-bottom: 1px solid #ccc;
-          padding-bottom: 10px;
-          margin-bottom: 10px;
-          font-size: 16px;
-        }
-        .group {
-          text-align: left;
-          .caption {
+        .details {
+          padding: 0 20px 20px 20px;
+          background: #fff;
+          .group > .title {
+            color: #0196e0;
             font-weight: bold;
-          }
-          .item {
             border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
             margin-bottom: 10px;
-            margin-left: 20px;
-            .form-item {
-              flex-flow: column;
-              padding: unset;
-              > label {
-                text-align: left;
-              }
-              > span {
-                width: 100%;
-              }
+            font-size: 16px;
+          }
+          .group {
+            text-align: left;
+            .caption {
+              font-weight: bold;
             }
-            .radio-box {
-              label {
-                input[type='text'] {
-                  width: unset;
+            .item {
+              border-bottom: 1px solid #ccc;
+              margin-bottom: 10px;
+              margin-left: 20px;
+              .form-item {
+                flex-flow: column;
+                padding: unset;
+                > label {
+                  text-align: left;
+                }
+                > span {
+                  width: 100%;
+                }
+              }
+              .radio-box {
+                label {
+                  input[type='text'] {
+                    width: unset;
+                  }
                 }
               }
             }

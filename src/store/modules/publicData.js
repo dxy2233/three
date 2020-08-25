@@ -1,4 +1,4 @@
-import { getSystemOrgNodeTree } from '@/api/systemOrgNode'
+import { getSystemOrgNodeTree } from '@api/systemOrgNode'
 
 const state = {
   systemOrgNodeTree: [],

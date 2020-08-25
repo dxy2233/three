@@ -1,7 +1,7 @@
 import { asyncRouterMap } from '@/router/index'
 import router from '@/router'
-import { login, logout } from '@/api/special'
-import { getUser } from '@/api/login'
+import { login, logout } from '@api/special'
+import { getUser } from '@api/login'
 
 const state = {
   token: sessionStorage.getItem('token'),
@@ -42,26 +42,16 @@ const actions = {
       getUser()
         .then((res) => {
           commit('setInfo', res.data)
-          let resRouter = []
-          const mapRouter = new Map([
-            [0, ['xmba', 'lcgk', 'xmgk', 'ldlr']],
-            [1, ['xmtj', 'lbtj']],
-            [2, ['aqjc']],
-            [3, ['jcrylr', 'fwslr']],
-            [4, ['yhgl', 'bmgl']],
-          ])
-          for (const [key, value] of mapRouter) {
-            const resValue = value.filter((item) =>
-              res.data.menus.includes(item)
-            )
-            if (resValue.length > 0) {
-              let itemRouter = asyncRouterMap[key]
-              resValue.forEach((item) => {
-                itemRouter.children.push(asyncRouterMap[item])
-              })
-              resRouter.push(itemRouter)
+          for (const item of asyncRouterMap) {
+            const filterChildren = []
+            for (const [key, value] of Object.entries(item.children)) {
+              if (res.data.menus.includes(key)) filterChildren.push(value)
             }
+            item.children = filterChildren
           }
+          const resRouter = asyncRouterMap.filter(
+            (item) => item.children.length > 0
+          )
           const allRoutes = router.options.routes.concat(resRouter)
           commit('setRoutes', allRoutes)
           resolve(resRouter)
@@ -83,9 +73,8 @@ const actions = {
   resetToken({ commit }) {
     return new Promise((resolve) => {
       commit('setToken', '')
-      commit('setInfo', {})
-      commit('setRoutes', [])
       sessionStorage.removeItem('token')
+      router.push({ name: 'Login', params: { reset: true } })
       resolve()
     })
   },

@@ -55,6 +55,7 @@
       <baseCol prop="examineStatus" label="审计状态" />
       <baseCol prop="startTime" label="审计开始时间" />
       <baseCol prop="endTime" label="审计结束时间" />
+      <baseCol prop="createOrgName" label="流程发起单位" />
       <baseCol label="操作">
         <template #button="props">
           <button v-if="props.row.dataVisible" @click="openFile(props.row)">
@@ -136,7 +137,7 @@
             <input
               type="text"
               v-model="staffsSearch"
-              style="margin-bottom: 5px;"
+              style="margin-bottom: 5px"
             />
             <label v-for="(item, index) in staffsSearched" :key="index">
               <input
@@ -162,7 +163,7 @@
             <input
               type="text"
               v-model="termsSearch"
-              style="margin-bottom: 5px;"
+              style="margin-bottom: 5px"
             />
             <label v-for="(item, index) in termsSearched" :key="index">
               <input
@@ -239,7 +240,7 @@
       <baseTable :tableData="reportTable">
         <baseCol prop="fileName" label="文件名">
           <template #button="props">
-            <span @click="download(2, props.row)">{{
+            <span @click="download(2, props.row)" class="link">{{
               props.row.fileName
             }}</span>
           </template>
@@ -262,10 +263,10 @@ import {
   getReportList,
   uploadReport,
   getRelateFileListById,
-  downloadReport,
+  previewReport,
   confirm,
-} from '@/api/examinationGroup'
-import { downloadFile } from '@/api/file'
+} from '@api/examinationGroup'
+import { previewFile } from '@api/file'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 
@@ -407,10 +408,10 @@ export default {
     download(type, info) {
       switch (type) {
         case 1:
-          downloadFile(info.fileId, info.isExamineFile)
+          previewFile(info.fileId, info.isExamineFile)
           break
         case 2:
-          downloadReport(info.id)
+          previewReport(info.id)
           break
       }
     },

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getList, downloadList } from '@/api/statistics'
+import { getList, downloadList } from '@api/statistics'
 
 export default {
   name: 'List',

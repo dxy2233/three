@@ -131,8 +131,9 @@
               v-for="(item, index) in maintainStatusProject"
               :key="index"
               :value="item.id"
-              >{{ item.name }}</option
             >
+              {{ item.name }}
+            </option>
           </select>
         </baseFormItem>
         <baseFormItem label="漏洞名称" prop="title" required>
@@ -200,9 +201,9 @@ import {
   importFlaw,
   repairFlaw,
   downloadWord,
-} from '@/api/flaw'
-import { download } from '@/api/sftp'
-import { getMaintainStatusProject } from '@/api/projectInfo'
+} from '@api/flaw'
+import { download } from '@api/sftp'
+import { getMaintainStatusProject } from '@api/projectInfo'
 import { mapGetters } from 'vuex'
 
 export default {

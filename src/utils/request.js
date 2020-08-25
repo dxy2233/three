@@ -27,7 +27,6 @@ service.interceptors.request.use(
     return config
   },
   (error) => {
-    // console.log(error)
     return Promise.reject(error)
   }
 )
@@ -51,7 +50,10 @@ service.interceptors.response.use(
       return 'ok'
     }
     const res = response.data
-    if (res.status !== 'ok') {
+    // 跳转预览
+    if (res.status === 'preview') window.open(res.data)
+    else if (res.status === 'ok') return res
+    else {
       if (res.type === 'application/json') {
         Vue.prototype.$message({
           content: '系统异常，请联系管理员!',
@@ -72,8 +74,6 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(res.message || 'error')
-    } else {
-      return res
     }
   },
   (error) => {

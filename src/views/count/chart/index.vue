@@ -32,8 +32,9 @@
                   v-for="(item, index) in years"
                   :key="index"
                   :value="item"
-                  >{{ item }}</option
                 >
+                  {{ item }}
+                </option>
               </select>
               <!-- 月 -->
               <select
@@ -55,8 +56,9 @@
                   v-for="(item, index) in months"
                   :key="index"
                   :value="item.value"
-                  >{{ item.label }}</option
                 >
+                  {{ item.label }}
+                </option>
               </select>
               <!-- 周 -->
               <select
@@ -77,11 +79,32 @@
               >
                 <option :value="0">近一周</option>
               </select>
+              <!-- 高低选择 -->
+              <select
+                v-if="item.left.hasOwnProperty('level')"
+                v-model="item.left.level"
+                @change="
+                  init(
+                    item.left.field,
+                    index,
+                    'left',
+                    item.left.fun,
+                    item.left.type,
+                    item.left.year,
+                    item.left.month,
+                    item.left.week,
+                    item.left.level
+                  )
+                "
+              >
+                <option :value="0">从高到低</option>
+                <option :value="1">从低到高</option>
+              </select>
             </div>
           </div>
           <div
             :id="item.left.field + 'Chart'"
-            style="width: 100%; height: 400px;"
+            style="width: 100%; height: 400px"
           />
         </div>
       </div>
@@ -89,7 +112,7 @@
         <div class="title">{{ item.right.title }}</div>
         <div>
           <div class="info">
-            <span
+            <span v-if="item.right.count"
               >{{ item.right.countText }}<strong>{{ item.right.count }}</strong
               >个</span
             >
@@ -115,14 +138,15 @@
                   v-for="(item, index) in years"
                   :key="index"
                   :value="item"
-                  >{{ item }}</option
                 >
+                  {{ item }}
+                </option>
               </select>
             </div>
           </div>
           <div
             :id="item.right.field + 'Chart'"
-            style="width: 96%; height: 400px; margin: 0 auto;"
+            style="width: 96%; height: 400px; margin: 0 auto"
           />
         </div>
       </div>
@@ -131,7 +155,7 @@
 </template>
 
 <script>
-import { getYearStatistics, getStatisticsByType } from '@/api/statistics'
+import { getYearStatistics, getStatisticsByType } from '@api/statistics'
 let echarts = require('echarts/lib/echarts')
 require('echarts/lib/chart/bar')
 require('echarts/lib/chart/line')
@@ -259,6 +283,26 @@ export default {
             year: '',
           },
         },
+        {
+          left: {
+            field: 'top',
+            title: '厂商承建项目平均漏洞数量TOP10',
+            countText: '漏洞数量总数',
+            count: '',
+            fun: this.topOptions,
+            type: 12,
+            level: 0,
+          },
+          right: {
+            field: 'duration',
+            title: '厂商承建项目建设平均用时TOP5',
+            // countText: '项目支出方式总数',
+            // count: '',
+            fun: this.durationOptions,
+            type: 13,
+            level: 0,
+          },
+        },
       ],
       years: [],
       months: [
@@ -290,7 +334,8 @@ export default {
           item.left.type,
           item.left.year,
           item.left.month,
-          item.left.week
+          item.left.week,
+          item.left.level
         )
         this.init(
           item.right.field,
@@ -299,7 +344,8 @@ export default {
           item.right.fun,
           item.right.type,
           item.right.year,
-          item.right.month
+          item.right.month,
+          item.left.level
         )
       })
     })
@@ -309,8 +355,8 @@ export default {
       let myChart = echarts.init(document.getElementById(dom))
       myChart.setOption(options)
     },
-    init(field, index, adress, opitonFun, type, year, month, week) {
-      getStatisticsByType(type, year, month, week).then((res) => {
+    init(field, index, adress, opitonFun, type, year, month, week, level) {
+      getStatisticsByType(type, year, month, week, level).then((res) => {
         this.domData[index][adress].count = res.data.count
         let options = opitonFun(res.data.chartList)
         this.createChart(`${field}Chart`, options)
@@ -867,7 +913,7 @@ export default {
         },
         series: [
           {
-            name: '漏洞类型数量',
+            name: '漏洞类型',
             type: 'bar',
             data: list.map((item) => item.value),
             barWidth: '60%',
@@ -1001,6 +1047,169 @@ export default {
       }
       return options
     },
+    // 12 漏洞数量top10
+    topOptions(list) {
+      const options = {
+        color: '#00a8b3',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            // dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true },
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '3%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: {
+          type: 'category',
+          data: list.map((item) => item.name),
+          axisTick: {
+            alignWithLabel: true,
+          },
+          axisLabel: {
+            interval: 0,
+            // rotate: 40,
+            textStyle: {
+              color: '#000', // 刻度字的颜色
+            },
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              type: 'solid',
+              color: '#666', // 刻度线的颜色
+            },
+          },
+        },
+        yAxis: {
+          name: '数量(个)',
+          type: 'value',
+          axisLine: {
+            lineStyle: {
+              type: 'solid', // 刻度线的颜色
+              color: '#666', // 刻度字的颜色
+            },
+          },
+          axisLabel: {
+            interval: 0,
+            textStyle: {
+              color: '#000',
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#ebebed',
+            },
+          },
+        },
+        series: [
+          {
+            name: '高危',
+            type: 'bar',
+            barGap: 0,
+            data: list.map((item) => item.value),
+            color: '#ff0000',
+          },
+          {
+            name: '中危',
+            type: 'bar',
+            data: list.map((item) => item.value1),
+            color: '#ffe600',
+          },
+        ],
+      }
+      return options
+    },
+    // 13 厂商用时top5
+    durationOptions(list) {
+      const options = {
+        color: '#00a8b3',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            restore: { show: true },
+            saveAsImage: { show: true },
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '3%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        xAxis: {
+          type: 'category',
+          data: list.map((item) => item.name),
+          axisTick: {
+            alignWithLabel: true,
+          },
+          axisLabel: {
+            interval: 0,
+            // rotate: 40,
+            textStyle: {
+              color: '#000', // 刻度字的颜色
+            },
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              type: 'solid',
+              color: '#00a8b3', // 刻度线的颜色
+            },
+          },
+        },
+        yAxis: {
+          name: '单位（天）',
+          type: 'value',
+          axisLine: {
+            lineStyle: {
+              type: 'solid', // 刻度线的颜色
+              color: '#00a8b3', // 刻度字的颜色
+            },
+          },
+          axisLabel: {
+            interval: 0,
+            textStyle: {
+              color: '#000',
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#ebebed',
+            },
+          },
+        },
+        series: [
+          {
+            name: '',
+            type: 'bar',
+            barGap: 0,
+            data: list.map((item) => item.value),
+          },
+        ],
+      }
+      return options
+    },
   },
 }
 </script>
@@ -1020,6 +1229,8 @@ export default {
           padding: 0 5px;
         }
         > .info-right {
+          flex: 1;
+          text-align: right;
           select {
             margin-left: 10px;
             width: 100px;

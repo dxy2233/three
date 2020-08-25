@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { updatePassword } from '@/api/user'
+import { updatePassword } from '@api/user'
 import { salt } from '@/utils/validate'
 import sha1 from 'crypto-js/sha1'
 import { pwd } from '@/utils/validate'

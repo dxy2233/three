@@ -1,7 +1,5 @@
 <template>
-  <div class="test">
-    sdfdsf
-  </div>
+  <div class="test">sdfdsf</div>
 </template>
 
 <script>

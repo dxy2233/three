@@ -34,30 +34,6 @@ export function deleteReport(id) {
 }
 
 /**
- * @description 根据ID下载项目的所有相关资料
- */
-export function downloadRelateFolderById(id, projectName) {
-  return request({
-    url: '/examination/downloadRelateFolderById',
-    method: 'get',
-    responseType: 'blob',
-    params: { id, projectName },
-  })
-}
-
-/**
- * @description 下载报告
- */
-export function downloadReport(id) {
-  return request({
-    url: '/examination/downloadReport',
-    method: 'get',
-    responseType: 'blob',
-    params: { id },
-  })
-}
-
-/**
  * @description 获取没有被分配到审计组的所有项目
  */
 export function getBaseInfoList() {
@@ -111,6 +87,28 @@ export function getRelateFileListById(id) {
 export function getReportList(id) {
   return request({
     url: '/examination/getReportList',
+    method: 'get',
+    params: { id },
+  })
+}
+
+/**
+ * @description 根据ID下载项目的所有相关资料
+ */
+export function previewRelateFolderById(id, projectName) {
+  return request({
+    url: '/examination/previewRelateFolderById',
+    method: 'get',
+    params: { id, projectName },
+  })
+}
+
+/**
+ * @description 预览报告
+ */
+export function previewReport(id) {
+  return request({
+    url: '/examination/previewReport',
     method: 'get',
     params: { id },
   })

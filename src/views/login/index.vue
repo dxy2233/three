@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { getVerify } from '@/api/login'
+import { getVerify } from '@api/login'
 import { salt } from '@/utils/validate'
 import sha1 from 'crypto-js/sha1'
 

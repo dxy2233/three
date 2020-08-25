@@ -87,7 +87,7 @@
               </span>
             </div>
             <span
-              style="top: 66px;"
+              style="top: 66px"
               v-if="props.row.reportChilds[0][1].statusVisble"
               @click="
                 openBaseDialog(
@@ -145,7 +145,7 @@
               </span>
             </div>
             <span
-              style="top: 66px;"
+              style="top: 66px"
               v-if="props.row.reportChilds[1][1].statusVisble"
               @click="
                 openSeepDialog(
@@ -197,7 +197,7 @@
               </span>
             </div>
             <span
-              style="top: 66px;"
+              style="top: 66px"
               v-if="props.row.reportChilds[2][1].statusVisble"
               @click="uploadFile(3, null, null, 2, props.row.projectId)"
               >复查</span
@@ -207,9 +207,7 @@
       </baseCol>
       <baseCol label="操作">
         <template #button>
-          <button>
-            导出报告
-          </button>
+          <button>导出报告</button>
         </template>
       </baseCol>
     </baseTable>
@@ -255,7 +253,7 @@
               <button
                 v-if="item2.type === 1"
                 @click="uploadFile(1, index, index2)"
-                style="margin: 10px 5px 10px 0;"
+                style="margin: 10px 5px 10px 0"
               >
                 点击添加附件
               </button>
@@ -280,7 +278,7 @@
             >
               <button
                 @click="uploadFile('整改', index, index2)"
-                style="margin: 10px 5px 10px 0;"
+                style="margin: 10px 5px 10px 0"
               >
                 点击添加附件
               </button>
@@ -301,7 +299,7 @@
             </baseFormItem>
           </div>
         </div>
-        <button @click="submitBase" style="display: block; margin: 0 auto;">
+        <button @click="submitBase" style="display: block; margin: 0 auto">
           <svg-icon icon-class="save" />保存
         </button>
       </baseForm>
@@ -348,9 +346,7 @@
             ></textarea>
           </baseFormItem>
           <baseFormItem label="漏洞效果及截图" prop="imgs" required>
-            <button type="button" @click="uploadFile(2)">
-              点击上传
-            </button>
+            <button type="button" @click="uploadFile(2)">点击上传</button>
             <span
               v-for="(img, imgIndex) in seepForm.imgs"
               :key="imgIndex"
@@ -361,9 +357,7 @@
             </span>
           </baseFormItem>
           <baseFormItem label=""> </baseFormItem>
-          <button type="button" @click="addSeep">
-            新增
-          </button>
+          <button type="button" @click="addSeep">新增</button>
         </baseForm>
       </div>
       <baseTable :tableData="seepInfoIndex">
@@ -392,7 +386,7 @@
             <button
               v-else
               @click="seepRectification(props.row.uuid)"
-              style="padding: 0 5px;"
+              style="padding: 0 5px"
             >
               整改完成
             </button>
@@ -402,7 +396,7 @@
       <button
         v-if="currentCell && currentCell.status === 1"
         @click="submitSeep"
-        style="display: block; margin: 20px auto 0;"
+        style="display: block; margin: 20px auto 0"
       >
         <svg-icon icon-class="save" />保存
       </button>
@@ -419,8 +413,8 @@ import {
   getPenetrationByProjectId,
   savePenetration,
   reformPenetration,
-} from '@/api/reportCommon'
-import { download } from '@/api/sftp'
+} from '@api/reportCommon'
+import { download } from '@api/sftp'
 
 export default {
   name: 'Report',

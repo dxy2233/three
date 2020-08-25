@@ -25,8 +25,9 @@
             v-for="item in facilitatorNameList"
             :key="item.facilitatorId"
             :value="item.facilitatorId"
-            >{{ item.facilitatorName }}</option
           >
+            {{ item.facilitatorName }}
+          </option>
         </select>
       </label>
       <label v-if="info.visibleMap.orgTree">
@@ -85,33 +86,20 @@
           >
         </template>
       </baseCol>
-      <baseCol prop="acceptFirstStatus" label="初验状态">
+      <baseCol prop="acceptStatus" label="验收状态">
         <template #button="props">
           <span
             :class="[
-              { ready: props.row.acceptFirstStatus === '未开始' },
-              { ing: props.row.acceptFirstStatus === '进行中' },
-              { finish: props.row.acceptFirstStatus === '完成' },
-              { stop: props.row.acceptFirstStatus === '项目暂停' },
+              { ready: props.row.acceptStatus === '未开始' },
+              { ing: props.row.acceptStatus === '进行中' },
+              { finish: props.row.acceptStatus === '完成' },
+              { stop: props.row.acceptStatus === '项目暂停' },
             ]"
-            >{{ props.row.acceptFirstStatus }}</span
+            >{{ props.row.acceptStatus }}</span
           >
         </template>
       </baseCol>
-      <baseCol prop="acceptFinalStatus" label="终验状态">
-        <template #button="props">
-          <span
-            :class="[
-              { ready: props.row.acceptFinalStatus === '未开始' },
-              { ing: props.row.acceptFinalStatus === '进行中' },
-              { finish: props.row.acceptFinalStatus === '完成' },
-              { stop: props.row.acceptFinalStatus === '项目暂停' },
-            ]"
-            >{{ props.row.acceptFinalStatus }}</span
-          >
-        </template>
-      </baseCol>
-      <baseCol prop="maintainStatus" label="转维状态">
+      <baseCol prop="maintainStatus" label="运维状态">
         <template #button="props">
           <span
             :class="[
@@ -168,8 +156,8 @@
 </template>
 
 <script>
-import { getProcessList } from '@/api/process'
-import { getFacilitatorNameList } from '@/api/facilitator'
+import { getProcessList } from '@api/process'
+import { getFacilitatorNameList } from '@api/facilitator'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 import flowForm from '@/components/flowForm'

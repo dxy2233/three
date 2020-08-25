@@ -23,18 +23,6 @@ export function deleteFile(fileId) {
 }
 
 /**
- * @description 流程管理下载文件：isExamineFile 是否是评审文件
- */
-export function downloadFile(fileId, isExamineFile) {
-  return request({
-    url: '/file/downloadFile',
-    method: 'get',
-    responseType: 'blob',
-    params: { fileId, isExamineFile },
-  })
-}
-
-/**
  * @description 根据相关文件的ID，获取该文件的评审列表
  */
 export function getExamineList(fileId) {
@@ -42,6 +30,17 @@ export function getExamineList(fileId) {
     url: '/file/getExamineList',
     method: 'get',
     params: { fileId },
+  })
+}
+
+/**
+ * @description 流程管理预览文件：isExamineFile 是否是评审文件
+ */
+export function previewFile(fileId, isExamineFile) {
+  return request({
+    url: '/file/previewFile',
+    method: 'get',
+    params: { fileId, isExamineFile },
   })
 }
 

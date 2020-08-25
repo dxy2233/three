@@ -145,7 +145,7 @@ import {
   saveSystemOrgNodePerson,
   deleteOrgNodePersonById,
   deleteSystemOrgNodeById,
-} from '@/api/systemOrgNode'
+} from '@api/systemOrgNode'
 import { contact } from '@/utils/validate'
 import { mapGetters } from 'vuex'
 
