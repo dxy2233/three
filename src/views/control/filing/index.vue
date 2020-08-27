@@ -75,7 +75,10 @@
           >
             删除
           </button>
-          <button v-if="props.row.examineVisble" @click="openCheck(props.row)">
+          <button
+            v-if="props.row.examineVisble"
+            @click.stop="openCheck(props.row)"
+          >
             审核
           </button>
         </template>

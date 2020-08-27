@@ -7,14 +7,14 @@
       >
         <svg-icon icon-class="add" />新建服务商
       </button>
-      <label>
+      <!-- <label>
         编号
         <input
           type="text"
           placeholder="请输入服务商编号"
           v-model="tableForm.id"
         />
-      </label>
+      </label> -->
       <label>
         服务商名称<input
           type="text"
@@ -22,13 +22,13 @@
           v-model="tableForm.name"
         />
       </label>
-      <label v-if="info.visibleMap.orgTree">
+      <!-- <label v-if="info.visibleMap.orgTree">
         所属单位<baseCascader
           v-if="info.visibleMap.orgTree"
           v-model="tableForm.orgId"
           :data="systemOrgNodeTree"
         />
-      </label>
+      </label> -->
       <button @click="init(true)"><svg-icon icon-class="search" />搜索</button>
     </div>
 
@@ -204,12 +204,12 @@ import {
 } from '@api/facilitator'
 import { preview } from '@api/sftp'
 import { contact } from '@/utils/validate'
-import { orgTree } from '@/assets/mixin/common'
+// import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Servicer',
-  mixins: [orgTree],
+  // mixins: [orgTree],
   filters: {
     whether(val) {
       return val ? '是' : '否'

@@ -30,7 +30,7 @@
       <baseCol prop="dutyUserName" label="项目当前责任人" />
       <baseCol prop="dutyDepartment" label="责任部门" />
       <baseCol prop="orgName" label="所属单位" />
-      <baseCol prop="firmName" label="项目厂商" />
+      <!-- <baseCol prop="firmName" label="项目厂商" /> -->
       <baseCol prop="processNode" label="当前所处流程节点" />
       <baseCol label="操作">
         <template #button="props">
