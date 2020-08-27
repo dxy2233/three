@@ -10,3 +10,13 @@ export const orgTree = {
       store.dispatch('publicData/getOrgTree')
   },
 }
+
+export const orgTreeSearch = {
+  computed: {
+    ...mapGetters(['systemOrgNodeTreeSearch']),
+  },
+  created() {
+    if (this.systemOrgNodeTreeSearch.length === 0)
+      store.dispatch('publicData/getOrgTreeSearch')
+  },
+}

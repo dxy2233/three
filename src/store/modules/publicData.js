@@ -1,12 +1,16 @@
-import { getSystemOrgNodeTree } from '@api/systemOrgNode'
+import { getSystemOrgNodeTree, getSearchNodeTree } from '@api/systemOrgNode'
 
 const state = {
   systemOrgNodeTree: [],
+  systemOrgNodeTreeSearch: [],
 }
 
 const mutations = {
   setOrgTree: (state, tree) => {
     state.systemOrgNodeTree = tree
+  },
+  setOrgTreeSearch: (state, tree) => {
+    state.systemOrgNodeTreeSearch = tree
   },
 }
 
@@ -17,6 +21,19 @@ const actions = {
       getSystemOrgNodeTree()
         .then((res) => {
           commit('setOrgTree', res.data)
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  // 通管局搜索栏所属单位树
+  getOrgTreeSearch({ commit }) {
+    return new Promise((resolve, reject) => {
+      getSearchNodeTree()
+        .then((res) => {
+          commit('setOrgTreeSearch', res.data)
           resolve()
         })
         .catch((error) => {

@@ -11,7 +11,7 @@
         姓名
         <input
           type="text"
-          placeholder="请输入检查人员姓名"
+          placeholder="请输入人员姓名"
           v-model="tableForm.name"
         />
       </label>
@@ -49,7 +49,7 @@
       <baseCol prop="email" label="邮件" />
       <baseCol label="操作">
         <template #button="props">
-          <button @click="openDialog('编辑备案', props.row)">编辑</button>
+          <button @click="openDialog('编辑审计人员', props.row)">编辑</button>
           <button class="remove" @click="remove(props.row.id)">删除</button>
         </template>
       </baseCol>

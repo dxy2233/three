@@ -171,7 +171,7 @@
           <!-- 建设 -->
           <div v-else-if="item.key === 'construction'">
             <div class="items">
-              <div class="item item-w">
+              <!-- <div class="item item-w">
                 <label><em>*</em>选择项目厂商</label>
                 <select
                   v-model="allData.constructionBO.firmId"
@@ -186,7 +186,7 @@
                   </option>
                 </select>
               </div>
-              <div class="item item-w"></div>
+              <div class="item item-w"></div> -->
               <div class="item item-w">
                 <label><em>*</em>建设单位</label>
                 <input

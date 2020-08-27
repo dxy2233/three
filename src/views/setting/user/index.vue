@@ -13,26 +13,28 @@
       >
         <svg-icon icon-class="add" />服务商用户
       </button>
-      <label for="name">姓名</label>
-      <input
-        type="text"
-        id="name"
-        placeholder="请输入检查人员姓名"
-        v-model="tableForm.name"
-      />
-      <label for="phone">联系方式</label>
-      <input
-        type="text"
-        id="phone"
-        placeholder="请输入手机号"
-        v-model="tableForm.phone"
-      />
-      <label for="orgId">所属单位</label>
-      <baseCascader
-        id="orgId"
-        v-model="tableForm.orgId"
-        :data="systemOrgNodeTree"
-      />
+      <label for="name">
+        姓名
+        <input
+          type="text"
+          id="name"
+          placeholder="请输入检查人员姓名"
+          v-model="tableForm.name"
+        />
+      </label>
+      <label for="phone">
+        联系方式
+        <input
+          type="text"
+          id="phone"
+          placeholder="请输入手机号"
+          v-model="tableForm.phone"
+        />
+      </label>
+      <label for="orgId">
+        所属单位
+        <baseCascader id="orgId" v-model="tableForm.orgId" :data="orgIdArray" />
+      </label>
       <button @click="init(true)"><svg-icon icon-class="search" />搜索</button>
     </div>
 
@@ -216,6 +218,7 @@ import {
 import { getRoles } from '@api/role'
 import { getFacilitatorAndPerson } from '@api/facilitator'
 import { contact } from '@/utils/validate'
+import { getSearchNodeTree } from '@api/systemOrgNode'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 let that
@@ -239,6 +242,7 @@ export default {
   },
   data() {
     return {
+      orgIdArray: [],
       tableForm: {
         startPage: 1,
         pageSize: 20,
@@ -295,6 +299,9 @@ export default {
     that = this
   },
   created() {
+    getSearchNodeTree(1).then((res) => {
+      this.orgIdArray = res.data
+    })
     getRoles().then((res) => {
       this.roles = res.data
     })

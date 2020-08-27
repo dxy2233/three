@@ -53,7 +53,7 @@
       <baseCol prop="fundsSource" label="资金来源" />
       <baseCol prop="recordLevel" label="备案级别" />
       <baseCol prop="ipAddressNum" label="使用公网IP数量" />
-      <baseCol prop="orgName" label="运营商" />
+      <baseCol prop="orgName" label="所属单位" />
       <baseCol prop="examineStatus" label="审核状态">
         <template #button="props">
           {{ props.row.examineStatus | examineStatusFilter }}
