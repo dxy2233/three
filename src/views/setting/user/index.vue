@@ -18,7 +18,7 @@
         <input
           type="text"
           id="name"
-          placeholder="请输入检查人员姓名"
+          placeholder="请输入人员姓名"
           v-model="tableForm.name"
         />
       </label>
@@ -217,8 +217,8 @@ import {
 } from '@api/user'
 import { getRoles } from '@api/role'
 import { getFacilitatorAndPerson } from '@api/facilitator'
-import { contact } from '@/utils/validate'
 import { getSearchNodeTree } from '@api/systemOrgNode'
+import { contact } from '@/utils/validate'
 import { orgTree } from '@/assets/mixin/common'
 import { mapGetters } from 'vuex'
 let that
@@ -324,7 +324,7 @@ export default {
             this.dialogTitle = '编辑普通用户'
             break
           case 2:
-            this.dialogTitle = '编辑普通用户'
+            this.dialogTitle = '编辑服务商用户'
             break
           case 3:
             // this.dialogTitle = '编辑检查人员'
